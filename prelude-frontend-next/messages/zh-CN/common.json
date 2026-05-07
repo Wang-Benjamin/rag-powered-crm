@@ -1,0 +1,371 @@
+{
+  "save": "保存",
+  "cancel": "取消",
+  "delete": "删除",
+  "edit": "编辑",
+  "back": "返回",
+  "confirm": "确认",
+  "close": "关闭",
+  "loading": "加载中...",
+  "error": "出现错误",
+  "retry": "重试",
+  "success": "成功",
+  "search": "搜索...",
+  "noResults": "未找到结果",
+  "required": "必填",
+  "optional": "选填",
+  "yes": "是",
+  "no": "否",
+  "add": "添加",
+  "remove": "移除",
+  "create": "创建",
+  "update": "更新",
+  "view": "查看",
+  "download": "下载",
+  "uploadButton": "上传",
+  "refresh": "刷新",
+  "previous": "上一页",
+  "next": "下一页",
+  "actions": "操作",
+  "status": "状态",
+  "date": "日期",
+  "selectOption": "请选择",
+  "confirmDelete": "确定要删除此项目吗？",
+  "cannotUndo": "此操作无法撤销。",
+  "filters": {
+    "title": "筛选条件",
+    "subtitle": "添加条件筛选数据",
+    "button": "筛选",
+    "when": "当",
+    "and": "且",
+    "active": "项已激活",
+    "selectColumn": "选择列...",
+    "selectCondition": "条件...",
+    "addCondition": "添加筛选条件",
+    "clearAll": "清除全部",
+    "cancel": "取消",
+    "apply": "应用筛选",
+    "enterValue": "输入值...",
+    "select": "请选择...",
+    "selectedCount": "已选择 {count} 项",
+    "operators": {
+      "contains": "包含",
+      "notContains": "不包含",
+      "equals": "等于",
+      "notEquals": "不等于",
+      "startsWith": "开头是",
+      "endsWith": "结尾是",
+      "isEmpty": "为空",
+      "isNotEmpty": "不为空",
+      "greaterThan": "大于",
+      "lessThan": "小于",
+      "greaterOrEqual": "大于等于",
+      "lessOrEqual": "小于等于",
+      "between": "介于",
+      "on": "等于",
+      "notOn": "不等于",
+      "before": "早于",
+      "after": "晚于",
+      "lastDays": "最近 X 天内",
+      "nextDays": "未来 X 天内",
+      "is": "是",
+      "isNot": "不是",
+      "isOneOf": "属于",
+      "isNotOneOf": "不属于"
+    },
+    "placeholders": {
+      "minPercent": "最小 %",
+      "maxPercent": "最大 %",
+      "minCurrency": "最小 $",
+      "maxCurrency": "最大 $",
+      "min": "最小",
+      "max": "最大",
+      "enterAmount": "输入金额...",
+      "enterPercentage": "输入百分比 (0-100)...",
+      "enterEmail": "输入邮箱...",
+      "enterPhone": "输入电话号码...",
+      "numberOfDays": "天数"
+    },
+    "boolean": {
+      "yes": "是",
+      "no": "否"
+    }
+  },
+  "errors": {
+    "unknownError": "发生未知错误",
+    "networkError": "网络错误，请检查网络连接。",
+    "unauthorized": "您无权执行此操作",
+    "notFound": "未找到请求的资源",
+    "serverError": "服务器错误，请稍后重试。"
+  },
+  "preload": {
+    "title": "正在加载工作区",
+    "titleRich": "正在加载<em>工作区</em>",
+    "ready": "准备就绪！",
+    "readyRich": "准备<em>就绪。</em>",
+    "errorTitle": "错误",
+    "errorTitleRich": "连接<em>中断。</em>",
+    "authenticating": "正在完成身份验证...",
+    "initializing": "正在初始化...",
+    "redirecting": "正在跳转...",
+    "pleaseWait": "请稍候，我们正在为您准备数据",
+    "notAuthenticated": "未通过身份验证",
+    "failedToLoad": "数据加载失败",
+    "failedSubtitle": "数据加载失败，请稍后重试",
+    "eyebrow": {
+      "loading": "加载中 · LOADING WORKSPACE",
+      "ready": "就绪 · READY",
+      "error": "错误 · CONNECTION FAILED"
+    },
+    "meta": {
+      "pending": "等待",
+      "loading": "载入中",
+      "success": "已就绪",
+      "error": "失败"
+    },
+    "items": {
+      "authentication": "身份验证",
+      "customerData": "客户数据",
+      "dealsPipeline": "交易室",
+      "teamMembers": "团队成员",
+      "leadGeneration": "买家"
+    }
+  },
+  "notifications": {
+    "title": "通知",
+    "markAllRead": "全部标为已读",
+    "noNotifications": "暂无通知",
+    "lead": "线索",
+    "customer": "客户"
+  },
+  "upload": {
+    "fileSelection": {
+      "title": "选择文件",
+      "chooseButton": "选择文件",
+      "acceptedFormats": "上传 CSV 或 Excel 文件（最大 {maxSize}）",
+      "analyzing": "正在分析文件..."
+    },
+    "modeDecision": {
+      "title": "选择上传模式",
+      "quickTitle": "快速上传",
+      "quickDescription": "自动采用 AI 建议。适合数据干净、结构清晰的情况。",
+      "quickRecommended": "系统根据您的数据推荐此模式",
+      "quickFeature1": "自动列映射",
+      "quickFeature2": "AI 驱动的数据分析",
+      "quickFeature3": "即时上传处理",
+      "quickButton": "使用快速上传",
+      "advancedTitle": "高级映射",
+      "advancedDescription": "查看并自定义所有映射关系。适合复杂或新的数据格式。",
+      "advancedFeature1": "交互式列映射",
+      "advancedFeature2": "含样本的数据预览",
+      "advancedFeature3": "自定义映射规则",
+      "advancedButton": "使用高级映射",
+      "summaryTitle": "分析摘要",
+      "columnsLabel": "列数：",
+      "confidenceLabel": "置信度：",
+      "qualityLabel": "质量：",
+      "issuesLabel": "问题："
+    },
+    "schema": {
+      "title": "表结构兼容性",
+      "loading": "正在加载兼容性分析...",
+      "summaryTitle": "兼容性摘要",
+      "compatibleLabel": "兼容的列：",
+      "missingLabel": "缺失的列：",
+      "incompatibleLabel": "不兼容的列：",
+      "compatibleHeading": "兼容的列",
+      "missingHeading": "缺失的必填列",
+      "incompatibleHeading": "不兼容的列",
+      "recommendations": "建议",
+      "continueButton": "继续映射"
+    },
+    "columnMapping": {
+      "title": "列映射",
+      "totalLabel": "总计：",
+      "mappedLabel": "已映射：",
+      "confidenceLabel": "置信度：",
+      "issuesLabel": "问题：",
+      "heading": "将源列映射到目标列",
+      "sourceHeader": "源列",
+      "targetHeader": "目标列",
+      "confidenceHeader": "置信度",
+      "selectPlaceholder": "-- 选择目标 --",
+      "ignoreOption": "忽略此列",
+      "importNewOption": "作为新列导入",
+      "issuesHeading": "待解决问题：",
+      "continueButton": "继续上传"
+    },
+    "processing": {
+      "title": "上传处理",
+      "idle": "准备上传",
+      "uploading": "正在上传文件...",
+      "processingData": "正在处理数据...",
+      "success": "上传成功！",
+      "error": "上传失败",
+      "cancelled": "上传已取消",
+      "retrying": "正在重试上传...",
+      "unknown": "未知状态",
+      "startButton": "开始上传",
+      "retryButton": "重试上传",
+      "errorHeading": "上传错误",
+      "successHeading": "上传成功",
+      "rowsProcessed": "已处理 {count} 行",
+      "tableInfo": "数据已上传到表：{table}",
+      "logsHeading": "上传日志"
+    },
+    "modal": {
+      "title": "上传数据",
+      "startOverButton": "重新开始",
+      "unknownPhase": "未知阶段"
+    },
+    "errorRecovery": {
+      "defaultTitle": "发生错误",
+      "defaultMessage": "请重试",
+      "question": "您希望如何处理？"
+    },
+    "errors": {
+      "tableNotFound": {
+        "title": "目标表未找到",
+        "message": "您选择追加的表已不存在，可能已被其他用户删除或重命名。"
+      },
+      "schemaIncompatible": {
+        "title": "表结构不兼容",
+        "message": "您的 CSV 数据与目标表存在无法自动解决的结构差异。"
+      },
+      "permissionDenied": {
+        "title": "权限不足",
+        "message": "您没有修改此表的权限，请联系管理员获取访问权限。"
+      },
+      "constraintViolation": {
+        "title": "数据约束冲突",
+        "message": "文件中的部分数据违反了表约束（唯一键、外键或检查约束）。"
+      },
+      "transactionFailed": {
+        "title": "事务失败",
+        "message": "数据插入过程中数据库事务失败，您的表未被修改。"
+      },
+      "llmServiceDown": {
+        "title": "AI 服务不可用",
+        "message": "AI 推荐服务暂时不可用，您仍可使用手动映射继续操作。"
+      },
+      "networkError": {
+        "title": "网络连接错误",
+        "message": "无法连接到服务器，请检查网络连接后重试。"
+      },
+      "timeoutError": {
+        "title": "上传超时",
+        "message": "上传耗时过长，这通常发生在大文件或网络较慢时。"
+      },
+      "validationError": {
+        "title": "数据验证错误",
+        "message": "文件中的部分数据不符合目标表的验证要求。"
+      },
+      "dataTypeMismatch": {
+        "title": "数据类型不匹配",
+        "message": "文件中的列数据类型与目标表架构不匹配。"
+      },
+      "columnCountMismatch": { "title": "列数不匹配", "message": "数据中的列数与目标表不一致。" },
+      "duplicateKeyError": { "title": "重复键错误", "message": "数据中包含唯一约束列的重复值。" },
+      "foreignKeyError": { "title": "外键约束错误", "message": "部分数据引用在关联表中不存在。" },
+      "checkConstraintError": {
+        "title": "检查约束错误",
+        "message": "部分数据不符合表的数据验证规则。"
+      },
+      "notNullViolation": { "title": "必填字段缺失", "message": "数据中部分必填字段为空或缺失。" },
+      "insufficientPrivileges": {
+        "title": "数据库权限不足",
+        "message": "您的数据库用户没有执行此操作所需的权限。"
+      },
+      "diskSpaceError": {
+        "title": "磁盘空间不足",
+        "message": "服务器没有足够的磁盘空间来完成此操作。"
+      },
+      "memoryError": { "title": "内存错误", "message": "此操作需要的内存超出可用容量。" },
+      "connectionError": { "title": "数据库连接错误", "message": "无法连接到数据库服务器。" },
+      "serviceUnavailable": {
+        "title": "服务暂时不可用",
+        "message": "上传服务暂时不可用，请稍后重试。"
+      }
+    },
+    "recovery": {
+      "retry": { "label": "重试", "description": "立即重试操作" },
+      "retryWithBackoff": { "label": "稍后重试", "description": "等待后自动重试" },
+      "selectDifferentTable": { "label": "选择其他表", "description": "选择其他表进行追加" },
+      "createNewTable": { "label": "创建新表", "description": "创建新表而非追加" },
+      "useAdvancedMapping": { "label": "高级映射", "description": "使用手动列映射选项" },
+      "reviewColumnMapping": { "label": "检查列映射", "description": "检查并修改列映射" },
+      "modifyData": { "label": "修改数据", "description": "先修复文件中的数据问题" },
+      "contactAdmin": { "label": "联系管理员", "description": "向系统管理员寻求帮助" },
+      "cancel": { "label": "取消", "description": "取消上传操作" },
+      "switchToCreateMode": { "label": "改为创建新表", "description": "使用您的数据创建新表" },
+      "reduceFileSize": { "label": "减小文件大小", "description": "尝试使用更小的文件或更少的行" },
+      "tryDifferentService": { "label": "尝试其他服务", "description": "切换到其他后端服务" },
+      "refreshConnection": { "label": "刷新连接", "description": "重置连接后重试" },
+      "clearCache": { "label": "清除缓存", "description": "清除缓存数据后重试" }
+    },
+    "services": {
+      "employee": { "displayName": "员工管理", "description": "上传员工数据和档案" },
+      "crm": { "displayName": "客户管理", "description": "上传客户数据和互动记录" },
+      "leadGen": { "displayName": "线索开发", "description": "上传线索数据进行处理" }
+    },
+    "modes": {
+      "quick": { "name": "快速上传", "description": "自动使用 AI 建议" },
+      "advanced": { "name": "高级映射", "description": "审查并自定义所有映射" }
+    },
+    "quality": {
+      "excellent": "优秀",
+      "good": "良好",
+      "fair": "一般",
+      "poor": "较差"
+    },
+    "confidence": {
+      "high": "高置信度",
+      "medium": "中置信度",
+      "low": "低置信度",
+      "veryLow": "极低置信度"
+    },
+    "phases": {
+      "fileSelection": { "name": "文件选择", "description": "选择数据文件" },
+      "modeDecision": { "name": "上传模式", "description": "选择处理方式" },
+      "columnMapping": { "name": "列映射", "description": "映射数据列" },
+      "uploadProcessing": { "name": "处理中", "description": "上传并处理数据" }
+    }
+  },
+  "chat": {
+    "title": "AI 助手",
+    "description": "与 AI 助手对话，获取任务帮助",
+    "comingSoon": "即将推出"
+  },
+  "dashboard": {
+    "loadingPermissions": "正在加载用户权限...",
+    "accessDenied": "访问被拒绝",
+    "pleaseLogIn": "请登录以访问此内容。",
+    "accessRestricted": "访问受限",
+    "noPermission": "您没有权限访问\u201c{view}\u201d部分。",
+    "currentRole": "当前角色："
+  },
+  "clear": "清除",
+  "selected": "已选择 {count} 项",
+  "massEmail": "群发邮件",
+  "deleteSelected": "删除所选",
+  "moreOptions": "更多选项",
+  "uploadCsv": "上传 CSV",
+  "columns": "列",
+  "showing": "显示第 {start}-{end} 条，共 {total} 条",
+  "page": "第 {current} 页，共 {total} 页",
+  "trial": {
+    "expiredBanner": "您的试用期已结束 — 升级以恢复完整访问",
+    "warningBanner": "试用期还剩 {days} 天 · 您的活跃邮件对话将在到期后停止发送",
+    "readOnlyBanner": "试用期已结束 · 数据保留7天 · 可查看但无法发送邮件或创建交易室",
+    "upgradeNow": "立即升级",
+    "upgradeCta": "立即升级 — ¥5,997/季",
+    "lockTitle": "您的试用期已结束",
+    "lockSubtitle": "感谢您试用 Prelude。以下是您的试用成果：",
+    "statBuyers": "查看的买家",
+    "statEmails": "发送的邮件",
+    "statReplies": "收到的回复",
+    "activeConversationsPaused": "您有 {count} 个活跃的买家对话已暂停",
+    "lockResumeMessage": "升级后立即恢复所有对话和数据访问。",
+    "pricingNote": "或 ¥2,499/月 · 支持微信支付 · 可开发票"
+  }
+}

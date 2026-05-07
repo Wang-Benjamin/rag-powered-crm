@@ -1,0 +1,42 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="prelude-csv",
+    version="1.0.0",
+    description="AI-powered CSV column mapping library for Prelude Platform",
+    long_description=open("README.md", encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    packages=["csv_mapping"],
+    package_dir={"csv_mapping": "src"},
+    install_requires=[
+        "pandas>=2.2,<3",
+        "sqlalchemy>=2.0.31,<3",
+        "psycopg2-binary>=2.9.10,<3",
+        "pydantic>=2.5,<3",
+        "openai>=1.6,<2",
+        "python-dotenv>=1.0.0",
+        "openpyxl>=3.1.2",
+        "charset-normalizer>=3.3.2",
+        "python-json-logger>=2.0.7",
+        "typing-extensions>=4.12.2",
+    ],
+    python_requires=">=3.8",
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+    ],
+    author="Prelude Platform Team",
+    author_email="dev@preludeplatform.com",
+    url="https://github.com/preludeos/prelude-platform",
+    project_urls={
+        "Bug Reports": "https://github.com/preludeos/prelude-platform/issues",
+        "Source": "https://github.com/preludeos/prelude-platform",
+    },
+    keywords="csv mapping ai column database prelude",
+    license="MIT",
+)

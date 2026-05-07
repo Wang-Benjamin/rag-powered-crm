@@ -1,0 +1,8 @@
+README.md
+setup.py
+prelude_csv.egg-info/PKG-INFO
+prelude_csv.egg-info/SOURCES.txt
+prelude_csv.egg-info/dependency_links.txt
+prelude_csv.egg-info/requires.txt
+prelude_csv.egg-info/top_level.txt
+src/__init__.py

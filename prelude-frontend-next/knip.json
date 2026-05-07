@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["e2e/**/*.{js,ts}", "scripts/**/*.js"],
+  "ignoreDependencies": [
+    "eslint",
+    "eslint-config-next",
+    "react-dom",
+    "@types/react-dom",
+    "prettier"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "market": "市场",
+    "pipeline": "商机"
+  },
+  "items": {
+    "buyers": "买家",
+    "competitors": "竞争对手",
+    "findBuyers": "查找买家",
+    "onePager": "一页报告",
+    "myLeads": "客户",
+    "dealRooms": "交易",
+    "storefront": "店铺",
+    "outreach": "邮件推广",
+    "settings": "设置"
+  },
+  "subtabs": {
+    "factoryProfile": "用户资料",
+    "teamInvitations": "团队邀请",
+    "emailProfile": "邮件配置",
+    "emailTemplates": "邮件模板"
+  },
+  "search": {
+    "searchInColumns": "在以下列中搜索：",
+    "selectAll": "全选",
+    "clearAll": "清除全部",
+    "noColumns": "未选择列",
+    "columnsCount": "{count} 列",
+    "done": "完成",
+    "selectColumnToSearch": "请至少选择一列进行搜索",
+    "clearSearch": "清除搜索"
+  },
+  "upgrade": {
+    "toast": "升级以访问{feature}",
+    "description": "此功能仅限付费计划使用。",
+    "action": "升级"
+  },
+  "signOut": "退出登录",
+  "settings": "设置"
+}

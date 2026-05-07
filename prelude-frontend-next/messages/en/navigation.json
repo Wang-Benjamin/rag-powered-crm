@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "market": "MARKET",
+    "pipeline": "PIPELINE"
+  },
+  "items": {
+    "buyers": "Buyers",
+    "competitors": "Competitors",
+    "findBuyers": "Find Buyers",
+    "onePager": "One Pager",
+    "myLeads": "Customers",
+    "dealRooms": "Deals",
+    "storefront": "Storefront",
+    "outreach": "Outreach",
+    "settings": "Settings"
+  },
+  "subtabs": {
+    "factoryProfile": "Factory Profile",
+    "teamInvitations": "Team & Invitations",
+    "emailProfile": "Email Profile",
+    "emailTemplates": "Email Templates"
+  },
+  "search": {
+    "searchInColumns": "Search in columns:",
+    "selectAll": "Select all",
+    "clearAll": "Clear all",
+    "noColumns": "No columns",
+    "columnsCount": "{count} columns",
+    "done": "Done",
+    "selectColumnToSearch": "Select at least one column to search",
+    "clearSearch": "Clear search"
+  },
+  "upgrade": {
+    "toast": "Upgrade to access {feature}",
+    "description": "This feature is available on the paid plan.",
+    "action": "Upgrade"
+  },
+  "signOut": "Sign out",
+  "settings": "Settings"
+}

@@ -1,0 +1,20 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+-e ../prelude-shared
+python-dotenv==1.0.0
+pydantic[email]==2.5.0
+python-multipart==0.0.6
+bcrypt==4.1.2
+PyJWT==2.8.0
+google-cloud-storage==2.14.0
+openai==1.64.0
+pdfplumber==0.11.4
+pdf2image==1.17.0
+Pillow==10.4.0
+pandas==2.2.3
+openpyxl==3.1.5
+httpx==0.28.1
+alembic==1.13.1
+sqlalchemy==2.0.25
+sqlacodegen==3.0.0rc5
+sentry-sdk[fastapi]

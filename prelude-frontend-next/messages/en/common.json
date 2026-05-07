@@ -1,0 +1,428 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "back": "Back",
+  "confirm": "Confirm",
+  "close": "Close",
+  "loading": "Loading...",
+  "error": "Something went wrong",
+  "retry": "Try Again",
+  "success": "Success",
+  "search": "Search...",
+  "noResults": "No results found",
+  "required": "Required",
+  "optional": "Optional",
+  "yes": "Yes",
+  "no": "No",
+  "add": "Add",
+  "remove": "Remove",
+  "create": "Create",
+  "update": "Update",
+  "view": "View",
+  "download": "Download",
+  "uploadButton": "Upload",
+  "refresh": "Refresh",
+  "previous": "Previous",
+  "next": "Next",
+  "actions": "Actions",
+  "status": "Status",
+  "date": "Date",
+  "selectOption": "Select an option",
+  "confirmDelete": "Are you sure you want to delete this item?",
+  "cannotUndo": "This action cannot be undone.",
+  "filters": {
+    "title": "Filters",
+    "subtitle": "Add conditions to filter your data",
+    "button": "Filters",
+    "when": "When",
+    "and": "And",
+    "active": "active",
+    "selectColumn": "Select column...",
+    "selectCondition": "Condition...",
+    "addCondition": "Add Filter Condition",
+    "clearAll": "Clear all",
+    "cancel": "Cancel",
+    "apply": "Apply Filters",
+    "enterValue": "Enter value...",
+    "select": "Select...",
+    "selectedCount": "{count} selected",
+    "operators": {
+      "contains": "Contains",
+      "notContains": "Does not contain",
+      "equals": "Equals",
+      "notEquals": "Not equals",
+      "startsWith": "Starts with",
+      "endsWith": "Ends with",
+      "isEmpty": "Is empty",
+      "isNotEmpty": "Is not empty",
+      "greaterThan": "Greater than",
+      "lessThan": "Less than",
+      "greaterOrEqual": "Greater or equal",
+      "lessOrEqual": "Less or equal",
+      "between": "Between",
+      "on": "On",
+      "notOn": "Not on",
+      "before": "Before",
+      "after": "After",
+      "lastDays": "In the last X days",
+      "nextDays": "In the next X days",
+      "is": "Is",
+      "isNot": "Is not",
+      "isOneOf": "Is one of",
+      "isNotOneOf": "Is not one of"
+    },
+    "placeholders": {
+      "minPercent": "Min %",
+      "maxPercent": "Max %",
+      "minCurrency": "Min $",
+      "maxCurrency": "Max $",
+      "min": "Min",
+      "max": "Max",
+      "enterAmount": "Enter amount...",
+      "enterPercentage": "Enter percentage (0-100)...",
+      "enterEmail": "Enter email...",
+      "enterPhone": "Enter phone number...",
+      "numberOfDays": "Number of days"
+    },
+    "boolean": {
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
+  "errors": {
+    "unknownError": "An unexpected error occurred",
+    "networkError": "Network error. Please check your connection.",
+    "unauthorized": "You are not authorized to perform this action",
+    "notFound": "The requested resource was not found",
+    "serverError": "Server error. Please try again later."
+  },
+  "preload": {
+    "title": "Loading Your Workspace",
+    "titleRich": "Loading your <em>workspace</em>",
+    "ready": "Ready!",
+    "readyRich": "Ready to <em>go.</em>",
+    "errorTitle": "Error",
+    "errorTitleRich": "Connection <em>dropped.</em>",
+    "authenticating": "Completing authentication...",
+    "initializing": "Initializing...",
+    "redirecting": "Redirecting...",
+    "pleaseWait": "Please wait while we prepare your data",
+    "notAuthenticated": "Not authenticated",
+    "failedToLoad": "Failed to load data",
+    "failedSubtitle": "Failed to load data. Please try again.",
+    "eyebrow": {
+      "loading": "Loading · WORKSPACE",
+      "ready": "Ready · GO",
+      "error": "Error · CONNECTION FAILED"
+    },
+    "meta": {
+      "pending": "Waiting",
+      "loading": "Loading",
+      "success": "Ready",
+      "error": "Failed"
+    },
+    "items": {
+      "authentication": "Authentication",
+      "customerData": "Customer Data",
+      "dealsPipeline": "Deal Room",
+      "teamMembers": "Team Members",
+      "leadGeneration": "Buyers"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "noNotifications": "No notifications",
+    "lead": "Lead",
+    "customer": "Customer"
+  },
+  "upload": {
+    "fileSelection": {
+      "title": "Select File",
+      "chooseButton": "Choose File",
+      "acceptedFormats": "Upload CSV or Excel files (max {maxSize})",
+      "analyzing": "Analyzing file..."
+    },
+    "modeDecision": {
+      "title": "Choose Upload Mode",
+      "quickTitle": "Quick Upload",
+      "quickDescription": "Use AI suggestions automatically. Best for clean, well-structured data.",
+      "quickRecommended": "Recommended based on your data",
+      "quickFeature1": "Automatic column mapping",
+      "quickFeature2": "AI-powered data analysis",
+      "quickFeature3": "Instant upload processing",
+      "quickButton": "Use Quick Upload",
+      "advancedTitle": "Advanced Mapping",
+      "advancedDescription": "Review and customize all mappings. Best for complex or new data formats.",
+      "advancedFeature1": "Interactive column mapping",
+      "advancedFeature2": "Data preview with samples",
+      "advancedFeature3": "Custom mapping rules",
+      "advancedButton": "Use Advanced Mapping",
+      "summaryTitle": "Analysis Summary",
+      "columnsLabel": "Columns:",
+      "confidenceLabel": "Confidence:",
+      "qualityLabel": "Quality:",
+      "issuesLabel": "Issues:"
+    },
+    "schema": {
+      "title": "Schema Compatibility",
+      "loading": "Loading compatibility analysis...",
+      "summaryTitle": "Compatibility Summary",
+      "compatibleLabel": "Compatible Columns:",
+      "missingLabel": "Missing Columns:",
+      "incompatibleLabel": "Incompatible Columns:",
+      "compatibleHeading": "Compatible Columns",
+      "missingHeading": "Missing Required Columns",
+      "incompatibleHeading": "Incompatible Columns",
+      "recommendations": "Recommendations",
+      "continueButton": "Continue with Mapping"
+    },
+    "columnMapping": {
+      "title": "Column Mapping",
+      "totalLabel": "Total:",
+      "mappedLabel": "Mapped:",
+      "confidenceLabel": "Confidence:",
+      "issuesLabel": "Issues:",
+      "heading": "Map Source Columns to Target Columns",
+      "sourceHeader": "Source Column",
+      "targetHeader": "Target Column",
+      "confidenceHeader": "Confidence",
+      "selectPlaceholder": "-- Select Target --",
+      "ignoreOption": "Ignore Column",
+      "importNewOption": "Import as New",
+      "issuesHeading": "Issues to Resolve:",
+      "continueButton": "Continue to Upload"
+    },
+    "processing": {
+      "title": "Upload Processing",
+      "idle": "Ready to upload",
+      "uploading": "Uploading file...",
+      "processingData": "Processing data...",
+      "success": "Upload completed successfully!",
+      "error": "Upload failed",
+      "cancelled": "Upload cancelled",
+      "retrying": "Retrying upload...",
+      "unknown": "Unknown status",
+      "startButton": "Start Upload",
+      "retryButton": "Retry Upload",
+      "errorHeading": "Upload Error",
+      "successHeading": "Upload Successful",
+      "rowsProcessed": "Processed {count} rows",
+      "tableInfo": "Data uploaded to table: {table}",
+      "logsHeading": "Upload Log"
+    },
+    "modal": {
+      "title": "Upload Data",
+      "startOverButton": "Start Over",
+      "unknownPhase": "Unknown phase"
+    },
+    "errorRecovery": {
+      "defaultTitle": "An error occurred",
+      "defaultMessage": "Please try again",
+      "question": "What would you like to do?"
+    },
+    "errors": {
+      "tableNotFound": {
+        "title": "Target Table Not Found",
+        "message": "The table you selected for append no longer exists. It may have been deleted or renamed by another user."
+      },
+      "schemaIncompatible": {
+        "title": "Schema Incompatibility",
+        "message": "Your CSV data has structural differences that cannot be automatically resolved with the target table."
+      },
+      "permissionDenied": {
+        "title": "Permission Denied",
+        "message": "You don't have sufficient permissions to modify this table. Contact your administrator for access."
+      },
+      "constraintViolation": {
+        "title": "Data Constraint Violation",
+        "message": "Some data in your file violates table constraints (unique keys, foreign keys, or check constraints)."
+      },
+      "transactionFailed": {
+        "title": "Transaction Failed",
+        "message": "The database transaction failed during data insertion. Your table was not modified."
+      },
+      "llmServiceDown": {
+        "title": "AI Service Unavailable",
+        "message": "The AI recommendation service is temporarily unavailable. You can still proceed with manual mapping."
+      },
+      "networkError": {
+        "title": "Network Connection Error",
+        "message": "Unable to connect to the server. Please check your internet connection and try again."
+      },
+      "timeoutError": {
+        "title": "Upload Timeout",
+        "message": "The upload took too long to complete. This often happens with large files or slow connections."
+      },
+      "validationError": {
+        "title": "Data Validation Error",
+        "message": "Some data in your file doesn't meet the validation requirements for the target table."
+      },
+      "dataTypeMismatch": {
+        "title": "Data Type Mismatch",
+        "message": "Column data types in your file don't match the target table schema."
+      },
+      "columnCountMismatch": {
+        "title": "Column Count Mismatch",
+        "message": "The number of columns in your data doesn't match the target table."
+      },
+      "duplicateKeyError": {
+        "title": "Duplicate Key Error",
+        "message": "Your data contains duplicate values for columns with unique constraints."
+      },
+      "foreignKeyError": {
+        "title": "Foreign Key Constraint Error",
+        "message": "Some data references don't exist in the related tables."
+      },
+      "checkConstraintError": {
+        "title": "Check Constraint Error",
+        "message": "Some data doesn't meet the table's data validation rules."
+      },
+      "notNullViolation": {
+        "title": "Required Field Missing",
+        "message": "Some required fields are empty or missing in your data."
+      },
+      "insufficientPrivileges": {
+        "title": "Insufficient Database Privileges",
+        "message": "Your database user doesn't have the required privileges to perform this operation."
+      },
+      "diskSpaceError": {
+        "title": "Insufficient Disk Space",
+        "message": "The server doesn't have enough disk space to complete the operation."
+      },
+      "memoryError": {
+        "title": "Memory Error",
+        "message": "The operation requires more memory than available."
+      },
+      "connectionError": {
+        "title": "Database Connection Error",
+        "message": "Unable to connect to the database server."
+      },
+      "serviceUnavailable": {
+        "title": "Service Temporarily Unavailable",
+        "message": "The upload service is temporarily unavailable. Please try again in a few moments."
+      }
+    },
+    "recovery": {
+      "retry": { "label": "Try Again", "description": "Retry the operation immediately" },
+      "retryWithBackoff": {
+        "label": "Retry in a Moment",
+        "description": "Wait and retry automatically"
+      },
+      "selectDifferentTable": {
+        "label": "Select Different Table",
+        "description": "Choose a different table to append to"
+      },
+      "createNewTable": {
+        "label": "Create New Table",
+        "description": "Create a new table instead of appending"
+      },
+      "useAdvancedMapping": {
+        "label": "Advanced Mapping",
+        "description": "Use manual column mapping options"
+      },
+      "reviewColumnMapping": {
+        "label": "Review Column Mapping",
+        "description": "Check and modify column mappings"
+      },
+      "modifyData": { "label": "Modify Data", "description": "Fix data issues in your file first" },
+      "contactAdmin": {
+        "label": "Contact Administrator",
+        "description": "Get help from system administrator"
+      },
+      "cancel": { "label": "Cancel", "description": "Cancel the upload operation" },
+      "switchToCreateMode": {
+        "label": "Create New Table Instead",
+        "description": "Create a new table with your data"
+      },
+      "reduceFileSize": {
+        "label": "Reduce File Size",
+        "description": "Try with a smaller file or fewer rows"
+      },
+      "tryDifferentService": {
+        "label": "Try Different Service",
+        "description": "Switch to a different backend service"
+      },
+      "refreshConnection": {
+        "label": "Refresh Connection",
+        "description": "Reset your connection and try again"
+      },
+      "clearCache": { "label": "Clear Cache", "description": "Clear cached data and retry" }
+    },
+    "services": {
+      "employee": {
+        "displayName": "Employee Management",
+        "description": "Upload employee data and profiles"
+      },
+      "crm": {
+        "displayName": "Customer Management",
+        "description": "Upload customer data and interactions"
+      },
+      "leadGen": {
+        "displayName": "Lead Generation",
+        "description": "Upload lead data for processing"
+      }
+    },
+    "modes": {
+      "quick": { "name": "Quick Upload", "description": "Use AI suggestions automatically" },
+      "advanced": { "name": "Advanced Mapping", "description": "Review and customize all mappings" }
+    },
+    "quality": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Poor"
+    },
+    "confidence": {
+      "high": "High Confidence",
+      "medium": "Medium Confidence",
+      "low": "Low Confidence",
+      "veryLow": "Very Low Confidence"
+    },
+    "phases": {
+      "fileSelection": { "name": "File Selection", "description": "Choose your data file" },
+      "modeDecision": { "name": "Upload Mode", "description": "Select processing method" },
+      "columnMapping": { "name": "Column Mapping", "description": "Map your data columns" },
+      "uploadProcessing": { "name": "Processing", "description": "Upload and process data" }
+    }
+  },
+  "chat": {
+    "title": "AI Assistant",
+    "description": "Chat with the AI assistant to get help with your tasks",
+    "comingSoon": "Coming soon"
+  },
+  "dashboard": {
+    "loadingPermissions": "Loading user permissions...",
+    "accessDenied": "Access Denied",
+    "pleaseLogIn": "Please log in to access this content.",
+    "accessRestricted": "Access Restricted",
+    "noPermission": "You don't have permission to access the \"{view}\" section.",
+    "currentRole": "Current role:"
+  },
+  "clear": "Clear",
+  "selected": "{count} selected",
+  "massEmail": "Mass Email",
+  "deleteSelected": "Delete Selected",
+  "moreOptions": "More options",
+  "uploadCsv": "Upload CSV",
+  "columns": "columns",
+  "showing": "Showing {start}-{end} of {total}",
+  "page": "Page {current} of {total}",
+  "trial": {
+    "expiredBanner": "Your trial has ended \u2014 upgrade to restore full access",
+    "warningBanner": "Trial expires in {days} day(s) \u00b7 Active email conversations will stop sending after expiry",
+    "readOnlyBanner": "Trial ended \u00b7 Data preserved for 7 days \u00b7 You can view but cannot send emails or create deal rooms",
+    "upgradeNow": "Upgrade Now",
+    "upgradeCta": "Upgrade Now \u2014 \u00a55,997/quarter",
+    "lockTitle": "Your Trial Has Ended",
+    "lockSubtitle": "Thank you for trying Prelude. Here are your trial results:",
+    "statBuyers": "Buyers viewed",
+    "statEmails": "Emails sent",
+    "statReplies": "Replies received",
+    "activeConversationsPaused": "You have {count} active buyer conversation(s) paused",
+    "lockResumeMessage": "Upgrade to immediately resume all conversations and data access.",
+    "pricingNote": "or \u00a52,499/mo \u00b7 WeChat Pay accepted \u00b7 Invoice available"
+  }
+}

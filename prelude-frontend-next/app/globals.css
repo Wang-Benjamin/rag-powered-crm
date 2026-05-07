@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+@import '../design-kit/tokens.css';
+@import 'tw-animate-css';
+@import './styles/prose.css';
+@import './styles/animations.css';
+
+/* Dark mode lives on <html data-theme="dark">. Kit owns the palette. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme inline {
+  /* Kit palette — exposed as Tailwind utilities. Single source of truth:
+     prelude-design-kit/tokens.css. */
+  --color-bone: var(--bone);
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-fog: var(--fog);
+  --color-rule: var(--rule);
+  --color-mute: var(--mute);
+  --color-ink: var(--ink);
+  --color-deep: var(--deep);
+  --color-accent: var(--accent);
+  --color-accent-hi: var(--accent-hi);
+  --color-accent-lo: var(--accent-lo);
+  --color-gold: var(--gold);
+  --color-gold-lo: var(--gold-lo);
+
+  /* Extended signal tiers (v2026.07). Rare by rule — threat for terminal
+     failure / destructive, info for system / in-progress work. */
+  --color-threat: var(--threat);
+  --color-threat-hi: var(--threat-hi);
+  --color-threat-lo: var(--threat-lo);
+  --color-info: var(--info);
+  --color-info-hi: var(--info-hi);
+  --color-info-lo: var(--info-lo);
+
+  /* shadcn semantic rebind — primitives cascade automatically. */
+  --color-primary: var(--deep);
+  --color-primary-foreground: var(--bone);
+  --color-secondary: var(--cream);
+  --color-secondary-foreground: var(--ink);
+  --color-background: var(--bone);
+  --color-foreground: var(--ink);
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--accent);
+  --color-muted: var(--paper);
+  --color-muted-foreground: var(--mute);
+  --color-destructive: var(--threat);
+  --color-destructive-foreground: var(--bone);
+  --color-popover: var(--bone);
+  --color-popover-foreground: var(--ink);
+  --color-card: var(--bone);
+  --color-card-foreground: var(--ink);
+
+  /* Fonts — Tailwind utilities wired to kit tokens. Chains live in design-kit/tokens.css. */
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+
+  /* In-product type scale — named tokens only, never text-[15px]. */
+  --text-page: var(--ip-page);
+  --text-panel: var(--ip-panel);
+  --text-block: var(--ip-block);
+  --text-body: var(--ip-body);
+  --text-meta: var(--ip-meta);
+  --text-cap: var(--ip-cap);
+
+  /* Row-height tokens for tables. */
+  --spacing-row-tight: var(--row-tight);
+  --spacing-row-default: var(--row-default);
+  --spacing-row-comfy: var(--row-comfy);
+
+  /* Radii — kit defaults. */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--rule);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  button:focus-visible,
+  a:focus-visible {
+    @apply outline-none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Dialog scrollbar — thin, rounded, doesn't clash with rounded corners.
+     Uses kit tokens so it flips for dark mode automatically. */
+  .dialog-scrollbar ::-webkit-scrollbar,
+  .dialog-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .dialog-scrollbar ::-webkit-scrollbar-track,
+  .dialog-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 8px;
+  }
+
+  .dialog-scrollbar ::-webkit-scrollbar-thumb,
+  .dialog-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: var(--rule);
+  }
+
+  .dialog-scrollbar ::-webkit-scrollbar-thumb:hover,
+  .dialog-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--mute);
+  }
+}
+
+/* Element typography (h1-h6, p, a) is owned by design-kit/tokens.css.
+   Surface-specific typography uses kit primitives (.title-panel, .display,
+   .eyebrow, etc.) or Tailwind utilities. */

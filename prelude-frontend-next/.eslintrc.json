@@ -1,0 +1,52 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "warn",
+    "prefer-const": "warn",
+    "react/no-unescaped-entities": "off"
+  },
+  "overrides": [
+    {
+      "files": ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+      "excludedFiles": [
+        "app/two-pager/**",
+        "components/two-pager/**",
+        "app/**/*.test.{ts,tsx}",
+        "components/**/*.test.{ts,tsx}"
+      ],
+      "rules": {
+        "no-restricted-syntax": [
+          "warn",
+          {
+            "selector": "JSXAttribute[name.name='className'] Literal[value=/(?:^|[\\s'\"`])(?:-?)(?:[a-z]+:)*(?:hover:|focus:|active:|dark:|group-hover:|peer-hover:|disabled:|aria-[a-z-]+:|data-[a-z-]+:)*(?:bg|text|border|ring|fill|stroke|divide|outline|decoration|accent|caret|placeholder|from|via|to|shadow)-(?:zinc|indigo|blue|emerald|red)-[0-9]+/]",
+            "message": "Off-palette Tailwind color. Use kit tokens: bg-bone/paper/cream, text-ink/deep/mute, text-accent/gold (and rare text-threat/info). See docs/frontend/design-kit-migration-plan.md §3."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] TemplateElement[value.raw=/(?:^|[\\s'\"`])(?:-?)(?:[a-z]+:)*(?:hover:|focus:|active:|dark:|group-hover:|peer-hover:|disabled:|aria-[a-z-]+:|data-[a-z-]+:)*(?:bg|text|border|ring|fill|stroke|divide|outline|decoration|accent|caret|placeholder|from|via|to|shadow)-(?:zinc|indigo|blue|emerald|red)-[0-9]+/]",
+            "message": "Off-palette Tailwind color. Use kit tokens."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] Literal[value=/(?:^|\\s)(?:(?:[a-z]+:)+)?(?:bg|text|border|ring|fill|stroke|divide|outline|decoration|accent|caret|placeholder|from|via|to|shadow)-white(?:\\/[0-9]+)?(?:\\s|$|['\"`])/]",
+            "message": "Never use -white. Use kit bone/paper/cream."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] TemplateElement[value.raw=/(?:^|\\s)(?:(?:[a-z]+:)+)?(?:bg|text|border|ring|fill|stroke|divide|outline|decoration|accent|caret|placeholder|from|via|to|shadow)-white(?:\\/[0-9]+)?(?:\\s|$)/]",
+            "message": "Never use -white. Use kit bone/paper/cream."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+            "message": "No hex color literals in className. Use kit CSS tokens."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] Literal[value=/\\btext-\\[[0-9]+(?:px|rem|em)\\]/]",
+            "message": "Arbitrary type size bypasses the kit scale. Use text-page / text-panel / text-block / text-body / text-meta / text-cap."
+          },
+          {
+            "selector": "JSXAttribute[name.name='className'] Literal[value=/\\bbg-\\[#[0-9a-fA-F]/]",
+            "message": "Arbitrary hex background bypasses the kit palette. Use bg-bone / bg-paper / bg-cream / bg-accent-lo / bg-gold-lo."
+          }
+        ]
+      }
+    }
+  ]
+}

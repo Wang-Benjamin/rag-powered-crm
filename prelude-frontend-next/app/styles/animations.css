@@ -1,0 +1,52 @@
+/* Custom keyframes (accordion-down/up provided by tw-animate-css) */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pc-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Login showcase — floating orbit cards */
+@keyframes loginFloatA {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+@keyframes loginFloatB {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-8px); }
+}
+@keyframes loginFloatC {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-7px); }
+}
+@keyframes loginFloatD {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-5px); }
+}

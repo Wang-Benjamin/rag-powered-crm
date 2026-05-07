@@ -1,0 +1,284 @@
+/* Design tokens — scoped to this component */
+.container {
+  --bone: oklch(0.985 0.004 80);
+  --paper: oklch(0.975 0.006 80);
+  --cream: oklch(0.955 0.010 80);
+  --fog: oklch(0.920 0.008 80);
+  --rule: oklch(0.880 0.008 80);
+  --mute: oklch(0.550 0.015 260);
+  --ink: oklch(0.240 0.015 260);
+  --deep: oklch(0.180 0.020 265);
+  --accent: oklch(0.420 0.070 160);
+  --accent-hi: oklch(0.480 0.090 160);
+  --accent-lo: oklch(0.960 0.020 160);
+  --gold: oklch(0.720 0.120 85);
+
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-geist), var(--font-noto-sans-sc), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ───── Eyebrow ───── */
+.eyebrow {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lo);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.eyebrow[data-state='success'] .pulseDot {
+  background: var(--accent);
+  animation: none;
+}
+.eyebrow[data-state='error'] .pulseDot {
+  background: var(--gold);
+  animation: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 20%, transparent);
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+/* ───── Orb: globe + rings ───── */
+.orb {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 28px;
+}
+.orb svg {
+  display: block;
+}
+.ringStack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.globeOrbit {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.globeWrap {
+  width: 168px;
+  height: 168px;
+  position: relative;
+  margin: auto;
+}
+.globeWrap svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* spinning whirl (only layer A is rendered in the quiet variant) */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.whirlSpinA {
+  animation: spin 3.2s linear infinite;
+  transform-origin: 50% 50%;
+}
+.orb[data-state='success'] .whirlSpinA {
+  animation-duration: 14s;
+  opacity: 0.6;
+}
+.orb[data-state='error'] .whirlSpinA {
+  animation-play-state: paused;
+}
+
+.progressArc {
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  stroke: var(--deep);
+}
+.ringBg {
+  stroke: var(--rule);
+}
+
+/* outer progress ring orbits while loading */
+@keyframes progress-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.progressOrbit {
+  animation: progress-orbit 12s linear infinite;
+  transform-origin: 50% 50%;
+}
+.orb[data-state='success'] .progressOrbit {
+  animation-duration: 40s;
+  opacity: 0.9;
+}
+.orb[data-state='error'] .progressOrbit {
+  animation-play-state: paused;
+}
+
+/* ───── Title ───── */
+.title {
+  font-family: var(--font-instrument-serif), 'Noto Serif SC', 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--deep);
+  margin: 0 0 8px;
+  text-align: center;
+}
+.emLatin {
+  color: var(--accent);
+  font-style: italic;
+}
+.emZh {
+  color: var(--accent);
+  font-weight: 500;
+  font-style: normal;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--mute);
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+/* ───── Checklist ───── */
+.checklist {
+  width: 100%;
+  background: var(--bone);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 6px 4px;
+  box-shadow: 0 1px 2px oklch(0.18 0.02 265 / 0.03);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid color-mix(in oklab, var(--rule), transparent 55%);
+  transition: background 0.2s ease;
+  animation: slideIn 0.45s ease-out both;
+}
+.row:last-child {
+  border-bottom: 0;
+}
+.ico {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mute);
+}
+.ico svg {
+  width: 100%;
+  height: 100%;
+}
+.pendingDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rule);
+  background: transparent;
+}
+.loadingSpin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rule);
+  border-top-color: var(--ink);
+  animation: spin 0.9s linear infinite;
+}
+.lbl {
+  font-size: 14px;
+  color: var(--mute);
+  flex: 1;
+}
+.meta {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.row[data-status='loading'] .lbl {
+  color: var(--ink);
+}
+.row[data-status='loading'] .meta {
+  opacity: 1;
+  color: var(--mute);
+}
+.row[data-status='success'] .lbl {
+  color: var(--ink);
+}
+.row[data-status='success'] .meta {
+  opacity: 1;
+  color: var(--accent);
+}
+.row[data-status='success'] .ico {
+  color: var(--accent);
+}
+.row[data-status='error'] .lbl {
+  color: var(--ink);
+}
+.row[data-status='error'] .meta {
+  opacity: 1;
+  color: var(--gold);
+}
+.row[data-status='error'] .ico {
+  color: var(--gold);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

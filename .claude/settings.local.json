@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(python3:*)",
+      "Bash(npm run build:*)",
+      "Bash(lsof:*)",
+      "Bash(ps:*)",
+      "Read(//Users/dingaoxue/prelude/prelude-platform-new/**)",
+      "Bash(git log:*)",
+      "Bash(python:*)",
+      "Bash(git restore:*)",
+      "Bash(chmod:*)",
+      "Bash(git checkout:*)",
+      "Bash(cat:*)",
+      "Bash(awk:*)",
+      "Bash(psql:*)",
+      "WebFetch(domain:developers.google.com)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "extraPaths": ["../prelude-shared"],
+  "pythonVersion": "3.12"
+}

@@ -1,0 +1,17 @@
+.DS_Store
+.idea/
+**/.env
+**/.env.*
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.venv/
+venv/
+env/
+node_modules/
+.next/
+dist/
+build/
+coverage/
+*.log

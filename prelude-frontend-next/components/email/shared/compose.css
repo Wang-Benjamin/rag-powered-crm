@@ -1,0 +1,464 @@
+/**
+ * Email composer "compose" shell — scoped under .compose, consumes design-kit
+ * tokens from prelude/prelude-frontend-next/design-kit/tokens.css.
+ *
+ * What lives here vs. the kit:
+ *   - Kit (tokens.css + DESIGN.md) owns colors, fonts, transitions, spacing scale.
+ *   - shadcn <Button>, <Dialog>, <Popover>, <Input>, <Textarea>, <Toggle> own all
+ *     interactive primitives — used directly by EmailComposer / MassEmailComposerUI
+ *     and ComposeFooter.
+ *   - This file owns: the 30/70 grid shell, the bespoke disclose pattern
+ *     (`.prod-disclose[data-open]`), the recipient-list rows, email-head rows,
+ *     the bilingual `.email-body` typography (zh display-serif vs. en geist;
+ *     prose-like nested rules for AI-generated content), the sticky footer
+ *     layout, toggle pills, and the file-chip rows. All consume kit tokens.
+ *
+ * Deviations from tests/Buyer detail.html:
+ *   - Grid is 30fr 70fr (mock was 40fr 60fr) — recipient identity is in the
+ *     drawer header, so the left pane needs less width.
+ *   - RT toolbar is always visible (mock used JS .focus-body). Buttons match
+ *     baseline of body text below.
+ *   - .recip-list is new (mock showed only single recipient; mass adaptation).
+ */
+
+/* ================ Outreach composer ================ */
+/* No border-top: the parent surface (DialogHeader for mass, modal for single)
+ * already provides a header divider; adding one would stack a duplicate. */
+.compose {
+  display: grid;
+  grid-template-columns: 30fr 70fr;
+  height: 100%;
+  min-height: 0;
+}
+.compose-left,
+.compose-right {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+.compose-left  { border-right: 1px solid var(--rule); background: var(--bone); }
+.compose-right { background: var(--paper); }
+
+.compose-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 32px 40px;
+}
+
+/* ----- Left pane content ----- */
+.compose .bulk-left {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Recipient list (mass mode only — 5 visible without scroll, 6-10 scroll) */
+.compose .recip-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px; /* ≈ 5 × 56px row */
+  overflow-y: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+}
+.compose .recip-list-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+.compose .recip-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+.compose .recip-row:last-child { border-bottom: 0; }
+.compose .recip-row:hover { background: var(--fog); }
+.compose .recip-row.active {
+  background: var(--cream);
+  border-left: 2px solid var(--deep);
+  padding-left: 10px;
+}
+.compose .recip-row .recip-status {
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--mute);
+  flex: none;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  padding: 0;
+}
+.compose .recip-row .recip-status.approved { color: var(--accent-hi); }
+.compose .recip-row .recip-status.error { color: var(--threat); }
+.compose .recip-row .recip-status.clickable { cursor: pointer; transition: background var(--t-fast); }
+.compose .recip-row .recip-status.clickable:hover:not(:disabled) { background: var(--fog); }
+.compose .recip-row .recip-status.clickable:disabled { cursor: not-allowed; }
+.compose .recip-row .recip-id { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.compose .recip-row .recip-id .name {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  color: var(--deep);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.compose .recip-row .recip-id .email {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.compose .recip-row .recip-modified {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex: none;
+}
+.compose .recip-row .recip-modified.hidden { visibility: hidden; }
+
+/* Disclose pattern (template picker) */
+.compose .prod-disclose-hd {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.compose .prod-disclose-hd:hover { color: var(--deep); }
+.compose .prod-disclose-hd .tri {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--mute);
+  transition: transform var(--t-fast);
+  transform: translateY(-1px);
+  width: 10px;
+}
+.compose .prod-disclose[data-open="true"] .prod-disclose-hd .tri { transform: rotate(90deg) translateX(-1px); }
+.compose .prod-disclose-hd .sep { color: var(--mute); font-size: 12px; }
+.compose .prod-disclose-hd .count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--mute);
+}
+.compose .prod-disclose-body { display: none; margin-top: 12px; padding-top: 4px; }
+.compose .prod-disclose[data-open="true"] .prod-disclose-body { display: block; }
+
+/* Instructions block + AI-generate button now use shadcn <Label> + <Textarea>
+ * + <Button size="lg" className="w-full">. The shared `eyebrow-label` class
+ * (defined below in the right-pane section) is reused for the instructions
+ * label so the uppercase-mono treatment matches `TO`/`SUBJECT` in the head row. */
+
+/* Segmented control (right-pane language toggle) */
+.compose .segmented {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--bone);
+  padding: 2px;
+  gap: 2px;
+}
+.compose .segmented button {
+  border: 0;
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--mute);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.compose .segmented button.on {
+  background: var(--paper);
+  color: var(--deep);
+  font-weight: 500;
+  box-shadow: 0 1px 2px oklch(0 0 0 / 0.06);
+}
+
+/* File chips (attachments) */
+.compose .file-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+.compose .file-chip:last-child { margin-bottom: 0; }
+.compose .file-chip svg.fi { width: 14px; height: 14px; color: var(--mute); flex: none; }
+.compose .file-chip .fname {
+  font-size: 12.5px;
+  color: var(--ink);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.compose .file-chip .fsize {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--mute);
+  flex: none;
+}
+.compose .file-chip .fremove {
+  width: 18px; height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--mute);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  flex: none;
+}
+.compose .file-chip .fremove:hover { background: var(--fog); color: var(--ink); }
+
+/* ----- Right-pane sticky foot + ghost btn ----- */
+.compose .sticky-foot {
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.compose .sticky-foot .foot-left {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.compose .sticky-foot .foot-right {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 1100px) {
+  .compose .sticky-foot .foot-left .caption-muted,
+  .compose .sticky-foot .foot-left .foot-sep { display: none; }
+}
+.compose .foot-sep { color: var(--rule); }
+.compose .caption-muted { font-size: 12px; color: var(--mute); }
+
+/* Ghost-sm buttons (Cc/Bcc, Copy) now render via shadcn <Button variant="ghost" size="sm">. */
+
+/* ============== Right pane: preview ============== */
+.compose .preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  flex: none;
+}
+
+.compose .email-head-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.compose .email-head-row.stack { grid-template-columns: 64px 1fr; }
+.compose .email-head-row:last-of-type { border-bottom: 0; }
+.compose .eyebrow-label {
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.compose .email-field {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--ink);
+  padding: 8px 0;
+  width: 100%;
+  min-width: 0;
+}
+.compose .email-field.mono { font-family: var(--font-mono); font-size: 12.5px; }
+.compose .email-field.heavy { font-weight: 500; color: var(--deep); }
+
+.compose .cc-row { display: inline-flex; gap: 2px; }
+.compose .cc-bcc-input-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Rich text toolbar — always visible, sits flush above the body editor. */
+.compose .compose-editor-wrap { display: flex; flex-direction: column; }
+.compose .rt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0;
+  margin-bottom: 4px;
+}
+.compose .rt-btn {
+  width: 26px; height: 26px;
+  padding: 0;
+  border-radius: 4px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--mute);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+}
+.compose .rt-btn:first-child { margin-left: -4px; } /* align glyph with body text below */
+.compose .rt-btn:hover { background: var(--fog); color: var(--ink); }
+.compose .rt-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.compose .rt-btn svg { width: 14px; height: 14px; }
+
+/* Email body — bilingual typography is the main reason this lives in CSS:
+ * AI-generated HTML carries `<p>`, `<ul>`, `<li>`, and inline `<em>` / `.mono`
+ * elements that need consistent styling regardless of which paragraph they
+ * land in. Doing this via Tailwind would require a `prose` plugin or repeated
+ * utility strings the renderer can't apply to dynamic content. */
+.compose .email-body {
+  padding: 4px 0;
+  min-height: 320px;
+  outline: none; /* suppress browser default contenteditable focus ring */
+}
+.compose .email-body:focus,
+.compose .email-body:focus-visible { outline: none; box-shadow: none; }
+.compose .email-body.zh {
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+.compose .email-body.en {
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.compose .email-body p { margin: 0 0 14px; }
+.compose .email-body ul { margin: 0 0 14px; padding-left: 20px; }
+.compose .email-body li { margin-bottom: 8px; }
+.compose .email-body em,
+.compose .email-body .em-zh { font-style: italic; color: var(--accent); }
+.compose .email-body.zh em,
+.compose .email-body.zh .em-zh { font-style: normal; font-weight: 500; color: var(--accent); }
+.compose .email-body .mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--cream);
+  padding: 0 4px;
+  border-radius: 3px;
+  color: var(--deep);
+}
+
+/* Attachments inline — no divider above; sits flush after the body. */
+.compose .compose-attachments-inline {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.compose .compose-attachments-inline .att-head {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11.5px; color: var(--mute);
+}
+.compose .compose-attachments-inline .att-head svg { width: 12px; height: 12px; }
+.compose .compose-attachments-inline .att-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--mute);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.compose .compose-attachments-inline .att-dropzone:hover {
+  border-color: var(--mute);
+  color: var(--ink);
+  background: var(--fog);
+}
+
+/* Tracking pills (Phase 1: rendered disabled with "Coming soon" tooltip) */
+.compose .toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--bone);
+  font-size: 12px;
+  color: var(--mute);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  font-family: inherit;
+}
+.compose .toggle-pill svg { width: 12px; height: 12px; }
+.compose .toggle-pill[disabled],
+.compose .toggle-pill[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+.compose .toggle-pill[disabled]:hover,
+.compose .toggle-pill[aria-disabled="true"]:hover { border-color: var(--rule); }
+
+/* Mobile: stack two panes vertically below 960px */
+@media (max-width: 960px) {
+  .compose {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .compose-left {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    max-height: 40vh;
+  }
+}

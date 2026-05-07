@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile:*)",
+      "Bash(npm run lint:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "Bash(tree:*)",
+      "Bash(python:*)",
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(test:*)",
+      "Bash(source:*)",
+      "Bash(timeout 5 python:*)",
+      "Bash(curl:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(node -e:*)",
+      "Bash(npx eslint:*)",
+      "Bash(psql:*)",
+      "Bash(lsof:*)",
+      "Bash(grep:*)",
+      "Bash(git ls-tree:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

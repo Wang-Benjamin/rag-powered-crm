@@ -1,0 +1,218 @@
+{
+  "page": {
+    "title": "Storefront",
+    "subtitle": "The factory page buyers see on Prelude. Fill it out once, keep it fresh."
+  },
+  "publicPage": {
+    "loading": "Loading storefront…",
+    "notFoundTitle": "Storefront not found",
+    "notFoundBody": "This storefront link is invalid or no longer available.",
+    "errorTitle": "Couldn't load this page",
+    "errorBody": "Please try again in a moment.",
+    "incompleteShare": "This share link is incomplete — quote requests are disabled. Ask the supplier for the original storefront link.",
+    "toastSent": "Quote request sent"
+  },
+  "states": {
+    "draft": "Draft",
+    "pending": "Pending",
+    "live": "Live"
+  },
+  "submitZone": {
+    "submitDraft": "Submit storefront",
+    "updateStorefront": "Update storefront",
+    "saving": "Saving…",
+    "savedToast": "Saved",
+    "saveFailed": "Couldn't save — please try again",
+    "captionDraft": "Draft, not submitted yet",
+    "captionPending": "Last saved {time}",
+    "captionLive": "Last updated {time}"
+  },
+  "companyInfo": {
+    "sectionTitle": "Company info",
+    "dropLabel": "Drop your company profile PDF",
+    "dropHelper": "Company intro, brochure, or English company profile — any works.",
+    "chooseFile": "Choose file",
+    "manualTrigger": "No PDF? Fill in manually",
+    "fields": {
+      "nameEn": "Factory name (English)",
+      "nameZh": "Factory name (Chinese)",
+      "tagline": "One-line intro",
+      "year": "Year established",
+      "employees": "Headcount",
+      "capacity": "Annual capacity",
+      "exportShare": "Export share"
+    }
+  },
+  "certifications": {
+    "sectionTitle": "Certifications",
+    "dropLabel": "Drop certification files",
+    "dropHelper": "ISO, BSCI, Sedex, Disney FAMA, BRCGS, FDA, LFGB, CE, REACH, and more.",
+    "savedHeading": "Saved certifications",
+    "add": "Add",
+    "save": "Save certification",
+    "adding": "Saving…",
+    "cancel": "Cancel",
+    "empty": "No certifications yet",
+    "issuingBodyRequired": "Issuing body is required",
+    "addFailed": "Couldn't save certification",
+    "deleteFailed": "Couldn't delete certification",
+    "fields": {
+      "certType": "Cert type",
+      "issuingBody": "Issuing body",
+      "issuingBodyPlaceholder": "e.g. SGS, Bureau Veritas",
+      "expiryDate": "Expiry date"
+    }
+  },
+  "businessTerms": {
+    "sectionTitle": "Business terms",
+    "notice": "Do not include pricing in any field. Buyers send inquiries through the platform.",
+    "fields": {
+      "moq": "MOQ",
+      "leadTime": "Lead time",
+      "samplePolicy": "Sample policy",
+      "shipping": "Shipping terms",
+      "payment": "Payment terms"
+    }
+  },
+  "factoryImages": {
+    "sectionTitle": "Factory photos",
+    "dropLabel": "Drop factory photos",
+    "dropHelper": "Exterior, production lines, team, product shots. 6 to 12 photos recommended.",
+    "acceptHint": "Images up to {maxSizeMB} MB each",
+    "uploading": "Uploading…",
+    "uploadFailed": "Couldn't upload photo",
+    "errorWrongType": "Only image files are allowed",
+    "errorTooLarge": "Image is over {maxSizeMB} MB"
+  },
+  "contact": {
+    "sectionTitle": "Contact",
+    "fields": {
+      "name": "Name",
+      "title": "Role",
+      "email": "Email",
+      "phone": "Phone",
+      "languages": "Preferred languages"
+    },
+    "languageOptions": {
+      "zh": "Chinese",
+      "en": "English",
+      "both": "Bilingual"
+    }
+  },
+  "catalog": {
+    "pending": {
+      "sectionTitle": "Pending products",
+      "helper": "Everything's filled in. Review the details, then click “Publish” to push it to your public storefront.",
+      "emptyTitle": "Nothing waiting to go live",
+      "emptyBody": "All products are already on your public storefront."
+    },
+    "live": {
+      "sectionTitle": "Live products",
+      "helper": "These are exactly what buyers see on your storefront.",
+      "emptyTitle": "Nothing live yet",
+      "emptyBody": "Review items in Pending and click “Publish” to push them to your public storefront."
+    },
+    "searchPlaceholder": "Search by product name or SKU",
+    "searchAriaLabel": "Search products",
+    "addProduct": "Add product",
+    "viewStorefront": "View storefront",
+    "shareStorefront": "Share storefront",
+    "shareStorefrontCopied": "Link copied",
+    "shareStorefrontFailed": "Couldn't copy link"
+  },
+  "bulkBar": {
+    "selectedPrefix": "Selected",
+    "selectedSuffix": "",
+    "selectAllAriaLabel": "Select all",
+    "clear": "Cancel",
+    "bulkPublish": "Publish selected"
+  },
+  "productCard": {
+    "publishedPrefix": "Published",
+    "edit": "Edit",
+    "publish": "Publish",
+    "quote": "Quote",
+    "selectAriaLabel": "Select product",
+    "moqPrefix": "MOQ {moq}"
+  },
+  "pendingHeader": {
+    "sectionTitle": "Import products",
+    "sectionHelper": "Bring your catalog in once. Drop a PDF or spreadsheet and Prelude fills out the rows for you.",
+    "upload": {
+      "label": "Upload product catalog",
+      "helper": "Brochure, spec sheet, or column-mapped table — Prelude figures out the format.",
+      "formats": "PDF · CSV · XLSX"
+    },
+    "addManual": "Add manually"
+  },
+  "productEditDialog": {
+    "titleCreate": "Add product",
+    "titleEdit": "Edit product",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "errorGeneric": "Couldn't save — please try again",
+    "errorDelete": "Couldn't delete — please try again",
+    "confirmDelete": {
+      "title": "Delete this product?",
+      "body": "“{name}” will be removed from your catalog. This can't be undone.",
+      "confirm": "Delete",
+      "deleting": "Deleting…",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "nameRequired": "Product name is required"
+    },
+    "fields": {
+      "name": "Product name",
+      "description": "Description",
+      "moq": "MOQ",
+      "hsCode": "HS code",
+      "priceRange": "Price range",
+      "priceMinPlaceholder": "min",
+      "priceMaxPlaceholder": "max",
+      "imageUrl": "Image URL",
+      "imageUrlHint": "Paste a public image URL. Image upload comes later.",
+      "specs": "Specs",
+      "specsHint": "One key: value per line — Material: EVA, Outsole: rubber, …",
+      "specsPlaceholder": "Material: EVA\nOutsole: Vulcanized rubber"
+    }
+  },
+  "catalogToasts": {
+    "loading": "Loading products…",
+    "fetchFailed": "Couldn't load products",
+    "publishFailed": "Couldn't publish — please try again",
+    "imported": "Products imported",
+    "created": "Product added",
+    "updated": "Product updated",
+    "deleted": "Product deleted",
+    "deleteFailed": "Couldn't delete product"
+  },
+  "fileChip": {
+    "removeAriaLabel": "Remove"
+  },
+  "requestQuoteModal": {
+    "title": "Request a Quote",
+    "subtitle": "Send your request to {seller} — they'll reply by email.",
+    "yourName": "YOUR NAME",
+    "yourNamePlaceholder": "Sarah Chen",
+    "company": "COMPANY",
+    "companyPlaceholder": "ABC Distribution",
+    "email": "EMAIL",
+    "emailPlaceholder": "sarah@abcdist.com",
+    "emailRequired": "Required",
+    "quantity": "QUANTITY OF INTEREST",
+    "quantityPlaceholder": "10,000",
+    "message": "MESSAGE",
+    "messagePlaceholder": "Questions about pricing, specifications, or samples...",
+    "submit": "Request Quote",
+    "submitting": "Sending…",
+    "cancel": "Cancel",
+    "closeAriaLabel": "Close",
+    "successTitle": "Quote request sent",
+    "successBody": "{seller} will review your request and respond via email.",
+    "errorGeneric": "Couldn't send request. Please try again.",
+    "errorRateLimited": "Too many requests. Please wait a moment and try again."
+  }
+}

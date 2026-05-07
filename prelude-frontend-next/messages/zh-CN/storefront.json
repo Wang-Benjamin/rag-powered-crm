@@ -1,0 +1,218 @@
+{
+  "page": {
+    "title": "店铺",
+    "subtitle": "买家在平台上看到的工厂页面。填写一次，持续更新。"
+  },
+  "publicPage": {
+    "loading": "正在加载店铺…",
+    "notFoundTitle": "未找到该店铺",
+    "notFoundBody": "此店铺链接无效或已失效。",
+    "errorTitle": "页面加载失败",
+    "errorBody": "请稍后再试。",
+    "incompleteShare": "此分享链接不完整，无法提交报价请求。请向供应商索取完整的店铺链接。",
+    "toastSent": "已发送报价请求"
+  },
+  "states": {
+    "draft": "未上架",
+    "pending": "待上线",
+    "live": "已上线"
+  },
+  "submitZone": {
+    "submitDraft": "提交店铺",
+    "updateStorefront": "更新店铺",
+    "saving": "保存中…",
+    "savedToast": "已保存",
+    "saveFailed": "保存失败，请稍后重试",
+    "captionDraft": "草稿，尚未提交",
+    "captionPending": "上次保存 {time}",
+    "captionLive": "上次更新 {time}"
+  },
+  "companyInfo": {
+    "sectionTitle": "公司信息",
+    "dropLabel": "拖入公司资料 PDF",
+    "dropHelper": "公司介绍、公司手册或英文 company profile 皆可。",
+    "chooseFile": "选择文件",
+    "manualTrigger": "没有 PDF，手动填写",
+    "fields": {
+      "nameEn": "工厂英文名称",
+      "nameZh": "工厂中文名称",
+      "tagline": "一句话介绍",
+      "year": "成立年份",
+      "employees": "员工人数",
+      "capacity": "年产能",
+      "exportShare": "出口占比"
+    }
+  },
+  "certifications": {
+    "sectionTitle": "认证",
+    "dropLabel": "拖入认证文件",
+    "dropHelper": "ISO、BSCI、Sedex、Disney FAMA、BRCGS、FDA、LFGB、CE、REACH 等。",
+    "savedHeading": "已保存认证",
+    "add": "添加",
+    "save": "保存认证",
+    "adding": "保存中…",
+    "cancel": "取消",
+    "empty": "暂无认证",
+    "issuingBodyRequired": "请填写发证机构",
+    "addFailed": "保存认证失败",
+    "deleteFailed": "删除认证失败",
+    "fields": {
+      "certType": "认证类型",
+      "issuingBody": "发证机构",
+      "issuingBodyPlaceholder": "例如 SGS、必维",
+      "expiryDate": "有效期至"
+    }
+  },
+  "businessTerms": {
+    "sectionTitle": "商务条款",
+    "notice": "请勿在任何字段中填写价格信息。买家询价通过平台发起。",
+    "fields": {
+      "moq": "MOQ",
+      "leadTime": "交期",
+      "samplePolicy": "样品政策",
+      "shipping": "运输条款",
+      "payment": "付款条款"
+    }
+  },
+  "factoryImages": {
+    "sectionTitle": "工厂图片",
+    "dropLabel": "拖入工厂图片",
+    "dropHelper": "工厂外观、生产线、团队、产品实拍。建议 6 至 12 张。",
+    "acceptHint": "图片单张不超过 {maxSizeMB} MB",
+    "uploading": "上传中…",
+    "uploadFailed": "上传失败",
+    "errorWrongType": "仅支持图片文件",
+    "errorTooLarge": "图片超过 {maxSizeMB} MB 上限"
+  },
+  "contact": {
+    "sectionTitle": "联系信息",
+    "fields": {
+      "name": "姓名",
+      "title": "职位",
+      "email": "邮箱",
+      "phone": "电话",
+      "languages": "接收语言"
+    },
+    "languageOptions": {
+      "zh": "中文",
+      "en": "英文",
+      "both": "双语"
+    }
+  },
+  "catalog": {
+    "pending": {
+      "sectionTitle": "待上线产品",
+      "helper": "资料已齐全。核对信息后点“上线”，产品就会发布到公开店铺页。",
+      "emptyTitle": "没有等待上线的产品",
+      "emptyBody": "所有产品都已发布到公开店铺页。"
+    },
+    "live": {
+      "sectionTitle": "已上线产品",
+      "helper": "买家在店铺页看到的正是这些产品。",
+      "emptyTitle": "尚未上线任何产品",
+      "emptyBody": "在“待上线”中核对产品，点“上线”即可发布到公开店铺页。"
+    },
+    "searchPlaceholder": "搜索产品名称或 SKU",
+    "searchAriaLabel": "搜索产品",
+    "addProduct": "添加产品",
+    "viewStorefront": "查看店铺",
+    "shareStorefront": "分享店铺",
+    "shareStorefrontCopied": "已复制链接",
+    "shareStorefrontFailed": "复制失败"
+  },
+  "bulkBar": {
+    "selectedPrefix": "已选",
+    "selectedSuffix": "件",
+    "selectAllAriaLabel": "全选",
+    "clear": "取消",
+    "bulkPublish": "批量上线"
+  },
+  "productCard": {
+    "publishedPrefix": "上线",
+    "edit": "编辑",
+    "publish": "上线",
+    "quote": "报价",
+    "selectAriaLabel": "选择产品",
+    "moqPrefix": "起订量 {moq}"
+  },
+  "pendingHeader": {
+    "sectionTitle": "导入产品",
+    "sectionHelper": "一次完成产品录入。上传 PDF 或表格,Prelude 自动识别格式并填充每行产品。",
+    "upload": {
+      "label": "上传产品目录",
+      "helper": "产品样册、规格表或列匹配的表格,Prelude 自动识别格式。",
+      "formats": "PDF · CSV · XLSX"
+    },
+    "addManual": "手动添加"
+  },
+  "productEditDialog": {
+    "titleCreate": "添加产品",
+    "titleEdit": "编辑产品",
+    "save": "保存",
+    "saving": "保存中…",
+    "cancel": "取消",
+    "delete": "删除",
+    "errorGeneric": "保存失败,请稍后重试",
+    "errorDelete": "删除失败,请稍后重试",
+    "confirmDelete": {
+      "title": "确认删除该产品?",
+      "body": "「{name}」将从您的产品目录中移除,此操作无法撤销。",
+      "confirm": "删除",
+      "deleting": "删除中…",
+      "cancel": "取消"
+    },
+    "validation": {
+      "nameRequired": "请填写产品名称"
+    },
+    "fields": {
+      "name": "产品名称",
+      "description": "描述",
+      "moq": "起订量",
+      "hsCode": "HS 编码",
+      "priceRange": "价格区间",
+      "priceMinPlaceholder": "下限",
+      "priceMaxPlaceholder": "上限",
+      "imageUrl": "图片链接",
+      "imageUrlHint": "粘贴公开可访问的图片链接。图片上传将于后续支持。",
+      "specs": "规格",
+      "specsHint": "每行一组「键: 值」,例如 材质: EVA、外底: 橡胶。",
+      "specsPlaceholder": "材质: EVA\n外底: 硫化橡胶"
+    }
+  },
+  "catalogToasts": {
+    "loading": "正在加载产品…",
+    "fetchFailed": "加载产品失败",
+    "publishFailed": "上线失败,请稍后重试",
+    "imported": "已导入产品",
+    "created": "已添加产品",
+    "updated": "已更新产品",
+    "deleted": "已删除产品",
+    "deleteFailed": "删除产品失败"
+  },
+  "fileChip": {
+    "removeAriaLabel": "移除"
+  },
+  "requestQuoteModal": {
+    "title": "请求报价",
+    "subtitle": "向 {seller} 提交询价，工厂将通过邮件回复您。",
+    "yourName": "您的姓名",
+    "yourNamePlaceholder": "陈思雨",
+    "company": "公司",
+    "companyPlaceholder": "ABC 贸易",
+    "email": "邮箱",
+    "emailPlaceholder": "sarah@abcdist.com",
+    "emailRequired": "必填",
+    "quantity": "意向数量",
+    "quantityPlaceholder": "10,000",
+    "message": "留言",
+    "messagePlaceholder": "关于价格、规格或样品的问题…",
+    "submit": "提交报价请求",
+    "submitting": "提交中…",
+    "cancel": "取消",
+    "closeAriaLabel": "关闭",
+    "successTitle": "已发送报价请求",
+    "successBody": "{seller} 将审阅您的请求并通过邮件回复。",
+    "errorGeneric": "提交失败，请稍后重试。",
+    "errorRateLimited": "请求过于频繁，请稍后再试。"
+  }
+}

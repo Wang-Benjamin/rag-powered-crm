@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prelude Design Kit · Reference · v2026.07</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bone:oklch(0.985 0.004 80); --paper:oklch(0.975 0.006 80); --cream:oklch(0.955 0.010 80);
+  --fog:oklch(0.920 0.008 80); --rule:oklch(0.880 0.008 80); --mute:oklch(0.550 0.015 260);
+  --ink:oklch(0.240 0.015 260); --deep:oklch(0.180 0.020 265); --accent:oklch(0.420 0.070 160);
+  --accent-hi:oklch(0.480 0.090 160); --accent-lo:oklch(0.960 0.020 160); --gold:oklch(0.720 0.120 85);
+  --threat:oklch(0.440 0.085 30); --threat-hi:oklch(0.500 0.100 30); --threat-lo:oklch(0.955 0.018 30);
+  --info:oklch(0.500 0.035 245); --info-hi:oklch(0.560 0.045 245); --info-lo:oklch(0.960 0.012 245);
+  --font-display:'Instrument Serif','Noto Serif SC','Times New Roman',serif;
+  --font-body:'Geist','Noto Sans SC',ui-sans-serif,system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --radius-card:12px; --radius-button:8px; --radius-pill:999px;
+  --lift-card:0 14px 32px -18px oklch(0.25 0.02 260 / 0.25);
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--font-body);font-size:16px;line-height:1.55;color:var(--ink);background:var(--bone);-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11";}
+.page{max-width:1200px;margin:0 auto;padding:64px 40px 120px;}
+@media(max-width:720px){.page{padding:40px 20px 80px;}}
+.kit-head{padding-bottom:32px;border-bottom:1px solid var(--rule);margin-bottom:56px;}
+.kit-head .eyebrow-lg{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);margin-bottom:14px;display:block;}
+.kit-head h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,5vw,64px);color:var(--deep);letter-spacing:-0.015em;line-height:1.05;margin:0 0 12px;}
+.kit-head h1 em{font-style:italic;color:var(--accent);}
+.kit-head p{font-size:17px;color:var(--mute);max-width:58ch;margin:0;}
+.sec{margin-bottom:80px;scroll-margin-top:40px;}
+.sec-head{margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+.sec-head .eb{font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;display:block;}
+.sec-head h2{font-family:var(--font-display);font-weight:400;font-size:clamp(28px,3vw,40px);color:var(--deep);letter-spacing:-0.015em;margin:0;line-height:1.1;}
+.sec-head h2 em{font-style:italic;color:var(--accent);}
+.sec-head .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.demo{padding:32px;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);position:relative;}
+.demo.flush{padding:0;overflow:hidden;}
+.demo+.demo{margin-top:16px;}
+.sub-label{display:block;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin-bottom:14px;}
+.sub-label+.sub-label{margin-top:28px;}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;background:var(--rule);}
+@media(max-width:820px){.swatches{grid-template-columns:repeat(2,1fr);}}
+.sw{padding:28px 20px 20px;background:var(--bone);min-height:140px;display:flex;flex-direction:column;justify-content:space-between;}
+.sw .chip{width:40px;height:40px;border-radius:8px;border:1px solid color-mix(in oklab,var(--ink) 15%,transparent);margin-bottom:16px;}
+.sw .tk{font-family:var(--font-mono);font-size:11px;color:var(--ink);letter-spacing:0.02em;margin-bottom:4px;}
+.sw .ro{font-size:12px;color:var(--mute);line-height:1.4;}
+.type-row{display:grid;grid-template-columns:140px 1fr;gap:32px;padding:24px 0;border-bottom:1px solid var(--rule);align-items:baseline;}
+.type-row:last-child{border-bottom:0;}
+.type-row .k{font-family:var(--font-mono);font-size:11px;color:var(--mute);letter-spacing:0.08em;text-transform:uppercase;padding-top:8px;}
+.type-row .v{min-width:0;overflow:hidden;}
+.display{font-family:var(--font-display);font-weight:400;letter-spacing:-0.015em;line-height:1.02;color:var(--deep);margin:0;}
+.display em{font-style:italic;color:var(--accent);}
+.display .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.display-xl{font-size:clamp(52px,7.6vw,104px);}
+.display-l{font-size:clamp(40px,5vw,68px);}
+.display-m{font-size:clamp(32px,3.6vw,48px);}
+.display-s{font-size:clamp(24px,2.4vw,32px);}
+.title-page{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.1;letter-spacing:-0.01em;color:var(--deep);margin:0;}
+.title-page em{font-style:italic;color:var(--accent);}
+.title-page .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.title-panel{font-family:var(--font-display);font-weight:400;font-size:22px;line-height:1.15;letter-spacing:-0.005em;color:var(--deep);margin:0;}
+.title-panel em{font-style:italic;color:var(--accent);}
+.title-panel .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.title-block{font-family:var(--font-body);font-size:15px;font-weight:500;color:var(--ink);margin:0;}
+.eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);}
+.mono{font-family:var(--font-mono);}
+.label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--mute);text-transform:uppercase;}
+.lede{font-size:17px;color:var(--mute);max-width:52ch;margin:0;}
+.btn{font-family:inherit;font-size:14px;font-weight:500;letter-spacing:-0.005em;padding:10px 16px;border-radius:var(--radius-button);border:1px solid transparent;cursor:pointer;transition:all 0.15s ease;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;line-height:1;text-decoration:none;background:transparent;color:inherit;}
+.btn-primary{background:var(--deep);color:var(--bone);border-color:var(--deep);}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-1px);}
+.btn-secondary{background:transparent;color:var(--ink);border-color:var(--rule);}
+.btn-secondary:hover{background:var(--cream);border-color:var(--ink);}
+.btn-ghost{background:transparent;color:var(--ink);border-color:transparent;}
+.btn-ghost:hover{background:var(--cream);}
+.btn-lg{padding:14px 22px;font-size:15px;}
+.btn-sm{padding:8px 14px;font-size:13px;}
+.btn .arrow{display:inline-block;transition:transform 0.18s ease;}
+.btn:hover .arrow{transform:translateX(2px);}
+.btn svg{width:14px;height:14px;flex:none;}
+.btn-icon{width:34px;height:34px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--rule);border-radius:var(--radius-button);cursor:pointer;color:var(--mute);transition:all 0.15s ease;}
+.btn-icon:hover{background:var(--cream);color:var(--ink);border-color:var(--ink);}
+.btn-icon.ghost{border-color:transparent;}
+.btn-icon.sm{width:28px;height:28px;}
+.btn-icon.sm svg{width:14px;height:14px;}
+.btn-icon svg{width:16px;height:16px;}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.card{background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);padding:28px;transition:all 0.2s;}
+.card:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--lift-card);}
+.card h3{font-family:var(--font-display);font-weight:400;font-size:24px;color:var(--deep);line-height:1.2;margin:0 0 12px;letter-spacing:-0.01em;}
+.card h3 em{font-style:italic;color:var(--accent);}
+.card p{margin:0;color:var(--mute);font-size:14px;line-height:1.55;}
+.card .chan{font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;color:var(--mute);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.card .chan .num{width:22px;height:22px;border-radius:4px;background:var(--cream);color:var(--ink);display:grid;place-items:center;font-size:10px;letter-spacing:0;}
+.card .verdict{margin-top:20px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--mute);text-transform:uppercase;}
+.card .verdict em{font-family:var(--font-display);font-size:14px;font-style:italic;color:var(--ink);letter-spacing:0;text-transform:none;margin-left:4px;}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:820px){.card-grid{grid-template-columns:1fr;}}
+.card-static{background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);padding:20px;}
+.card-static.tight{padding:16px;}
+.card-static.paper{background:var(--paper);}
+.ph{position:relative;background:repeating-linear-gradient(135deg,var(--cream) 0 14px,var(--fog) 14px 15px);border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;display:flex;align-items:flex-end;padding:16px;color:var(--mute);aspect-ratio:4/3;min-height:240px;}
+.ph::before{content:"";position:absolute;inset:12px;border:1px dashed color-mix(in oklab,var(--mute) 30%,transparent);border-radius:8px;pointer-events:none;}
+.ph .ph-label{position:relative;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;text-transform:uppercase;background:var(--bone);padding:6px 10px;border-radius:4px;border:1px solid var(--rule);max-width:85%;}
+.ph .ph-label b{color:var(--ink);font-weight:500;}
+.verified-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.06em;color:var(--accent);background:var(--accent-lo);padding:5px 10px;border-radius:var(--radius-pill);text-transform:uppercase;}
+.verified-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%,transparent);}
+.chip-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.chip{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 10px;font-family:var(--font-mono);font-size:10.5px;font-weight:500;letter-spacing:0.06em;line-height:1;border-radius:var(--radius-pill);border:1px solid transparent;white-space:nowrap;text-transform:uppercase;}
+.chip.zh{font-family:var(--font-body);font-size:11.5px;letter-spacing:0;text-transform:none;font-weight:500;}
+.chip-neutral{background:var(--cream);color:var(--ink);}
+.chip-accent{background:var(--accent-lo);color:var(--accent);}
+.chip-gold{background:color-mix(in oklab,var(--gold) 14%,var(--bone));color:color-mix(in oklab,var(--gold),var(--deep) 30%);}
+.chip-threat{background:var(--threat-lo);color:color-mix(in oklab,var(--threat),var(--deep) 20%);}
+.chip-info{background:var(--info-lo);color:color-mix(in oklab,var(--info),var(--deep) 20%);}
+.chip-outline{background:var(--bone);color:var(--ink);border-color:var(--rule);}
+.chip-dark{background:var(--deep);color:var(--bone);}
+.chip .dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;background:var(--cream);border-radius:6px;font-size:12px;color:var(--ink);white-space:nowrap;}
+.tag.mono{font-family:var(--font-mono);font-size:11px;letter-spacing:0.02em;}
+.tag.outline{background:var(--bone);border:1px solid var(--rule);}
+.tag-x{background:transparent;border:none;color:currentColor;opacity:0.5;cursor:pointer;padding:0 0 0 4px;display:inline-flex;align-items:center;}
+.tag-x:hover{opacity:1;}
+.tag-x svg{width:10px;height:10px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field-label{font-size:12.5px;color:var(--ink);font-weight:500;}
+.field-hint{font-size:11.5px;color:var(--mute);}
+.input,.textarea,.select{width:100%;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-button);padding:9px 12px;font-size:13.5px;color:var(--ink);line-height:1.4;transition:all 0.15s ease;font-family:inherit;}
+.input:hover,.textarea:hover,.select:hover{border-color:var(--mute);}
+.input:focus,.textarea:focus,.select:focus{outline:none;border-color:var(--rule);box-shadow:inset 0 -2px 0 var(--accent);}
+.input::placeholder,.textarea::placeholder{color:color-mix(in oklab,var(--mute),transparent 40%);}
+.input.readonly{background:var(--paper);color:var(--mute);cursor:not-allowed;}
+.textarea{resize:vertical;min-height:80px;}
+.input-search{position:relative;}
+.input-search .input{padding-left:32px;}
+.input-search .icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mute);pointer-events:none;display:flex;}
+.input-search .icon svg{width:14px;height:14px;}
+.select-wrap{position:relative;}
+.select{appearance:none;padding-right:32px;cursor:pointer;}
+.select-wrap .chev{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--mute);display:flex;}
+.select-wrap .chev svg{width:12px;height:12px;}
+.tag-input{display:flex;flex-wrap:wrap;gap:5px;min-height:38px;padding:5px 10px;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-button);align-items:center;transition:all 0.15s ease;}
+.tag-input:focus-within{border-color:var(--rule);box-shadow:inset 0 -2px 0 var(--accent);}
+.tag-input input{border:none;outline:none;flex:1;min-width:120px;height:26px;font-size:13px;background:transparent;font-family:inherit;color:var(--ink);}
+.tag-input input::placeholder{color:color-mix(in oklab,var(--mute),transparent 40%);}
+.checkbox{width:15px;height:15px;border:1px solid var(--rule);border-radius:3px;background:var(--bone);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:none;transition:all 0.15s ease;}
+.checkbox svg{width:10px;height:10px;opacity:0;color:var(--bone);}
+.checkbox:hover{border-color:var(--ink);}
+.checkbox.on{background:var(--deep);border-color:var(--deep);}
+.checkbox.on svg{opacity:1;}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 0;}
+.toolbar .grow{flex:1;min-width:160px;max-width:320px;}
+.tbl-wrap{background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;}
+.tbl thead th{font-family:var(--font-mono);font-size:10.5px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--mute);padding:0 14px;height:36px;text-align:left;background:var(--paper);border-bottom:1px solid var(--rule);white-space:nowrap;}
+.tbl thead th.num{text-align:right;}
+.tbl tbody td{padding:0 14px;height:44px;border-bottom:1px solid var(--rule);vertical-align:middle;color:var(--ink);}
+.tbl tbody tr:hover td{background:var(--paper);}
+.tbl tbody tr:last-child td{border-bottom:none;}
+.tbl td.num,.tbl td.mono{font-family:var(--font-mono);font-size:12.5px;font-variant-numeric:tabular-nums;letter-spacing:0.01em;}
+.tbl td.num{text-align:right;}
+.tbl.tight tbody td{height:36px;font-size:12.5px;padding:0 12px;}
+.tbl.tight thead th{height:32px;padding:0 12px;}
+.tbl.comfy tbody td{height:52px;}
+.cell-2{display:flex;flex-direction:column;justify-content:center;line-height:1.25;padding:6px 0;}
+.cell-2 .p1{font-size:13.5px;color:var(--ink);}
+.cell-2 .p2{font-size:11.5px;color:var(--mute);margin-top:2px;}
+.cell-score{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;line-height:1.2;padding:6px 0;}
+.cell-score .n{font-family:var(--font-mono);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--accent);letter-spacing:0.01em;}
+.cell-score .n.med{color:var(--gold);}
+.cell-score .n.low{color:var(--mute);}
+.cell-score .why{font-family:var(--font-mono);font-size:10px;letter-spacing:0.02em;color:var(--mute);margin-top:2px;text-align:right;max-width:200px;}
+.cell-score .why.zh{font-family:var(--font-body);font-size:11px;letter-spacing:0;}
+.trend{font-family:var(--font-mono);font-size:12.5px;font-variant-numeric:tabular-nums;letter-spacing:0.01em;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;}
+.trend.up{color:var(--accent);}
+.trend.down{color:var(--mute);}
+.trend.flat{color:var(--mute);opacity:0.6;}
+.date-cell{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink);}
+.date-cell.warn{color:var(--gold);}
+.date-cell svg{width:11px;height:11px;}
+.truncate{max-width:440px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--rule);background:var(--paper);}
+.pagination .count{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:var(--mute);}
+.pagination-ctrl{display:inline-flex;align-items:center;gap:8px;}
+.pagination-ctrl button{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;background:var(--bone);border:1px solid var(--rule);border-radius:6px;cursor:pointer;color:var(--mute);transition:all 0.15s ease;}
+.pagination-ctrl button:hover{color:var(--ink);background:var(--cream);border-color:var(--ink);}
+.pagination-ctrl button:disabled{opacity:0.35;cursor:not-allowed;}
+.pagination-ctrl button svg{width:12px;height:12px;}
+.dtbl{font-size:13px;}
+.dtbl .row{display:grid;grid-template-columns:32px 1.6fr 1fr 0.8fr;gap:12px;padding:11px 16px;border-bottom:1px solid var(--rule);align-items:center;}
+.dtbl .row:last-child{border-bottom:0;}
+.dtbl .row.h{background:var(--paper);font-family:var(--font-mono);font-size:10px;letter-spacing:0.09em;color:var(--mute);text-transform:uppercase;padding:10px 16px;}
+.dtbl .rank{font-family:var(--font-mono);color:var(--mute);font-size:11px;}
+.dtbl .buyer{color:var(--ink);font-weight:500;}
+.dtbl .city{color:var(--mute);font-size:12px;margin-top:2px;}
+.dtbl .vol{font-family:var(--font-mono);color:var(--deep);font-variant-numeric:tabular-nums;text-align:right;font-size:12px;}
+.dtbl .score{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end;font-family:var(--font-mono);color:var(--accent);font-size:12px;}
+.dtbl .score.med{color:var(--gold);}
+.dtbl .score .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.dtbl-wrap{border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;}
+.kpi{min-height:112px;display:flex;flex-direction:column;justify-content:space-between;}
+.kpi-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);}
+.kpi-num{font-family:var(--font-display);font-size:40px;font-weight:400;line-height:1;letter-spacing:-0.015em;color:var(--deep);margin-top:4px;}
+.kpi-num em{font-style:italic;color:var(--accent);}
+.kpi-num.accent{color:var(--accent);}
+.kpi-num.gold{color:var(--gold);}
+.kpi-sub{font-size:12px;color:var(--mute);margin-top:8px;line-height:1.4;}
+.kpi.lite .kpi-num{font-size:28px;}
+.banner{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--radius-button);font-size:13.5px;line-height:1.55;border:1px solid transparent;}
+.banner .icon{flex:none;margin-top:1px;display:flex;}
+.banner .icon svg{width:16px;height:16px;display:block;}
+.banner .body{flex:1;min-width:0;}
+.banner .body b{color:var(--deep);font-weight:500;}
+.banner .body .em{font-family:var(--font-display);font-style:italic;color:var(--accent);}
+.banner .body .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.banner .close{margin-left:auto;background:transparent;border:none;color:currentColor;opacity:0.5;cursor:pointer;padding:0;display:inline-flex;flex:none;}
+.banner .close:hover{opacity:1;}
+.banner .close svg{width:14px;height:14px;}
+.banner-ai{background:color-mix(in oklab,var(--gold) 8%,var(--bone));border-color:color-mix(in oklab,var(--gold) 30%,var(--rule));}
+.banner-ai .icon{color:var(--gold);}
+.banner-warn{background:var(--bone);border-color:var(--rule);}
+.banner-warn .icon{color:var(--gold);}
+.banner-success{background:var(--accent-lo);border-color:transparent;color:var(--accent);}
+.banner-footnote{background:var(--paper);border-color:var(--rule);}
+.banner-footnote .icon{color:var(--mute);}
+.banner-threat{background:var(--threat-lo);border-color:color-mix(in oklab,var(--threat) 22%,transparent);color:color-mix(in oklab,var(--threat),var(--deep) 15%);}
+.banner-threat .icon{color:var(--threat);}
+.banner-threat .body b{color:color-mix(in oklab,var(--threat),var(--deep) 30%);}
+.banner-info{background:var(--info-lo);border-color:color-mix(in oklab,var(--info) 22%,transparent);color:color-mix(in oklab,var(--info),var(--deep) 15%);}
+.banner-info .icon{color:var(--info);}
+.banner-info .body b{color:color-mix(in oklab,var(--info),var(--deep) 30%);}
+.btn-destructive{background:var(--threat);color:var(--bone);border-color:var(--threat);}
+.btn-destructive:hover{background:var(--threat-hi);border-color:var(--threat-hi);}
+.btn-destructive-outline{background:transparent;color:var(--threat);border-color:color-mix(in oklab,var(--threat) 50%,var(--rule));}
+.btn-destructive-outline:hover{background:var(--threat-lo);border-color:var(--threat);}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);}
+.tab{display:inline-flex;align-items:center;gap:8px;padding:12px 18px 14px;font-size:13.5px;color:var(--mute);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;transition:color 0.15s ease,border-color 0.15s ease;font-family:inherit;}
+.tab:hover{color:var(--ink);}
+.tab.on{color:var(--deep);border-bottom-color:var(--deep);font-weight:500;}
+.tab svg{width:14px;height:14px;opacity:0.75;}
+.segment{display:inline-flex;gap:4px;padding:3px;background:var(--cream);border-radius:var(--radius-button);}
+.segment button{height:28px;padding:0 14px;background:transparent;border:1px solid transparent;border-radius:5px;font-size:12.5px;font-weight:500;color:var(--mute);cursor:pointer;transition:all 0.15s ease;font-family:inherit;}
+.segment button:hover{color:var(--ink);}
+.segment button.on{background:var(--deep);color:var(--bone);}
+.pills{display:inline-flex;gap:6px;flex-wrap:wrap;}
+.pill{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-pill);font-size:12.5px;color:var(--mute);cursor:pointer;transition:all 0.15s ease;white-space:nowrap;font-family:inherit;}
+.pill:hover{color:var(--ink);border-color:var(--ink);}
+.pill.on{background:var(--ink);color:var(--bone);border-color:var(--ink);}
+.pill svg{width:12px;height:12px;}
+.pill-group{display:inline-flex;gap:6px;}
+.pill-choice{height:28px;padding:0 12px;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-pill);font-size:12px;color:var(--mute);cursor:pointer;transition:all 0.15s ease;font-family:inherit;}
+.pill-choice:hover{color:var(--ink);border-color:var(--ink);}
+.pill-choice.on{background:var(--deep);border-color:var(--deep);color:var(--bone);}
+.approval{display:inline-flex;align-items:center;gap:8px;padding:3px 12px 3px 3px;border-radius:var(--radius-pill);background:var(--bone);border:1px solid var(--rule);font-size:12.5px;max-width:200px;transition:all 0.15s ease;cursor:pointer;}
+.approval .tick{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--fog);color:var(--mute);flex:none;transition:all 0.15s ease;}
+.approval .tick svg{width:11px;height:11px;}
+.approval.on{background:var(--deep);color:var(--bone);border-color:var(--deep);}
+.approval.on .tick{background:var(--bone);color:var(--deep);}
+.approval .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--deep);color:var(--bone);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-body);font-size:12px;font-weight:500;flex:none;}
+.avatar.sm{width:24px;height:24px;font-size:10.5px;}
+.avatar.lg{width:40px;height:40px;font-size:14px;}
+.person{display:flex;align-items:center;gap:10px;}
+.person .meta{display:flex;flex-direction:column;min-width:0;line-height:1.3;}
+.person .nm{font-size:13px;color:var(--ink);font-weight:500;}
+.person .ro{font-size:11.5px;color:var(--mute);}
+.shell{display:grid;grid-template-columns:220px 1fr;height:580px;background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;}
+.shell-nav{background:var(--paper);border-right:1px solid var(--rule);display:flex;flex-direction:column;}
+.shell-top{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 14px 18px;border-bottom:1px solid var(--rule);}
+.shell-top .brandmark{gap:8px;}
+.shell-top .brandmark .mark{width:22px;height:22px;}
+.shell-top .brandmark .wordmark{font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;color:var(--deep);}
+.shell-top .brandmark .zh{font-family:var(--font-display);font-size:14px;color:var(--mute);letter-spacing:0.05em;border-left:1px solid var(--rule);padding-left:8px;}
+.shell-top .tools{display:flex;gap:2px;}
+.nav-label{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);padding:20px 18px 6px;}
+.nav-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 18px;font-size:13.5px;color:var(--ink);cursor:pointer;position:relative;transition:background 0.15s ease;}
+.nav-item:hover{background:var(--cream);}
+.nav-item.on{background:var(--cream);font-weight:500;color:var(--deep);}
+.nav-item.on::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--accent);border-radius:0 2px 2px 0;}
+.nav-item .chev{color:var(--mute);display:flex;}
+.nav-item .chev svg{width:12px;height:12px;}
+.shell-foot{margin-top:auto;padding:12px 14px;border-top:1px solid var(--rule);display:flex;align-items:center;gap:10px;}
+.shell-foot .name{font-size:12.5px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lang-toggle{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;color:var(--mute);padding:3px 7px;border:1px solid var(--rule);border-radius:4px;cursor:pointer;background:var(--bone);}
+.lang-toggle:hover{color:var(--ink);border-color:var(--ink);}
+.shell-canvas{padding:20px 24px;overflow:auto;background:var(--bone);}
+.drawer{background:var(--bone);border:1px solid var(--rule);border-radius:var(--radius-card);overflow:hidden;position:relative;min-height:520px;}
+.drawer-hd{display:flex;align-items:flex-start;justify-content:space-between;padding:24px 28px 0;}
+.drawer-title{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.1;letter-spacing:-0.01em;color:var(--deep);margin:0;}
+.drawer-title em{font-style:italic;color:var(--accent);}
+.drawer-title .em-zh{font-weight:500;color:var(--accent);font-style:normal;}
+.drawer-close{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:var(--radius-button);color:var(--mute);cursor:pointer;flex:none;}
+.drawer-close:hover{background:var(--cream);color:var(--ink);}
+.drawer-close svg{width:16px;height:16px;}
+.drawer-sub{padding:0 28px;margin-top:6px;font-size:13px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;}
+.drawer-sub svg{width:13px;height:13px;opacity:0.75;}
+.drawer-sub b{color:var(--ink);font-weight:500;}
+.drawer-tabs{padding:20px 28px 0;}
+.drawer-body{padding:24px 28px 100px;}
+.action-bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:var(--bone);border-top:1px solid var(--rule);}
+.action-bar .left,.action-bar .right{display:flex;gap:8px;align-items:center;}
+.share-list{display:flex;flex-direction:column;gap:8px;}
+.share-row{display:grid;grid-template-columns:200px 1fr 64px;gap:14px;align-items:center;font-size:12.5px;}
+.share-row .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
+.share-row .name.mute{color:var(--mute);}
+.share-row .bar{height:8px;background:var(--fog);border-radius:4px;overflow:hidden;}
+.share-row .fill{height:100%;background:var(--accent);border-radius:4px;}
+.share-row .fill.mute{background:var(--mute);opacity:0.4;}
+.share-row .pct{font-family:var(--font-mono);font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink);text-align:right;letter-spacing:0.01em;}
+.bars{display:flex;align-items:flex-end;gap:6px;height:120px;padding:12px 0;border-bottom:1px solid var(--rule);}
+.bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;}
+.bar-col .fg{background:var(--accent);border-radius:2px 2px 0 0;}
+.bar-col .bg{background:var(--fog);border-radius:2px 2px 0 0;margin-top:1px;}
+.bar-axis{display:flex;gap:6px;padding-top:8px;}
+.bar-axis>div{flex:1;text-align:center;font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.08em;color:var(--mute);text-transform:uppercase;}
+.spark-rail{position:relative;display:block;height:4px;background:var(--fog);border-radius:2px;overflow:hidden;}
+.spark-rail .fill{position:absolute;inset:0;background:var(--accent);transform-origin:left center;}
+.spark-rail .fill.mute{background:var(--mute);opacity:0.35;}
+.line-chart{width:100%;height:180px;background:var(--paper);border-radius:var(--radius-card);padding:16px 12px 10px;border:1px solid var(--rule);}
+.line-chart svg{width:100%;height:100%;display:block;}
+.meter{display:flex;align-items:center;gap:10px;}
+.meter-bar{flex:1;height:6px;background:var(--fog);border-radius:3px;overflow:hidden;max-width:200px;}
+.meter-fill{height:100%;background:var(--gold);border-radius:3px;}
+.meter .val{font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--deep);font-variant-numeric:tabular-nums;}
+.empty{padding:40px 20px;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--mute);text-transform:uppercase;border:1px dashed var(--rule);border-radius:var(--radius-card);background:var(--paper);}
+.skeleton-row{display:grid;grid-template-columns:32px 1.6fr 1fr 1fr 80px;gap:14px;padding:14px 16px;border-bottom:1px solid var(--rule);align-items:center;}
+.skeleton-row:last-child{border-bottom:none;}
+.skel{background:linear-gradient(90deg,var(--cream) 0%,var(--fog) 50%,var(--cream) 100%);background-size:200% 100%;height:12px;border-radius:3px;animation:skel 1.4s linear infinite;display:block;}
+@keyframes skel{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.kbd{font-family:var(--font-mono);font-size:11px;padding:2px 6px;background:var(--paper);border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;color:var(--ink);}
+.tooltip{display:inline-block;background:var(--deep);color:var(--bone);font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.04em;padding:6px 10px;border-radius:6px;max-width:280px;line-height:1.45;}
+.brandmark{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--deep);}
+.brandmark .mark{width:30px;height:30px;display:grid;place-items:center;}
+.brandmark .mark svg{width:100%;height:100%;}
+.brandmark .wordmark{font-family:var(--font-display);font-size:22px;letter-spacing:-0.01em;color:var(--deep);}
+.brandmark .zh{font-family:var(--font-display);font-size:18px;color:var(--mute);letter-spacing:0.05em;border-left:1px solid var(--rule);padding-left:12px;}
+.brandmark.sm .mark{width:22px;height:22px;}
+.brandmark.sm .wordmark{font-size:17px;}
+.brandmark.sm .zh{font-size:14px;padding-left:10px;}
+.dark-surface{background:var(--deep);color:var(--bone);border-radius:14px;padding:40px 36px;position:relative;overflow:hidden;}
+.dark-surface::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 80% 120%,color-mix(in oklab,var(--accent) 45%,transparent) 0%,transparent 60%);opacity:0.55;pointer-events:none;}
+.dark-surface>*{position:relative;}
+.dark-surface .eyebrow{color:color-mix(in oklab,var(--bone) 65%,transparent);margin-bottom:16px;display:block;}
+.dark-surface .price{font-family:var(--font-display);font-size:56px;line-height:1;color:var(--bone);letter-spacing:-0.02em;margin-bottom:10px;}
+.dark-surface .price small{font-family:var(--font-body);font-size:16px;color:color-mix(in oklab,var(--bone) 75%,transparent);font-weight:400;margin-left:6px;}
+.dark-surface p{color:color-mix(in oklab,var(--bone) 80%,transparent);margin:0 0 24px;font-size:14px;}
+.dark-surface .btn-light{background:var(--bone);color:var(--deep);border-color:var(--bone);padding:12px 18px;font-size:14px;font-weight:500;border-radius:var(--radius-button);display:inline-flex;align-items:center;gap:8px;text-decoration:none;}
+.dark-surface .btn-light:hover{background:var(--accent-lo);}
+.toc{background:var(--paper);border:1px solid var(--rule);border-radius:var(--radius-card);padding:24px 28px;margin-bottom:56px;}
+.toc .eyebrow{display:block;margin-bottom:12px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+@media(max-width:720px){.toc-grid{grid-template-columns:1fr;gap:24px;}}
+.toc-col h4{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;}
+.toc ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;}
+.toc li{font-family:var(--font-mono);font-size:12px;color:var(--ink);}
+.toc a{color:inherit;text-decoration:none;}
+.toc a:hover{color:var(--accent);}
+.toc .n{color:var(--mute);margin-right:8px;}
+.icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;}
+@media(max-width:720px){.icon-grid{grid-template-columns:repeat(4,1fr);}}
+.icon-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 8px;background:var(--bone);border:1px solid var(--rule);border-radius:8px;min-height:78px;}
+.icon-tile svg{width:18px;height:18px;color:var(--ink);}
+.icon-tile .name{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.04em;color:var(--mute);text-transform:uppercase;}
+.sh-demo>div>.eyebrow{display:block;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="kit-head">
+    <span class="eyebrow-lg">Prelude Design Kit · Reference · v2026.07</span>
+    <h1>Every pattern, <em>rendered.</em></h1>
+    <p>Open this file in a browser to see what every component looks like. v2026.07 adds <code class="mono" style="font-size:12px;color:var(--deep);">--threat</code> (destructive) and <code class="mono" style="font-size:12px;color:var(--deep);">--info</code> (system) signal tokens plus matching banners and destructive buttons. v2026.05 extended v2026.04 with the webclient surface — search "Webclient" or jump from the contents.</p>
+  </header>
+  <nav class="toc">
+    <span class="eyebrow">Contents</span>
+    <div class="toc-grid">
+      <div class="toc-col">
+        <h4>Foundation</h4>
+        <ol>
+          <li><span class="n">01</span><a href="#colors">Colors</a></li>
+          <li><span class="n">02</span><a href="#type">Typography</a></li>
+          <li><span class="n">03</span><a href="#brandmark">Brandmark</a></li>
+          <li><span class="n">04</span><a href="#heading">Eyebrow + heading</a></li>
+          <li><span class="n">05</span><a href="#buttons">Buttons</a></li>
+          <li><span class="n">06</span><a href="#cards">Cards</a></li>
+          <li><span class="n">07</span><a href="#placeholder">Placeholder</a></li>
+          <li><span class="n">08</span><a href="#chip">Verified chip</a></li>
+          <li><span class="n">09</span><a href="#table-mkt">Marketing table</a></li>
+          <li><span class="n">10</span><a href="#dark">Dark surface</a></li>
+        </ol>
+      </div>
+      <div class="toc-col">
+        <h4>Webclient</h4>
+        <ol>
+          <li><span class="n">11</span><a href="#chips">State chips</a></li>
+          <li><span class="n">12</span><a href="#tags">Tags</a></li>
+          <li><span class="n">13</span><a href="#forms">Form elements</a></li>
+          <li><span class="n">14</span><a href="#toolbar">Toolbar</a></li>
+          <li><span class="n">15</span><a href="#tables">Webclient tables</a></li>
+          <li><span class="n">16</span><a href="#kpi">KPI cards</a></li>
+          <li><span class="n">17</span><a href="#banners">Banners</a></li>
+          <li><span class="n">18</span><a href="#tabs">Tabs &amp; toggles</a></li>
+          <li><span class="n">19</span><a href="#approval">Approval chips</a></li>
+          <li><span class="n">20</span><a href="#person">Avatar &amp; person</a></li>
+          <li><span class="n">21</span><a href="#shell">Sidebar shell</a></li>
+          <li><span class="n">22</span><a href="#drawer">Drawer / modal</a></li>
+          <li><span class="n">23</span><a href="#charts">Charts</a></li>
+          <li><span class="n">24</span><a href="#states">Empty &amp; skeleton</a></li>
+          <li><span class="n">25</span><a href="#misc">Misc</a></li>
+          <li><span class="n">26</span><a href="#icons">Icon set (Lucide)</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
+<section class="sec" id="colors">
+  <div class="sec-head"><span class="eb">01 · Colors</span><h2>The palette.</h2></div>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:var(--bone);"></div><div class="tk">--bone</div><div class="ro">Page background</div></div>
+    <div class="sw"><div class="chip" style="background:var(--paper);"></div><div class="tk">--paper</div><div class="ro">Alternate section bg</div></div>
+    <div class="sw"><div class="chip" style="background:var(--cream);"></div><div class="tk">--cream</div><div class="ro">Card hover, subtle fill</div></div>
+    <div class="sw"><div class="chip" style="background:var(--fog);"></div><div class="tk">--fog</div><div class="ro">Placeholder pattern</div></div>
+    <div class="sw"><div class="chip" style="background:var(--rule);"></div><div class="tk">--rule</div><div class="ro">Borders, separators</div></div>
+    <div class="sw"><div class="chip" style="background:var(--mute);"></div><div class="tk">--mute</div><div class="ro">Secondary text</div></div>
+    <div class="sw"><div class="chip" style="background:var(--ink);"></div><div class="tk">--ink</div><div class="ro">Body text</div></div>
+    <div class="sw"><div class="chip" style="background:var(--deep);"></div><div class="tk">--deep</div><div class="ro">Headings, primary buttons</div></div>
+    <div class="sw"><div class="chip" style="background:var(--accent);"></div><div class="tk">--accent</div><div class="ro">Trust, italic emphasis</div></div>
+    <div class="sw"><div class="chip" style="background:var(--accent-hi);"></div><div class="tk">--accent-hi</div><div class="ro">Accent hover</div></div>
+    <div class="sw"><div class="chip" style="background:var(--accent-lo);"></div><div class="tk">--accent-lo</div><div class="ro">Accent fill, verified bg</div></div>
+    <div class="sw"><div class="chip" style="background:var(--gold);"></div><div class="tk">--gold</div><div class="ro">Medium / warn / urgency</div></div>
+    <div class="sw"><div class="chip" style="background:var(--threat);"></div><div class="tk">--threat</div><div class="ro">Destructive actions only</div></div>
+    <div class="sw"><div class="chip" style="background:var(--threat-lo);"></div><div class="tk">--threat-lo</div><div class="ro">Destructive bg</div></div>
+    <div class="sw"><div class="chip" style="background:var(--info);"></div><div class="tk">--info</div><div class="ro">System / informational</div></div>
+    <div class="sw"><div class="chip" style="background:var(--info-lo);"></div><div class="tk">--info-lo</div><div class="ro">Info bg</div></div>
+  </div>
+  <p style="font-size:13px;color:var(--mute);margin:20px 0 0;line-height:1.55;max-width:66ch;">Four-tier signal system. <code class="mono" style="font-size:11.5px;color:var(--deep);">--accent</code> positive, <code class="mono" style="font-size:11.5px;color:var(--deep);">--gold</code> warn/urgent, <code class="mono" style="font-size:11.5px;color:var(--deep);">--threat</code> destructive actions and terminal failure (delete, revoke, bounced), <code class="mono" style="font-size:11.5px;color:var(--deep);">--info</code> system work in progress (syncing, indexing). All four tiers are available on chips, banners, and buttons — but destructive and info are <b style="color:var(--ink);font-weight:500;">rare by rule</b>. Max one threat chip per row, always pair info chips with motion. Destructive color is a low-chroma oxblood; informational is a desaturated slate-blue. No spectral red.</p>
+</section>
+
+<section class="sec" id="type">
+  <div class="sec-head"><span class="eb">02 · Typography</span><h2>Three Latin faces, two CJK fallbacks.</h2></div>
+  <div class="demo">
+    <span class="sub-label">Marketing scale</span>
+    <div class="type-row"><div class="k">display-xl</div><div class="v"><h3 class="display display-xl">Hero. <em>Italic.</em></h3></div></div>
+    <div class="type-row"><div class="k">display-l</div><div class="v"><h3 class="display display-l">Major heading, <em>italic phrase.</em></h3></div></div>
+    <div class="type-row"><div class="k">display-l · CJK</div><div class="v"><h3 class="display display-l">三条老路。<span class="em-zh">全都走不通。</span></h3></div></div>
+    <div class="type-row"><div class="k">display-m</div><div class="v"><h3 class="display display-m">Subordinate heading, <em>italic.</em></h3></div></div>
+    <div class="type-row"><div class="k">display-s</div><div class="v"><h3 class="display display-s">Card title, <em>italic.</em></h3></div></div>
+    <span class="sub-label">In-product scale (webclient)</span>
+    <div class="type-row"><div class="k">title-page</div><div class="v"><h3 class="title-page">Good Earth Lighting · <span class="em-zh">高优先级。</span></h3></div></div>
+    <div class="type-row"><div class="k">title-panel</div><div class="v"><h3 class="title-panel">出货历史 · <span class="em-zh">近 12 个月。</span></h3></div></div>
+    <div class="type-row"><div class="k">title-block</div><div class="v"><h4 class="title-block">供应商集中度</h4></div></div>
+    <span class="sub-label">Body, eyebrow, label</span>
+    <div class="type-row"><div class="k">body</div><div class="v">Default body copy. Geist 400 + Noto Sans SC fallback for CJK. 默认正文渲染：英文走 Geist，中文走 Noto Sans SC，跨系统一致。</div></div>
+    <div class="type-row"><div class="k">lede</div><div class="v"><p class="lede">Lede paragraph. 17px, color —mute, max 52ch width. Sits under section headings to introduce content.</p></div></div>
+    <div class="type-row"><div class="k">eyebrow</div><div class="v"><span class="eyebrow">Eyebrow goes here</span></div></div>
+    <div class="type-row"><div class="k">label</div><div class="v"><span class="label">Data column label</span></div></div>
+    <div class="type-row"><div class="k">mono inline</div><div class="v">Product ID <span class="mono" style="color:var(--deep);">PR-1047-SIL</span> · HS <span class="mono" style="color:var(--deep);">940542</span> · <span class="mono">$12.4M</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="brandmark">
+  <div class="sec-head"><span class="eb">03 · Brandmark</span><h2>The name, paired.</h2></div>
+  <div class="demo">
+    <a href="#" class="brandmark">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M2 20 C 8 10, 14 10, 16 16 C 18 22, 24 22, 30 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" style="color:var(--deep)"/>
+          <path d="M2 24 C 8 16, 14 16, 16 22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" style="color:var(--accent);opacity:.75"/>
+        </svg>
+      </span>
+      <span class="wordmark">Prelude</span>
+      <span class="zh">璞序</span>
+    </a>
+    <p style="margin:24px 0 0;font-size:13px;color:var(--mute);max-width:60ch;">Icon slot + wordmark in Instrument Serif + 璞序 separated by a vertical rule. 璞序 is never subordinate. Icon may be omitted; wordmark + Chinese name is the minimum viable brandmark.</p>
+  </div>
+</section>
+
+<section class="sec" id="heading">
+  <div class="sec-head"><span class="eb">04 · Eyebrow + heading</span><h2>Every section opens this way.</h2></div>
+  <div class="demo sh-demo">
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:end;">
+      <div>
+        <span class="eyebrow">How it works</span>
+        <h2 class="display display-l">From data to deal<br>in <em>three steps.</em></h2>
+      </div>
+      <p class="lede">Prelude pulls public US customs filings, enriches them with decision-maker contact data, and writes the first email for you. The factory does the selling; we do everything before the handshake.</p>
+    </div>
+  </div>
+  <div class="demo">
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:end;">
+      <div>
+        <span class="eyebrow">产品流程</span>
+        <h2 class="display display-l">从数据到成交，<br><span class="em-zh">三步搞定。</span></h2>
+      </div>
+      <p class="lede">Prelude 拉取美国海关公开报关数据，匹配决策人联系方式，再为您写好第一封英文开发信。工厂负责销售，握手前的一切由我们完成。</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="buttons">
+  <div class="sec-head"><span class="eb">05 · Buttons</span><h2>Three variants, three sizes.</h2></div>
+  <div class="demo">
+    <span class="sub-label">Default size</span>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary action <span class="arrow">→</span></button>
+      <button class="btn btn-secondary">Secondary action</button>
+      <button class="btn btn-ghost">Ghost action</button>
+    </div>
+    <span class="sub-label">Large (btn-lg)</span>
+    <div class="btn-row">
+      <button class="btn btn-primary btn-lg">Get the report <span class="arrow">→</span></button>
+      <button class="btn btn-secondary btn-lg">How it works</button>
+    </div>
+    <span class="sub-label">Small (btn-sm)</span>
+    <div class="btn-row">
+      <button class="btn btn-primary btn-sm">Save</button>
+      <button class="btn btn-secondary btn-sm">Cancel</button>
+      <button class="btn btn-ghost btn-sm">Skip</button>
+    </div>
+    <span class="sub-label">Icon-only (webclient)</span>
+    <div class="btn-row">
+      <button class="btn-icon" title="filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+      <button class="btn-icon" title="more"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+      <button class="btn-icon ghost" title="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+      <button class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cards">
+  <div class="sec-head"><span class="eb">06 · Cards</span><h2>Interactive (marketing) and static (webclient).</h2></div>
+  <div class="card-grid">
+    <div class="card"><div class="chan"><span class="num">01</span> Canton Fair</div><h3>Fly to Guangzhou. Rent a booth. Hand out 500 cards. Wait.</h3><div class="verdict">Conversion rate <em>hope.</em></div></div>
+    <div class="card"><div class="chan"><span class="num">02</span> Alibaba</div><h3>List your products. Compete with 50 identical factories on price.</h3><div class="verdict">Race <em>to the bottom.</em></div></div>
+    <div class="card"><div class="chan"><span class="num">03</span> Trading company</div><h3>Pay 15% commission. They own the buyer relationship.</h3><div class="verdict">You never meet <em>your customer.</em></div></div>
+  </div>
+  <div class="demo" style="margin-top:32px;">
+    <span class="sub-label">card-static (webclient — no hover lift)</span>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div class="card-static"><span class="kpi-eyebrow">买家总数</span><div class="kpi-num">105</div><div class="kpi-sub">正在进口您的产品</div></div>
+      <div class="card-static tight"><span class="kpi-eyebrow">中国集中度</span><div class="kpi-num accent" style="font-size:28px;">13.8%</div></div>
+      <div class="card-static paper"><span class="kpi-eyebrow">评分</span><div class="kpi-num">84</div><div class="kpi-sub">高优先级</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="placeholder">
+  <div class="sec-head"><span class="eb">07 · Placeholder</span><h2>For things not yet built.</h2></div>
+  <div class="demo">
+    <div class="ph"><div class="ph-label"><b>What goes here</b> · short description of the content that will replace this placeholder</div></div>
+    <p style="margin:20px 0 0;font-size:13px;color:var(--mute);">Use when you genuinely can't show the real artifact yet. If you can build a real-looking version (report page, email, dashboard view), always do that instead.</p>
+  </div>
+</section>
+
+<section class="sec" id="chip">
+  <div class="sec-head"><span class="eb">08 · Verified chip</span><h2>Trust signal pill.</h2></div>
+  <div class="demo">
+    <div class="chip-row">
+      <span class="verified-chip">Verified</span>
+      <span class="verified-chip">FDA certified</span>
+      <span class="verified-chip">Export-ready</span>
+      <span class="verified-chip">Direct contact</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="table-mkt">
+  <div class="sec-head"><span class="eb">09 · Marketing data table</span><h2>For reports and public surfaces.</h2></div>
+  <div class="demo">
+    <div class="dtbl-wrap">
+      <div class="dtbl">
+        <div class="row h"><div>#</div><div>Buyer · City</div><div>Volume, USD</div><div>Score</div></div>
+        <div class="row"><div class="rank">01</div><div><div class="buyer">Williams-Sonoma</div><div class="city">San Francisco, CA</div></div><div class="vol">$12.4M</div><div class="score"><span class="dot"></span>94</div></div>
+        <div class="row"><div class="rank">02</div><div><div class="buyer">Sur La Table</div><div class="city">Seattle, WA</div></div><div class="vol">$9.8M</div><div class="score"><span class="dot"></span>91</div></div>
+        <div class="row"><div class="rank">03</div><div><div class="buyer">Crate &amp; Barrel</div><div class="city">Northbrook, IL</div></div><div class="vol">$7.6M</div><div class="score"><span class="dot"></span>88</div></div>
+        <div class="row"><div class="rank">04</div><div><div class="buyer">Food52</div><div class="city">Brooklyn, NY</div></div><div class="vol">$4.2M</div><div class="score med"><span class="dot"></span>78</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="dark">
+  <div class="sec-head"><span class="eb">10 · Dark surface</span><h2>Inverse contrast, with glow.</h2></div>
+  <div class="demo" style="padding:0;border:0;background:transparent;">
+    <div class="dark-surface" style="max-width:480px;">
+      <span class="eyebrow">Prelude · Full plan</span>
+      <div class="price">¥8,999<small>/ quarter</small></div>
+      <p>Billed quarterly in RMB. No setup fee. Cancel any time.</p>
+      <a href="#" class="btn-light">Get started <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec" id="chips">
+  <div class="sec-head"><span class="eb">11 · State chips</span><h2>Four-tier signal, <span class="em-zh">sparingly used.</span></h2></div>
+  <div class="demo">
+    <span class="sub-label">Latin · default mono</span>
+    <div class="chip-row">
+      <span class="chip chip-neutral">NEW</span>
+      <span class="chip chip-accent"><span class="dot"></span>QUOTING</span>
+      <span class="chip chip-gold">REPLY NOW</span>
+      <span class="chip chip-threat">BOUNCED</span>
+      <span class="chip chip-info"><span class="dot"></span>SYNCING</span>
+      <span class="chip chip-outline">DRAFT</span>
+      <span class="chip chip-dark">SENT</span>
+    </div>
+    <span class="sub-label">CJK · body font, no uppercase</span>
+    <div class="chip-row">
+      <span class="chip zh chip-outline">新建</span>
+      <span class="chip zh chip-accent"><span class="dot"></span>报价中</span>
+      <span class="chip zh chip-accent">下滑中</span>
+      <span class="chip zh chip-gold">增长中</span>
+      <span class="chip zh chip-gold">立即回复</span>
+      <span class="chip zh chip-threat">退回</span>
+      <span class="chip zh chip-info"><span class="dot"></span>同步中</span>
+      <span class="chip zh chip-neutral"><span class="dot" style="background:var(--accent);"></span>多次查看</span>
+      <span class="chip zh chip-dark">已发送</span>
+    </div>
+    <p style="font-size:13px;color:var(--mute);margin:16px 0 0;line-height:1.55;max-width:62ch;">增长中 (competitor gaining = threat) goes gold. 下滑中 (competitor losing share = opportunity for the user) goes accent. The remapping inverts the "red = bad" reflex but matches the user's actual interest.</p>
+    <p style="font-size:13px;color:var(--mute);margin:10px 0 0;line-height:1.55;max-width:62ch;"><b style="color:var(--ink);font-weight:500;">Rules for the new tiers.</b> <code class="mono" style="font-size:11.5px;color:var(--deep);">chip-threat</code> is for <em style="color:var(--ink);font-style:italic;">terminal failure</em> row states only — bounced email, revoked access, failed payment. One per row, max. Never for "needs attention" (use gold) or stale data (use gold). <code class="mono" style="font-size:11.5px;color:var(--deep);">chip-info</code> is for <em style="color:var(--ink);font-style:italic;">in-progress system work</em> — syncing, indexing, processing. Always pair with a dot or spinner to signal motion. Never for static informational states.</p>
+  </div>
+</section>
+
+<section class="sec" id="tags">
+  <div class="sec-head"><span class="eb">12 · Tags</span><h2>Softer than chip.</h2></div>
+  <div class="demo">
+    <span class="sub-label">Category, HS, logistics</span>
+    <div class="chip-row">
+      <span class="tag">Lighting Fixtures</span>
+      <span class="tag mono">940542</span>
+      <span class="tag mono">392690</span>
+      <span class="tag outline">Evergreen International Ltd</span>
+      <span class="tag outline">+45</span>
+    </div>
+    <span class="sub-label">Removable (recipients, selections)</span>
+    <div class="chip-row">
+      <span class="tag outline">Ei Sprking Inc <button class="tag-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
+      <span class="tag outline">Ettika <button class="tag-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
+      <span class="tag outline">Qualex Mtm Sales <button class="tag-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="forms">
+  <div class="sec-head"><span class="eb">13 · Form elements</span><h2>Inputs, kit-radiused.</h2></div>
+  <div class="demo">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;">
+      <div class="field"><label class="field-label">产品名称</label><input class="input" placeholder="例：硅胶厨具" value="Lighting fixtures"></div>
+      <div class="field"><label class="field-label">FOB 价格（USD）</label><input class="input" placeholder="5.00"><span class="field-hint">每单位美元，出厂离岸价</span></div>
+      <div class="field"><label class="field-label">最小起订量</label><input class="input readonly" value="100" readonly></div>
+      <div class="field"><label class="field-label">类别</label><div class="select-wrap"><select class="select"><option>厨具 · 硅胶</option><option>照明 · 灯具</option><option>家居 · 摆件</option></select><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div></div>
+      <div class="field" style="grid-column:1 / -1;"><label class="field-label">搜索买家</label><div class="input-search"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="input" placeholder="按公司名、地址、邮箱搜索…"></div></div>
+      <div class="field" style="grid-column:1 / -1;"><label class="field-label">认证资质</label><div class="tag-input"><span class="tag mono">ISO 9001:2015</span><span class="tag mono">FDA 21 CFR 177.2600</span><span class="tag mono">LFGB §30 / §31</span><input placeholder="输入认证名称，按回车添加"></div></div>
+      <div class="field" style="grid-column:1 / -1;"><label class="field-label">邮件背景</label><textarea class="textarea" placeholder="添加具体细节、讨论话题或任何 AI 需要的背景信息…"></textarea><span class="field-hint">背景信息将帮助生成更个性化的邮件</span></div>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Checkbox</span>
+    <div class="btn-row">
+      <label class="btn-row" style="cursor:pointer;gap:6px;"><span class="checkbox on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span style="font-size:13px;">选择此行</span></label>
+      <label class="btn-row" style="cursor:pointer;gap:6px;"><span class="checkbox"></span><span style="font-size:13px;color:var(--mute);">未选中</span></label>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="toolbar">
+  <div class="sec-head"><span class="eb">14 · Toolbar</span><h2>What sits above every table.</h2></div>
+  <div class="demo">
+    <div class="toolbar">
+      <button class="btn btn-primary btn-sm">+ 管理买家 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <div class="input-search grow"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="input" placeholder="搜索买家…"></div>
+      <button class="btn btn-secondary btn-sm">4 列 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <button class="btn btn-secondary btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>筛选</button>
+      <button class="btn-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tables">
+  <div class="sec-head"><span class="eb">15 · Webclient tables</span><h2>Three densities, score-reason on every row.</h2></div>
+  <span class="sub-label">Default density (44px) · buyers list</span>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr>
+        <th style="width:32px;"><span class="checkbox"></span></th>
+        <th>公司</th><th class="num">货量</th><th class="num">供应商</th><th>最近出货</th><th class="num">趋势</th><th class="num">评分</th><th>状态</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="checkbox"></span></td><td><div class="cell-2"><span class="p1">Ei Sprking Inc</span><span class="p2">Denver, CO · greg.forrest@…</span></div></td><td class="num">~0 个集装箱</td><td class="num">26</td><td><span class="date-cell warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>73 天前</span></td><td class="num"><span class="trend up">↗ +127%</span></td><td><div class="cell-score"><span class="n">95</span><span class="why zh">复购窗口开启·增长强劲</span></div></td><td><span class="chip zh chip-outline">新建</span></td></tr>
+        <tr><td><span class="checkbox"></span></td><td><div class="cell-2"><span class="p1">Qualex Mtm Sales</span><span class="p2">Vernon, CA · acaceres@…</span></div></td><td class="num">~0 个集装箱</td><td class="num">2</td><td><span class="date-cell warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>73 天前</span></td><td class="num"><span class="trend up">↗ +236%</span></td><td><div class="cell-score"><span class="n">83</span><span class="why zh">补货窗口临近·集中度高</span></div></td><td><span class="chip zh chip-outline">新建</span></td></tr>
+        <tr><td><span class="checkbox"></span></td><td><div class="cell-2"><span class="p1">Progress Lighting Inc</span><span class="p2">Greenville, SC</span></div></td><td class="num">~316 个集装箱</td><td class="num">22</td><td><span class="date-cell">41 天前</span></td><td class="num"><span class="trend up">↗ +433%</span></td><td><div class="cell-score"><span class="n med">63</span><span class="why zh">进口暴增·采购活跃</span></div></td><td><span class="chip zh chip-outline">新建</span></td></tr>
+        <tr><td><span class="checkbox"></span></td><td><div class="cell-2"><span class="p1">Hepburn Llc</span><span class="p2">Brooklyn, NY</span></div></td><td class="num">~2 个集装箱</td><td class="num">6</td><td><span class="date-cell">45 天前</span></td><td class="num"><span class="trend down">↘ −18%</span></td><td><div class="cell-score"><span class="n med">58</span><span class="why zh">采购周期长·需长线养</span></div></td><td><span class="chip zh chip-outline">新建</span></td></tr>
+        <tr><td><span class="checkbox"></span></td><td><div class="cell-2"><span class="p1">Revel Home</span><span class="p2">Chino, CA · benjamin@revelhome.io</span></div></td><td class="num">~38 个集装箱</td><td class="num">5</td><td style="color:var(--mute);">—</td><td class="num"><span class="trend down">↘ −70%</span></td><td><div class="cell-score"><span class="n low">67</span><span class="why zh">进口量显著下滑·需求疑问</span></div></td><td><span class="chip zh chip-outline">新建</span></td></tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span class="count">显示第 1–25 条，共 105 条买家</span>
+      <div class="pagination-ctrl">
+        <button disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <span class="count">第 1 页，共 5 页</span>
+        <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <span class="sub-label" style="display:block;margin-top:28px;">Tight density (36px) · shipment records with truncation</span>
+  <div class="tbl-wrap">
+    <table class="tbl tight">
+      <thead><tr><th>日期</th><th>产品描述</th><th class="num">HS 编码</th><th class="num">数量</th><th class="num">重量 (KG)</th><th>发货方</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">2026-02-17</td><td><span class="truncate" title="Led Closet Tap Light Remote White Rgbw Led Battery Operated Magnetic Tap Puck Light Remote">Led Closet Tap Light Remote White Rgbw Led Battery Operated Magnetic Tap Puck…</span></td><td class="num">940542</td><td class="num">8,215 CTN</td><td class="num">33,182</td><td>Meko Intelligent Camb…</td></tr>
+        <tr><td class="mono">2026-01-29</td><td><span class="truncate">Electrical Lighting Fittings Manhattan Led Linear Belmont Led Linear Lfc Lowes Lfc Majestic Wrap</span></td><td class="num">940511</td><td class="num">3,417 PCS</td><td class="num">26,953</td><td>Am Lighting Pvt Ltd</td></tr>
+        <tr><td class="mono">2026-01-25</td><td><span class="truncate">Lighting Fixtures Solid Wood Material Ship Ryder Warehouse High Grove Naperville Usa</span></td><td class="num">940360</td><td class="num">4,313 CTN</td><td class="num">10,447</td><td>Ampco Technologies L…</td></tr>
+        <tr><td class="mono">2026-01-23</td><td><span class="truncate">Gel Hyper Bright Led Motion Security Bronze Gel Flood Light White Gel Small Nighthawk</span></td><td class="num">102542</td><td class="num">6,238 CTN</td><td class="num">35,897</td><td>Meko Intelligent Camb…</td></tr>
+        <tr><td class="mono">2026-01-10</td><td><span class="truncate">Gel Hyper Bright Led Motion Security Bronze Gel Small Nighthawk Security Light Wht</span></td><td class="num">940542</td><td class="num">4,790 CTN</td><td class="num">23,052</td><td>Meko Intelligent Camb…</td></tr>
+        <tr><td class="mono">2026-01-03</td><td>Led Light</td><td class="num">940542</td><td class="num">1,326 PKG</td><td class="num">8,354</td><td>Viet Nam Top Optoele…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="sub-label" style="display:block;margin-top:28px;">Comfy density (52px) · leads with state and signal chips</span>
+  <div class="tbl-wrap">
+    <table class="tbl comfy">
+      <thead><tr>
+        <th style="width:32px;"><span class="checkbox"></span></th>
+        <th>公司</th><th>联系人</th><th>邮箱</th><th>信号</th><th>阶段</th><th>最近活动</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="checkbox"></span></td><td style="font-weight:500;color:var(--accent);">Just Normlicht</td><td>Sandra</td><td class="mono" style="font-size:11.5px;">xuehuaxia4@gmail.com</td><td><span class="chip zh chip-gold">立即回复</span></td><td><span class="chip zh chip-accent"><span class="dot"></span>报价中</span></td><td class="mono" style="font-size:11.5px;color:var(--mute);">4 天前</td></tr>
+        <tr><td><span class="checkbox"></span></td><td style="font-weight:500;color:var(--accent);">Masterpiece Inter</td><td>Danette Mersky</td><td class="mono" style="font-size:11.5px;">dmersky@masterpieceintl.com</td><td style="color:var(--mute);">—</td><td><span class="chip zh chip-neutral">新线索</span></td><td style="color:var(--mute);">—</td></tr>
+        <tr><td><span class="checkbox"></span></td><td style="font-weight:500;color:var(--accent);">Touchstone Accent Lighting</td><td>Mark</td><td class="mono" style="font-size:11.5px;">markmoelter@touchstonelights.com</td><td><span class="chip zh chip-neutral"><span class="dot" style="background:var(--accent);"></span>多次查看</span></td><td><span class="chip zh chip-neutral">新线索</span></td><td style="color:var(--mute);">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section class="sec" id="kpi">
+  <div class="sec-head"><span class="eb">16 · KPI cards</span><h2>Numbers, <em>in Instrument Serif.</em></h2></div>
+  <div class="demo">
+    <span class="sub-label">Standard · page-top KPI strip</span>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div class="card-static kpi"><span class="kpi-eyebrow">买家总数</span><div class="kpi-num">105</div><div class="kpi-sub">正在进口您的产品</div></div>
+      <div class="card-static kpi"><span class="kpi-eyebrow">高意向买家</span><div class="kpi-num accent">3</div><div class="kpi-sub">评分 80+</div></div>
+      <div class="card-static kpi"><span class="kpi-eyebrow">市场货量</span><div class="kpi-num">18,577</div><div class="kpi-sub">匹配出货量</div></div>
+      <div class="card-static kpi"><span class="kpi-eyebrow">复购窗口</span><div class="kpi-num">11</div><div class="kpi-sub">买家可能正在复购</div></div>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Lite · nested inside drawer overview</span>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div class="card-static tight kpi lite"><span class="kpi-eyebrow">当前供应商</span><div class="kpi-num">15</div></div>
+      <div class="card-static tight kpi lite"><span class="kpi-eyebrow">天前上次进口</span><div class="kpi-num">63</div></div>
+      <div class="card-static tight kpi lite"><span class="kpi-eyebrow">中国集中度</span><div class="kpi-num accent">13.8%</div></div>
+      <div class="card-static tight kpi lite"><span class="kpi-eyebrow">12 月增长</span><div class="kpi-num gold">−43.3%</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="banners">
+  <div class="sec-head"><span class="eb">17 · Banners</span><h2>The page's <em>voice-over.</em></h2></div>
+  <div class="demo">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="banner banner-ai"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7L21 11l-6.6 2.4L12 21l-2.4-7.6L3 11l6.6-2z"/></svg></span><div class="body"><b>智能分析</b> · 该买家 12 个月进口量降 43.3%，但中国主供应商订单从 37 降至 13，<span class="em-zh">切入时机好。</span></div></div>
+      <div class="banner banner-warn"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div class="body"><b>World Brite International</b> 出货量同比下降 100%。他们的客户可能正在寻找新供应商。</div><button class="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+      <div class="banner banner-success"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div class="body"><b>发送成功</b> · 3 封邮件已进入发送队列，预计 24 小时内完成投递。</div></div>
+      <div class="banner banner-threat"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span><div class="body"><b>Payment failed · Masterpiece Intl.</b> Invoice #4821 (USD 12,400) was declined 2d ago. Retry or contact buyer.</div></div>
+      <div class="banner banner-info"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span><div class="body"><b>Syncing 432 buyers from HS code 9405.</b> This usually takes 2–3 minutes. You can keep working.</div></div>
+      <div class="banner banner-footnote"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span><div class="body">数据源 · 美国海关 (CBP) 公开报关记录，每 24 小时更新一次。</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--mute);margin:20px 0 0;line-height:1.55;max-width:66ch;"><code class="mono" style="font-size:11.5px;color:var(--deep);">banner-ai</code> gold smart-note · <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-warn</code> stale/urgent · <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-success</code> accent confirmation · <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-threat</code> destructive/failed · <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-info</code> system messages (syncing, updates) · <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-footnote</code> quiet data-source footnote (the old neutral <code class="mono" style="font-size:11.5px;color:var(--deep);">banner-info</code>, renamed in v2026.07).</p>
+  </div>
+</section>
+
+<section class="sec" id="tabs">
+  <div class="sec-head"><span class="eb">18 · Tabs &amp; toggles</span><h2>Underline, segment, pills.</h2></div>
+  <div class="demo">
+    <span class="sub-label">Tabs · drawer header</span>
+    <div class="tabs">
+      <button class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg>概览</button>
+      <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14"/><path d="M2 10h20"/></svg>发货记录</button>
+      <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16"/><path d="M2 6l10 7 10-7"/></svg>外联</button>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Segmented toggle · 我的邮件 / 买家预览</span>
+    <div class="btn-row">
+      <div class="segment">
+        <button class="on">我的邮件（中文）</button>
+        <button>买家预览</button>
+      </div>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Filter pills · timeline filters</span>
+    <div class="pills">
+      <button class="pill on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>全部</button>
+      <button class="pill">沟通记录</button>
+      <button class="pill">备注</button>
+      <button class="pill">我的活动</button>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Sample-status pill group · pick-one</span>
+    <div class="pill-group">
+      <button class="pill-choice on">样品已就绪</button>
+      <button class="pill-choice">制作中</button>
+      <button class="pill-choice">免费寄样</button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="approval">
+  <div class="sec-head"><span class="eb">19 · Approval chips</span><h2>Per-recipient state, <em>bulk compose.</em></h2></div>
+  <div class="demo">
+    <span class="sub-label">2/3 已批准</span>
+    <div class="chip-row">
+      <div class="approval on"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="lbl">Revel Home</span></div>
+      <div class="approval on"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="lbl">Raz Import Inc</span></div>
+      <div class="approval"><span class="tick"></span><span class="lbl">Good Earth Lighting</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="person">
+  <div class="sec-head"><span class="eb">20 · Avatar &amp; person</span><h2>Initials, deep on bone.</h2></div>
+  <div class="demo">
+    <span class="sub-label">Sizes</span>
+    <div class="btn-row">
+      <span class="avatar sm">B</span>
+      <span class="avatar">BM</span>
+      <span class="avatar lg">BM</span>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Person block</span>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="person"><span class="avatar lg">GF</span><div class="meta"><span class="nm">Gregory Forrest</span><span class="ro">Vice President, Sales · Good Earth Lighting</span></div></div>
+      <div class="person"><span class="avatar">BW</span><div class="meta"><span class="nm">Bohan Wu</span><span class="ro">Sales Rep · bohan@preludeos.com</span></div></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec" id="shell">
+  <div class="sec-head"><span class="eb">21 · Sidebar shell</span><h2>The frame around <em>every view.</em></h2></div>
+  <div class="demo flush">
+    <div class="shell">
+      <aside class="shell-nav">
+        <div class="shell-top">
+          <a href="#" class="brandmark sm">
+            <span class="mark"><svg viewBox="0 0 32 32" fill="none"><path d="M2 20 C 8 10, 14 10, 16 16 C 18 22, 24 22, 30 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" style="color:var(--deep)"/><path d="M2 24 C 8 16, 14 16, 16 22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" style="color:var(--accent);opacity:.75"/></svg></span>
+            <span class="wordmark">Prelude</span>
+            <span class="zh">璞序</span>
+          </a>
+          <div class="tools">
+            <button class="btn-icon ghost sm" title="通知"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+            <button class="btn-icon ghost sm" title="折叠"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
+          </div>
+        </div>
+        <div class="nav-label">市场</div>
+        <div class="nav-item on">买家</div>
+        <div class="nav-item">竞争对手</div>
+        <div class="nav-label">商机</div>
+        <div class="nav-item">我的线索</div>
+        <div class="nav-item">Storefront · 店铺</div>
+        <div style="height:12px;"></div>
+        <div class="nav-item">邮件推广</div>
+        <div class="nav-item">设置 <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></div>
+        <div class="shell-foot">
+          <span class="avatar sm">B</span>
+          <span class="name">Benjamin Ma…</span>
+          <button class="lang-toggle">中</button>
+          <button class="btn-icon ghost sm" title="退出"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+        </div>
+      </aside>
+      <div class="shell-canvas">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">
+          <div class="card-static kpi tight"><span class="kpi-eyebrow">买家总数</span><div class="kpi-num" style="font-size:32px;">105</div></div>
+          <div class="card-static kpi tight"><span class="kpi-eyebrow">高意向</span><div class="kpi-num accent" style="font-size:32px;">3</div></div>
+          <div class="card-static kpi tight"><span class="kpi-eyebrow">市场货量</span><div class="kpi-num" style="font-size:32px;">18,577</div></div>
+          <div class="card-static kpi tight"><span class="kpi-eyebrow">复购窗口</span><div class="kpi-num" style="font-size:32px;">11</div></div>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-primary btn-sm">+ 管理买家</button>
+          <div class="input-search grow"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="input" placeholder="搜索买家…"></div>
+          <button class="btn btn-secondary btn-sm">筛选</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="drawer">
+  <div class="sec-head"><span class="eb">22 · Drawer / modal</span><h2>Detail surface, <em>with an action floor.</em></h2></div>
+  <div class="demo flush">
+    <div class="drawer">
+      <div class="drawer-hd">
+        <h2 class="drawer-title">Good Earth Lighting · <span class="em-zh">高优先级。</span></h2>
+        <button class="drawer-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="drawer-sub">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Mount Prospect, IL</span>
+        <span><b>评分</b> 84</span>
+        <span><b>专业化</b> 82.15%</span>
+        <span><b>更新于</b> <span class="mono">Apr 1</span></span>
+      </div>
+      <div class="drawer-tabs">
+        <div class="tabs">
+          <button class="tab on">概览</button>
+          <button class="tab">发货记录</button>
+          <button class="tab">外联</button>
+        </div>
+      </div>
+      <div class="drawer-body">
+        <div class="banner banner-ai" style="margin-bottom:24px;">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7L21 11l-6.6 2.4L12 21l-2.4-7.6L3 11l6.6-2z"/></svg></span>
+          <div class="body"><b>智能分析</b> · 该买家 12 个月进口量降 43.3%，但中国主供应商订单从 37 降至 13，<span class="em-zh">切入时机好。</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+          <div class="card-static tight kpi lite"><span class="kpi-eyebrow">当前供应商</span><div class="kpi-num">15</div></div>
+          <div class="card-static tight kpi lite"><span class="kpi-eyebrow">天前上次进口</span><div class="kpi-num">63</div></div>
+          <div class="card-static tight kpi lite"><span class="kpi-eyebrow">中国集中度</span><div class="kpi-num accent">13.8%</div></div>
+          <div class="card-static tight kpi lite"><span class="kpi-eyebrow">12 月增长</span><div class="kpi-num gold">−43.3%</div></div>
+        </div>
+        <h4 class="title-block" style="margin-bottom:12px;">供应商集中度</h4>
+        <div class="share-list">
+          <div class="share-row"><span class="name" style="font-weight:500;">Ampco Technologies</span><div class="bar"><div class="fill" style="width:41.92%;"></div></div><span class="pct">41.92%</span></div>
+          <div class="share-row"><span class="name mute">Ningbo Yito Optoelectronic</span><div class="bar"><div class="fill mute" style="width:8.84%;"></div></div><span class="pct">8.84%</span></div>
+          <div class="share-row"><span class="name mute">Viet Nam Top Optoelectronics</span><div class="bar"><div class="fill mute" style="width:7.63%;"></div></div><span class="pct">7.63%</span></div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <div class="left"><button class="btn btn-ghost btn-sm">取消</button></div>
+        <div class="right">
+          <button class="btn btn-secondary btn-sm">定时发送</button>
+          <button class="btn btn-primary btn-sm">发送邮件</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="charts">
+  <div class="sec-head"><span class="eb">23 · Charts</span><h2>Paper charts, <em>not dashboards.</em></h2></div>
+  <div class="demo">
+    <span class="sub-label">Supplier share · horizontal bars</span>
+    <div class="share-list">
+      <div class="share-row"><span class="name" style="font-weight:500;">Ampco Technologies</span><div class="bar"><div class="fill" style="width:41.92%;"></div></div><span class="pct">41.92%</span></div>
+      <div class="share-row"><span class="name mute">Ningbo Yito Optoelectronic</span><div class="bar"><div class="fill mute" style="width:8.84%;"></div></div><span class="pct">8.84%</span></div>
+      <div class="share-row"><span class="name mute">Viet Nam Top Optoelectronics</span><div class="bar"><div class="fill mute" style="width:7.63%;"></div></div><span class="pct">7.63%</span></div>
+      <div class="share-row"><span class="name mute">Lian Tech</span><div class="bar"><div class="fill mute" style="width:6.65%;"></div></div><span class="pct">6.65%</span></div>
+      <div class="share-row"><span class="name mute">Shinelong Technology</span><div class="bar"><div class="fill mute" style="width:4.53%;"></div></div><span class="pct">4.53%</span></div>
+    </div>
+
+    <span class="sub-label" style="margin-top:28px;">Stacked column chart · CN vs other</span>
+    <div class="bars">
+      <div class="bar-col"><div class="fg" style="height:18%;"></div><div class="bg" style="height:6%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:22%;"></div><div class="bg" style="height:12%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:35%;"></div><div class="bg" style="height:18%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:52%;"></div><div class="bg" style="height:28%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:44%;"></div><div class="bg" style="height:20%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:62%;"></div><div class="bg" style="height:24%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:48%;"></div><div class="bg" style="height:28%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:38%;"></div><div class="bg" style="height:30%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:30%;"></div><div class="bg" style="height:22%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:22%;"></div><div class="bg" style="height:35%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:16%;"></div><div class="bg" style="height:28%;"></div></div>
+      <div class="bar-col"><div class="fg" style="height:12%;"></div><div class="bg" style="height:22%;"></div></div>
+    </div>
+    <div class="bar-axis"><div>May</div><div>Jun</div><div>Jul</div><div>Aug</div><div>Sep</div><div>Oct</div><div>Nov</div><div>Dec</div><div>Jan</div><div>Feb</div><div>Mar</div><div>Apr</div></div>
+    <div class="btn-row" style="margin-top:14px;">
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;background:var(--accent);border-radius:2px;"></span><span class="mono" style="font-size:10.5px;letter-spacing:0.04em;color:var(--mute);">中国</span></span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;background:var(--fog);border-radius:2px;"></span><span class="mono" style="font-size:10.5px;letter-spacing:0.04em;color:var(--mute);">其他</span></span>
+    </div>
+
+    <span class="sub-label" style="margin-top:28px;">Line chart · 12-month shipment history</span>
+    <div class="line-chart">
+      <svg viewBox="0 0 600 150" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lc-fill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="oklch(0.18 0.02 265)" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="oklch(0.18 0.02 265)" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M 0 120 L 50 115 L 100 110 L 150 100 L 200 40 L 250 65 L 300 75 L 350 85 L 400 85 L 450 55 L 500 75 L 550 130 L 600 130 L 600 150 L 0 150 Z" fill="url(#lc-fill)"/>
+        <path d="M 0 120 L 50 115 L 100 110 L 150 100 L 200 40 L 250 65 L 300 75 L 350 85 L 400 85 L 450 55 L 500 75 L 550 130 L 600 130" fill="none" stroke="oklch(0.18 0.02 265)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g fill="oklch(0.18 0.02 265)">
+          <circle cx="0" cy="120" r="2"/><circle cx="50" cy="115" r="2"/><circle cx="100" cy="110" r="2"/>
+          <circle cx="150" cy="100" r="2"/><circle cx="200" cy="40" r="2"/><circle cx="250" cy="65" r="2"/>
+          <circle cx="300" cy="75" r="2"/><circle cx="350" cy="85" r="2"/><circle cx="400" cy="85" r="2"/>
+          <circle cx="450" cy="55" r="2"/><circle cx="500" cy="75" r="2"/><circle cx="550" cy="130" r="2"/>
+        </g>
+      </svg>
+    </div>
+
+    <span class="sub-label" style="margin-top:28px;">Sparkline rail · email campaign progress</span>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:360px;">
+      <div style="display:flex;align-items:center;gap:8px;"><span style="flex:1;"><span class="spark-rail"><span class="fill" style="width:85%;"></span></span></span><span class="mono" style="font-size:11px;color:var(--mute);width:42px;text-align:right;">85%</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="flex:1;"><span class="spark-rail"><span class="fill mute" style="width:28%;"></span></span></span><span class="mono" style="font-size:11px;color:var(--mute);width:42px;text-align:right;">28%</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="flex:1;"><span class="spark-rail"><span class="fill" style="width:12%;"></span></span></span><span class="mono" style="font-size:11px;color:var(--mute);width:42px;text-align:right;">12%</span></div>
+    </div>
+
+    <span class="sub-label" style="margin-top:28px;">Threat meter · competitor detail</span>
+    <div class="meter">
+      <span class="mono" style="font-size:11px;color:var(--mute);letter-spacing:0.06em;text-transform:uppercase;">Threat</span>
+      <div class="meter-bar"><div class="meter-fill" style="width:58%;"></div></div>
+      <span class="val">58</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="states">
+  <div class="sec-head"><span class="eb">24 · Empty state &amp; skeleton</span><h2>Quiet, <em>no illustrations.</em></h2></div>
+  <div class="demo">
+    <span class="sub-label">Empty state</span>
+    <div class="empty">暂无活动 · 线索互动记录将显示在这里</div>
+    <span class="sub-label" style="margin-top:24px;">Skeleton rows · loading</span>
+    <div class="tbl-wrap">
+      <div class="skeleton-row"><span class="skel" style="width:14px;"></span><span class="skel" style="width:70%;"></span><span class="skel" style="width:80%;"></span><span class="skel" style="width:60%;"></span><span class="skel" style="width:50%;"></span></div>
+      <div class="skeleton-row"><span class="skel" style="width:14px;"></span><span class="skel" style="width:60%;"></span><span class="skel" style="width:70%;"></span><span class="skel" style="width:80%;"></span><span class="skel" style="width:40%;"></span></div>
+      <div class="skeleton-row"><span class="skel" style="width:14px;"></span><span class="skel" style="width:75%;"></span><span class="skel" style="width:65%;"></span><span class="skel" style="width:70%;"></span><span class="skel" style="width:55%;"></span></div>
+      <div class="skeleton-row"><span class="skel" style="width:14px;"></span><span class="skel" style="width:55%;"></span><span class="skel" style="width:75%;"></span><span class="skel" style="width:60%;"></span><span class="skel" style="width:45%;"></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="misc">
+  <div class="sec-head"><span class="eb">25 · Misc</span><h2>The <em>small things.</em></h2></div>
+  <div class="demo">
+    <span class="sub-label">Keyboard shortcut</span>
+    <div class="btn-row">
+      <span><span class="kbd">⌘</span> <span class="kbd">K</span> 搜索</span>
+      <span><span class="kbd">Esc</span> 关闭</span>
+    </div>
+    <span class="sub-label" style="margin-top:28px;">Tooltip</span>
+    <div class="btn-row">
+      <span class="tooltip">弱势竞争对手 · 出货量同比下滑 20%+ 的竞争对手，他们的买家流失可能成为您的机会。</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="icons">
+  <div class="sec-head"><span class="eb">26 · Icon set · Lucide</span><h2>One library, <em>nothing else.</em></h2></div>
+  <div class="demo">
+    <p style="margin:0 0 20px;font-size:13.5px;color:var(--mute);max-width:60ch;">Lucide. Reference icons by name from <span class="mono" style="color:var(--ink);">lucide.dev</span>. Default 1.5px stroke at 14-16px sizes, 2px stroke at 20-24px sizes. Sample of common ones below.</p>
+    <div class="icon-grid">
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span class="name">search</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="name">filter</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg><span class="name">chevron-d</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg><span class="name">chevron-r</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span class="name">x</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="name">check</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="name">bell</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg><span class="name">more-v</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16"/><path d="M2 6l10 7 10-7"/></svg><span class="name">mail</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><span class="name">eye</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="name">calendar</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="name">clock</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="name">alert-c</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="name">alert-tri</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="name">info</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7L21 11l-6.6 2.4L12 21l-2.4-7.6L3 11l6.6-2z"/></svg><span class="name">sparkles</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="name">map-pin</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="name">log-out</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18"/><line x1="9" y1="3" x2="9" y2="21"/></svg><span class="name">panel-l</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg><span class="name">user</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="name">send</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="name">plus</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="name">settings</span></div>
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><span class="name">package</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
