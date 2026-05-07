@@ -1,6 +1,6 @@
-# ./prelude-leadgen/Dockerfile
-# Build context: Must be run from prelude/ directory (parent)
-# Command: cd prelude && docker build -f prelude-leadgen/Dockerfile .
+# ./leadgen/Dockerfile
+# Build context: Must be run from the repo root (parent of this folder)
+# Command: docker build -f leadgen/Dockerfile .
 
 # --- Stage 1: Builder (Installs dependencies in a virtual environment) ---
 FROM python:3.12-slim AS builder
@@ -40,13 +40,13 @@ RUN apt-get update && \
 RUN python3 -m venv /opt/venv
 
 # Copy shared packages from parent context and requirements
-COPY prelude-csv /app/lead-gen-build/prelude-csv
-COPY prelude-shared /app/lead-gen-build/prelude-shared
-COPY prelude-leadgen/requirements.txt .
+COPY csv /app/lead-gen-build/csv
+COPY shared /app/lead-gen-build/shared
+COPY leadgen/requirements.txt .
 
 # Fix the relative paths in requirements.txt for Docker build context
-RUN sed -i 's|-e \.\./prelude-csv|./prelude-csv|g' requirements.txt && \
-    sed -i 's|-e \.\./prelude-shared|./prelude-shared|g' requirements.txt
+RUN sed -i 's|-e \.\./csv|./csv|g' requirements.txt && \
+    sed -i 's|-e \.\./shared|./shared|g' requirements.txt
 
 # Install dependencies (csv-mapping-lib will be found via relative path)
 RUN . /opt/venv/bin/activate && pip install --no-cache-dir -r requirements.txt
@@ -97,7 +97,7 @@ USER appuser
 WORKDIR /app/lead_gen
 
 # Copy the application source code
-COPY prelude-leadgen/ .
+COPY leadgen/ .
 
 # --- Set PATH to include the virtual environment's bin directory ---
 ENV PATH="/opt/venv/bin:$PATH"

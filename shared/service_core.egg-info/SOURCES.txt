@@ -33,6 +33,7 @@ service_core/__init__.py
 service_core/activity.py
 service_core/auth.py
 service_core/db.py
+service_core/llm_json.py
 service_core/oauth.py
 service_core/pool.py
 service_core.egg-info/PKG-INFO

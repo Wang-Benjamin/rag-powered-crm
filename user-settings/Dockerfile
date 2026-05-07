@@ -1,6 +1,6 @@
-# ./prelude-user-settings/Dockerfile
-# Build context: Must be run from prelude/ directory (parent)
-# Command: cd prelude && docker build -f prelude-user-settings/Dockerfile .
+# ./user-settings/Dockerfile
+# Build context: Must be run from the repo root (parent of this folder)
+# Command: docker build -f user-settings/Dockerfile .
 
 # --- Stage 1: Builder (Installs dependencies in a virtual environment) ---
 FROM python:3.12-slim AS builder
@@ -20,11 +20,11 @@ RUN apt-get update && \
 RUN python3 -m venv /opt/venv
 
 # Copy shared packages from parent context and requirements
-COPY prelude-shared /app/build/prelude-shared
-COPY prelude-user-settings/requirements.txt .
+COPY shared /app/build/shared
+COPY user-settings/requirements.txt .
 
 # Fix the relative path in requirements.txt for Docker build context
-RUN sed -i 's|-e \.\./prelude-shared|./prelude-shared|g' requirements.txt
+RUN sed -i 's|-e \.\./shared|./shared|g' requirements.txt
 
 # Install dependencies
 RUN . /opt/venv/bin/activate && pip install --no-cache-dir -r requirements.txt
@@ -43,10 +43,10 @@ USER appuser
 COPY --from=builder /opt/venv /opt/venv
 
 # Set the final working directory for the application
-WORKDIR /app/prelude-user-settings
+WORKDIR /app/user-settings
 
 # Copy the application source code
-COPY prelude-user-settings/ .
+COPY user-settings/ .
 
 # --- Set PATH to include the virtual environment's bin directory ---
 ENV PATH="/opt/venv/bin:$PATH"

@@ -148,6 +148,6 @@ pgvector>=0.2.0
 cohere>=5.0.0
 
 # Shared packages
--e ../prelude-shared
--e ../prelude-csv
+-e ../shared
+-e ../csv
 sentry-sdk[fastapi]

@@ -18,7 +18,7 @@ google-genai>=0.3.2
 selenium>=4.0.0
 webdriver-manager>=4.0.0
 python-dotenv>=1.0.0
--e ../prelude-shared
+-e ../shared
 googlemaps>=4.10.0
 PyJWT>=2.8.0
 httpx>=0.28.1
@@ -33,5 +33,5 @@ circuitbreaker>=1.4.0
 asyncio-throttle>=1.0.2
 
 # CSV Mapping Library (shared)
--e ../prelude-csv
+-e ../csv
 sentry-sdk[fastapi]
