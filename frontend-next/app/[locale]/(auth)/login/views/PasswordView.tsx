@@ -7,7 +7,6 @@ import {
   fldLabelCls,
   primaryCtaCls,
   smallSpinnerOnDeepCls,
-  BackToMain,
   H1Title,
   ErrorBanner,
   PasswordToggle,
@@ -42,8 +41,6 @@ export default function PasswordView({
 
   return (
     <>
-      <BackToMain onBack={onBack} />
-
       <div className="mb-6">
         <H1Title />
       </div>

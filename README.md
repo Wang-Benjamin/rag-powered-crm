@@ -78,78 +78,159 @@ npm install
 
 ## 3. Environment variables
 
-Each service reads a local `.env` file (via `python-dotenv`). Create one in
-each backend folder and one (`.env.local`) in `frontend-next/`.
+Each backend service reads a local `.env` file (via `python-dotenv`); the
+frontend reads `.env.local`. Create one file in each of the four folders below
+with the contents shown — they share the **same `JWT_SECRET`** so tokens
+issued by one service validate in the others.
+
+> ⚠️ Replace every `<...>` placeholder below with your own value. Real
+> credentials must never be committed to this README — keep them only in
+> the local `.env` files (which are gitignored).
 
 ### `crm/.env`
 ```bash
-# Required
-JWT_SECRET=replace-me-with-a-long-random-string
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-
-# Database (Postgres) — required
-SESSIONS_DB_HOST=localhost
+# Database (shared GCP Postgres)
+SESSIONS_DB_HOST=<DB_HOST>
 SESSIONS_DB_PORT=5432
-SESSIONS_DB_NAME=prelude_sessions
+SESSIONS_DB_NAME=postgres
 SESSIONS_DB_USER=postgres
-SESSIONS_DB_PASSWORD=...
-MANAGEMENT_DB_HOST=localhost
+SESSIONS_DB_PASSWORD=<DB_PASSWORD>
+
+MANAGEMENT_DB_HOST=<DB_HOST>
 MANAGEMENT_DB_PORT=5432
-MANAGEMENT_DB_NAME=prelude_management
+MANAGEMENT_DB_NAME=prelude_user_analytics
 MANAGEMENT_DB_USER=postgres
-MANAGEMENT_DB_PASSWORD=...
+MANAGEMENT_DB_PASSWORD=<DB_PASSWORD>
 
-# AI providers — at least one
-OPENAI_API_KEY=sk-...
-GEMINI_API_KEY=...
-ANTHROPIC_API_KEY=...
-COHERE_API_KEY=...                   # for RAG reranking
+# Auth
+GOOGLE_CLIENT_ID=<GOOGLE_CLIENT_ID>
+GOOGLE_CLIENT_SECRET=<GOOGLE_CLIENT_SECRET>
+JWT_SECRET=<JWT_SECRET>
 
-# Optional integrations
-MICROSOFT_CLIENT_ID=
-MICROSOFT_CLIENT_SECRET=
+MICROSOFT_CLIENT_ID=<MICROSOFT_CLIENT_ID>
+MICROSOFT_CLIENT_SECRET=<MICROSOFT_CLIENT_SECRET>
 MICROSOFT_TENANT_ID=common
-SENDGRID_API_KEY=
-TRACKING_BASE_URL=http://localhost:8003
-USER_SETTINGS_URL=http://localhost:8005
 
-# Temporal (off by default — leave unset to disable workers)
-# TEMPORAL_HOST=...
-# TEMPORAL_NAMESPACE=...
-# ENABLE_TEMPORAL_SCHEDULER_WORKER=false
-# ENABLE_TEMPORAL_MASS_EMAIL_WORKER=false
+# AI providers
+GOOGLE_API_KEY=<GOOGLE_API_KEY>
+OPENAI_API_KEY=<OPENAI_API_KEY>
+ANTHROPIC_API_KEY=<ANTHROPIC_API_KEY>
+
+DEFAULT_PROVIDER=openai
+DEFAULT_OPENAI_MODEL=gpt-4o-mini
+
+# Inter-service
+USER_SETTINGS_URL=http://localhost:8005
+CRM_SERVICE_URL=http://localhost:8003
+
+# Temporal Cloud
+TEMPORAL_HOST=us-east4.gcp.api.temporal.io:7233
+TEMPORAL_NAMESPACE=<TEMPORAL_NAMESPACE>
+TEMPORAL_API_KEY=<TEMPORAL_API_KEY>
+
+SHOW_EMAIL_SYNC_LOGS=true
 ```
 
 ### `leadgen/.env`
 ```bash
-JWT_SECRET=same-as-crm
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-OPENAI_API_KEY=sk-...
-GOOGLE_MAPS_API_KEY=...
-PERPLEXITY_API_KEY=...                # optional
+DATABASE_URL=postgresql://postgres:<DB_PASSWORD_URL_ENCODED>@<DB_HOST>:5432/postgres
 
-# Redis (caching)
-REDIS_HOST=localhost
-REDIS_PORT=6379
+# Sessions DB
+SESSIONS_DB_HOST=<DB_HOST>
+SESSIONS_DB_PORT=5432
+SESSIONS_DB_USER=postgres
+SESSIONS_DB_PASSWORD=<DB_PASSWORD>
+SESSIONS_DB_NAME=postgres
 
-# Playwright (scraping) — keep headless in dev
-PLAYWRIGHT_HEADLESS=true
+# Management DB (tenant discovery)
+MANAGEMENT_DB_HOST=<DB_HOST>
+MANAGEMENT_DB_PORT=5432
+MANAGEMENT_DB_NAME=prelude_user_analytics
+MANAGEMENT_DB_USER=postgres
+MANAGEMENT_DB_PASSWORD=<DB_PASSWORD>
+
+# Auth
+GOOGLE_CLIENT_ID=<GOOGLE_CLIENT_ID>
+GOOGLE_CLIENT_SECRET=<GOOGLE_CLIENT_SECRET>
+JWT_SECRET=<JWT_SECRET>
+
+# AI / search keys
+OPENAI_API_KEY=<OPENAI_API_KEY>
+GOOGLE_API_KEY=<GOOGLE_API_KEY>
+GOOGLE_SEARCH_API_KEY=<GOOGLE_SEARCH_API_KEY>
+GOOGLE_CUSTOM_SEARCH_ENGINE_ID=<GOOGLE_CUSTOM_SEARCH_ENGINE_ID>
+GOOGLE_MAPS_API_KEY=<GOOGLE_MAPS_API_KEY>
+PERPLEXITY_API_KEY=<PERPLEXITY_API_KEY>
+APOLLO_API_KEY=<APOLLO_API_KEY>
+FIRECRAWL_API_KEY=<FIRECRAWL_API_KEY>
+IMPORTYETI_API_KEY=<IMPORTYETI_API_KEY>
+
+# Model preferences
+GPT_4O_MODEL=gpt-4o
+GPT_4O_MINI_MODEL=gpt-4o-mini
+GPT_4_1_MINI_MODEL=gpt-4.1-mini
+
+# Pool / runtime
+DB_POOL_MIN_CONN=2
+DB_POOL_MAX_CONN=10
+RATE_LIMIT_REQUESTS_PER_MINUTE=100
+MAX_SEARCH_RESULTS=100
+SEARCH_TIMEOUT=30
+LOG_LEVEL=INFO
+DEBUG=False
+RELOAD=True
+ENVIRONMENT=development
+PLAYWRIGHT_HEADLESS=True
+PLAYWRIGHT_TIMEOUT=30000
+FRONTEND_CORS_ORIGINS=http://localhost:8000
+
+# Temporal Cloud
+TEMPORAL_HOST=us-east4.gcp.api.temporal.io:7233
+TEMPORAL_NAMESPACE=<TEMPORAL_NAMESPACE>
+TEMPORAL_API_KEY=<TEMPORAL_API_KEY>
 ```
 
 ### `user-settings/.env`
 ```bash
-JWT_SECRET=same-as-crm
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-MICROSOFT_CLIENT_ID=
-MICROSOFT_CLIENT_SECRET=
-MICROSOFT_TENANT_ID=common
-OPENAI_API_KEY=sk-...
+# Databases
+DATABASE_URL=postgresql://postgres:<DB_PASSWORD>@<DB_HOST>:5432/prelude_db
+SESSIONS_DB_HOST=<DB_HOST>
+SESSIONS_DB_PORT=5432
+SESSIONS_DB_USER=postgres
+SESSIONS_DB_PASSWORD=<DB_PASSWORD>
+SESSIONS_DB_NAME=prelude_user_analytics
 
-# Postgres for user_profiles + analytics
-DATABASE_URL=postgresql://postgres:...@localhost:5432/prelude_user_analytics
+DB_HOST=<DB_HOST>
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=<DB_PASSWORD>
+DB_NAME=prelude_db
+
+# Server
+PORT=8005
+HOST=0.0.0.0
+
+# Auth
+GOOGLE_CLIENT_ID=<GOOGLE_CLIENT_ID>
+GOOGLE_CLIENT_SECRET=<GOOGLE_CLIENT_SECRET>
+JWT_SECRET=<JWT_SECRET>
+
+MICROSOFT_CLIENT_ID=<MICROSOFT_CLIENT_ID>
+MICROSOFT_CLIENT_SECRET=<MICROSOFT_CLIENT_SECRET>
+MICROSOFT_TENANT_ID=common
+
+# AI
+OPENAI_API_KEY=<OPENAI_API_KEY>
+DEFAULT_PROVIDER=openai
+DEFAULT_OPENAI_MODEL=gpt-4o-mini
+
+# GCS bucket for email signatures
+GCS_SIGNATURE_BUCKET=prelude-signature-logos
+
+# Service URLs / runtime
+USER_SETTINGS_URL=http://localhost:8005
+USE_LOCAL_SERVICES=false
+LOG_LEVEL=INFO
 ```
 
 ### `frontend-next/.env.local`
@@ -160,8 +241,10 @@ NEXT_PUBLIC_USER_SETTINGS_API_URL=http://localhost:8005
 NEXT_PUBLIC_ONE_PAGER_ENABLED=true
 ```
 
-> All three services should share the **same `JWT_SECRET`** so tokens issued by
-> one service validate in the others.
+> If the Postgres password contains URL-reserved characters (e.g. `(`, `)`,
+> `{`, `@`), use it as-is in plain `KEY=value` lines, but percent-encode it
+> when embedding inside a URL like `DATABASE_URL=postgresql://...`
+> (see `leadgen/.env` above for the encoded form).
 
 ---
 
@@ -185,21 +268,59 @@ if they don't yet exist.
 
 ## 5. Run everything
 
-Open four terminals (or use `tmux` / a process manager).
+> **⚠️ Each of the four services must run in its own dedicated terminal window
+> (or `tmux` pane).** They are long-running foreground processes — closing a
+> terminal stops that service. Do **not** try to chain them with `&&` or run
+> them all in one shell.
 
+All commands are run from the repository root
+(`/Users/dingaoxue/Desktop/rag-powered-crm`). Backends are launched by calling
+the venv's Python binary directly, so no `activate` step is required (this
+works whether the venv was created with `python -m venv` or `conda create -p`).
+
+### Terminal 1 — CRM service (port 8003)
 ```bash
-# Terminal 1 — CRM (port 8003)
-cd crm && source .venv/bin/activate && python main.py
-
-# Terminal 2 — Lead generation (port 9000)
-cd leadgen && source .venv/bin/activate && python main.py
-
-# Terminal 3 — User settings (port 8005)
-cd user-settings && source .venv/bin/activate && python main.py
-
-# Terminal 4 — Frontend (port 8000)
-cd frontend-next && npm run dev
+cd crm
+.venv/bin/python main.py
 ```
+Verify: <http://localhost:8003/health>
+
+### Terminal 2 — Lead-generation service (port 9000)
+```bash
+cd leadgen
+.venv/bin/python main.py
+```
+Verify: <http://localhost:9000/health>
+
+### Terminal 3 — User-settings service (port 8005)
+```bash
+cd user-settings
+.venv/bin/python main.py
+```
+Verify: <http://localhost:8005/health>
+
+### Terminal 4 — Frontend (port 8000)
+```bash
+cd frontend-next
+npm install      # one-time, only if node_modules/ is missing
+npm run dev
+```
+Open: <http://localhost:8000>
+
+> Prefer activating the venv yourself? Use `source .venv/bin/activate`
+> (standard venv) or `conda activate ./.venv` (conda env) and then run
+> `python main.py`. The four-terminal rule still applies.
+
+### Demo login
+
+The login form at `/login` is pre-filled with a demo account. The
+username/password values are not committed here — request them from the
+project owner, or set your own short-circuit credentials in the
+auth handler.
+
+Just click **Sign in** — these credentials short-circuit the password
+endpoint and mint a JWT without needing the user to be present in any
+database table, so the demo works even if Postgres is unreachable.
 
 Then visit:
 

@@ -20,9 +20,9 @@ export default function LoginPage() {
   const t = useTranslations('auth.login')
 
   const [loadingProvider, setLoadingProvider] = useState<string | null>(null)
-  const [currentView, setCurrentView] = useState<LoginView>('main')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [currentView, setCurrentView] = useState<LoginView>('password')
+  const [username, setUsername] = useState('aoxue@preludeos.com')
+  const [password, setPassword] = useState('271828abc@')
   const [loginError, setLoginError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -294,14 +294,7 @@ export default function LoginPage() {
 
         <div className="self-center max-w-[400px] w-full mx-auto pt-4 pb-6">
           {currentView === 'main' && (
-            <MainView
-              loadingProvider={loadingProvider}
-              wechatLoading={wechatLoading}
-              onGoogleLogin={handleGoogleLogin}
-              onMicrosoftLogin={handleMicrosoftLogin}
-              onWechatLogin={startWechatLogin}
-              onUsernameLogin={() => setCurrentView('password')}
-            />
+            <MainView onUsernameLogin={() => setCurrentView('password')} />
           )}
           {currentView === 'password' && (
             <PasswordView

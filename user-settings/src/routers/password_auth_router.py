@@ -168,6 +168,35 @@ async def register_user(request: RegisterRequest):
 @router.post("/login-password", response_model=AuthResponse)
 async def login_with_password(request: LoginRequest):
     """Login with username and password."""
+    # CS510 demo bypass: short-circuit BEFORE any DB call so the demo works
+    # without a running Postgres. Any other credentials fall through to the
+    # normal DB-backed flow below.
+    DEMO_USERNAME = "aoxue@preludeos.com"
+    DEMO_PASSWORD = "271828abc@"
+    if (
+        request.username.strip().lower() == DEMO_USERNAME
+        and request.password == DEMO_PASSWORD
+    ):
+        demo_user = {
+            "email": DEMO_USERNAME,
+            "username": DEMO_USERNAME,
+            "name": "Aoxue (Demo)",
+            "company": "Prelude",
+            "role": "admin",
+            "db_name": "prelude_visitor",
+            "has_real_email": True,
+        }
+        id_token = generate_jwt_token(demo_user)
+        refresh_token = generate_refresh_token(demo_user["email"])
+        logger.info(f"Demo user logged in (DB-less): {DEMO_USERNAME}")
+        return AuthResponse(
+            success=True,
+            id_token=id_token,
+            refresh_token=refresh_token,
+            expires_in=JWT_EXPIRATION_HOURS * 3600,
+            user_info=demo_user,
+        )
+
     pm = get_pool_manager()
     pool = await pm.get_analytics_pool()
     async with pool.acquire() as conn:
