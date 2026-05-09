@@ -1,69 +1,107 @@
 """
-RAG evaluation plan (offline, never invoked at runtime).
+RAG evaluation harness (offline, never invoked at runtime).
 
-This subpackage documents and scaffolds *how* we would measure the quality
-of the RAG pipeline. Nothing here is wired into request handling,
-background jobs, scheduled work, or agents - importing it has no side
-effects on the running CRM.
+This subpackage scaffolds *how* we measure the quality of the RAG
+pipeline. Nothing here is wired into request handling, background jobs,
+scheduled work, or agents — importing it has no side effects on the
+running CRM.
 
 Layered evaluation:
 
     metrics.py    pure retrieval metrics over (source_type, source_id) refs
-                  - hit_rate@k, recall@k, precision@k, MRR, nDCG@k
+                  - hit_rate@k, recall@k, precision@k, MRR, nDCG (binary
+                    and graded), precision_violations, source_balance
                   - cheap, deterministic, no API budget
 
-    dataset.py    small in-code golden set of (query, customer_id, refs)
-                  cases curated by a domain expert; one per agent /
-                  source-type combination
+    dataset.py    EvalCase records with graded relevance
+                  (must_cite / should_cite / must_not_cite). JSONL files
+                  under ``golden/`` are loaded by ``default_goldens()``.
 
-    judges.py     LLM-as-judge stubs for end-to-end answer quality
-                  - context_precision, context_recall, faithfulness,
-                    answer_relevancy (Ragas taxonomy)
-                  - costs API budget; left as NotImplementedError until
-                    a judge model and budget are picked
+    configs.py    named retriever configurations (baseline, rerank,
+                  semantic_only, ...) for ablation studies.
 
-    runner.py     orchestration: feed dataset through ContextRetriever,
-                  collect predicted refs, compute metrics, return a report
+    runner.py     orchestration: feed cases through ContextRetriever
+                  under each config, compute metrics, return reports.
 
-Intended workflow:
+    report.py     markdown writer for the configs-x-metrics ablation
+                  table.
 
-    1. Curate ~30-100 cases in dataset.GOLDEN_SET against a fixture tenant.
-    2. Run runner.evaluate_retriever() before merging changes that touch
-       chunking, semantic_weight, recency_decay_days, or the rerank stage.
-    3. Compare aggregate + by_agent numbers against the previous baseline.
-    4. (Future) Layer in judges.py for end-to-end answer scoring.
+    replay.py     read recent rows from ``context_retrieval_runs`` and
+                  diff their selected_refs vs. what a candidate config
+                  would now return.
 
-Nothing in this package is imported by services/rag/__init__.py or any
-router - it must be invoked explicitly from a script or notebook.
+    judges.py     LLM-as-judge stubs for end-to-end answer quality (v2).
+
+Typical workflow:
+
+    uv run python -m services.rag.evaluation           # full ablation
+    uv run python -m services.rag.evaluation.replay    # regression diff
+
+Or programmatically:
+
+    from services.rag.context_retriever import get_context_retriever
+    from services.rag.evaluation import (
+        CONFIGS, default_goldens, evaluate_ablation, format_markdown,
+    )
+
+    cases = default_goldens()
+    reports = await evaluate_ablation(conn, get_context_retriever(), cases)
+    print(format_markdown(reports))
 """
 
-from services.rag.evaluation.dataset import EvalCase, GOLDEN_SET
+from services.rag.evaluation.configs import CONFIGS, RetrieverConfig
+from services.rag.evaluation.dataset import (
+    EvalCase,
+    GOLDEN_DIR,
+    GOLDEN_SET,
+    case_from_dict,
+    default_goldens,
+    load_jsonl_goldens,
+)
 from services.rag.evaluation.metrics import (
     Ref,
     hit_rate_at_k,
     mrr,
     ndcg_at_k,
+    ndcg_graded,
     precision_at_k,
+    precision_violations,
     recall_at_k,
+    source_balance,
 )
+from services.rag.evaluation.report import format_markdown
 from services.rag.evaluation.runner import (
     CaseResult,
     EvalReport,
+    evaluate_ablation,
     evaluate_retriever,
     format_report,
+    run_case,
 )
 
 __all__ = [
+    "CONFIGS",
     "CaseResult",
     "EvalCase",
     "EvalReport",
+    "GOLDEN_DIR",
     "GOLDEN_SET",
     "Ref",
+    "RetrieverConfig",
+    "case_from_dict",
+    "default_goldens",
+    "evaluate_ablation",
     "evaluate_retriever",
+    "format_markdown",
     "format_report",
     "hit_rate_at_k",
+    "load_jsonl_goldens",
     "mrr",
     "ndcg_at_k",
+    "ndcg_graded",
     "precision_at_k",
+    "precision_violations",
     "recall_at_k",
+    "run_case",
+    "source_balance",
 ]
