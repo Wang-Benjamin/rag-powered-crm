@@ -274,27 +274,62 @@ class ContextRetriever:
         time_window_days: Optional[int] = None,
         limit: int = 40,
     ) -> List[ContextItem]:
-        """Hybrid search on interaction_details using RRF fusion."""
+        """Hybrid search on interaction_details using RRF fusion.
+
+        Dense leg uses chunk-level scoring (MAX over chunks per parent) when
+        document_chunks rows exist for the parent, falling back to the parent's
+        whole-doc embedding for legacy un-chunked rows. Lexical leg stays on
+        the parent table.
+        """
         keyword_weight = 1 - semantic_weight
 
         time_filter = ""
+        time_filter_p = ""
         if time_window_days:
             time_filter = f"AND created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
+            time_filter_p = f"AND p.created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
 
         sql = f"""
-            WITH semantic_search AS (
+            WITH chunk_scores AS (
                 SELECT
-                    interaction_id,
-                    content,
-                    type,
-                    created_at,
-                    1 - (embedding <=> $1::vector) as semantic_score,
-                    ROW_NUMBER() OVER (ORDER BY embedding <=> $1::vector) as semantic_rank
-                FROM interaction_details
-                WHERE embedding IS NOT NULL
-                AND customer_id = $2
-                {time_filter}
-                ORDER BY embedding <=> $1::vector
+                    dc.parent_id AS interaction_id,
+                    MAX(1 - (dc.embedding <=> $1::vector)) AS semantic_score
+                FROM document_chunks dc
+                WHERE dc.parent_type = 'interaction'
+                AND dc.customer_id = $2
+                AND dc.embedding IS NOT NULL
+                GROUP BY dc.parent_id
+            ),
+            parent_fallback AS (
+                SELECT
+                    p.interaction_id,
+                    1 - (p.embedding <=> $1::vector) AS semantic_score
+                FROM interaction_details p
+                WHERE p.embedding IS NOT NULL
+                AND p.customer_id = $2
+                AND NOT EXISTS (
+                    SELECT 1 FROM document_chunks dc
+                    WHERE dc.parent_type = 'interaction' AND dc.parent_id = p.interaction_id
+                )
+            ),
+            unioned_dense AS (
+                SELECT interaction_id, semantic_score FROM chunk_scores
+                UNION ALL
+                SELECT interaction_id, semantic_score FROM parent_fallback
+            ),
+            semantic_search AS (
+                SELECT
+                    p.interaction_id,
+                    p.content,
+                    p.type,
+                    p.created_at,
+                    u.semantic_score,
+                    ROW_NUMBER() OVER (ORDER BY u.semantic_score DESC) AS semantic_rank
+                FROM unioned_dense u
+                JOIN interaction_details p USING (interaction_id)
+                WHERE 1=1
+                {time_filter_p}
+                ORDER BY u.semantic_score DESC
                 LIMIT 200
             ),
             keyword_search AS (
@@ -364,30 +399,64 @@ class ContextRetriever:
         time_window_days: Optional[int] = None,
         limit: int = 40,
     ) -> List[ContextItem]:
-        """Hybrid search on crm_emails using RRF fusion."""
+        """Hybrid search on crm_emails using RRF fusion.
+
+        Dense leg: chunk-level via document_chunks (parent_type='email'),
+        falling back to parent embedding for legacy un-chunked rows.
+        Lexical leg stays on crm_emails.
+        """
         keyword_weight = 1 - semantic_weight
 
         time_filter = ""
+        time_filter_p = ""
         if time_window_days:
             time_filter = f"AND created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
+            time_filter_p = f"AND p.created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
 
         sql = f"""
-            WITH semantic_search AS (
+            WITH chunk_scores AS (
                 SELECT
-                    email_id,
-                    subject,
-                    body,
-                    from_email,
-                    to_email,
-                    direction,
-                    created_at,
-                    1 - (embedding <=> $1::vector) as semantic_score,
-                    ROW_NUMBER() OVER (ORDER BY embedding <=> $1::vector) as semantic_rank
-                FROM crm_emails
-                WHERE embedding IS NOT NULL
-                AND customer_id = $2
-                {time_filter}
-                ORDER BY embedding <=> $1::vector
+                    dc.parent_id AS email_id,
+                    MAX(1 - (dc.embedding <=> $1::vector)) AS semantic_score
+                FROM document_chunks dc
+                WHERE dc.parent_type = 'email'
+                AND dc.customer_id = $2
+                AND dc.embedding IS NOT NULL
+                GROUP BY dc.parent_id
+            ),
+            parent_fallback AS (
+                SELECT
+                    p.email_id,
+                    1 - (p.embedding <=> $1::vector) AS semantic_score
+                FROM crm_emails p
+                WHERE p.embedding IS NOT NULL
+                AND p.customer_id = $2
+                AND NOT EXISTS (
+                    SELECT 1 FROM document_chunks dc
+                    WHERE dc.parent_type = 'email' AND dc.parent_id = p.email_id
+                )
+            ),
+            unioned_dense AS (
+                SELECT email_id, semantic_score FROM chunk_scores
+                UNION ALL
+                SELECT email_id, semantic_score FROM parent_fallback
+            ),
+            semantic_search AS (
+                SELECT
+                    p.email_id,
+                    p.subject,
+                    p.body,
+                    p.from_email,
+                    p.to_email,
+                    p.direction,
+                    p.created_at,
+                    u.semantic_score,
+                    ROW_NUMBER() OVER (ORDER BY u.semantic_score DESC) AS semantic_rank
+                FROM unioned_dense u
+                JOIN crm_emails p USING (email_id)
+                WHERE 1=1
+                {time_filter_p}
+                ORDER BY u.semantic_score DESC
                 LIMIT 200
             ),
             keyword_search AS (
@@ -468,30 +537,64 @@ class ContextRetriever:
     ) -> List[ContextItem]:
         """Hybrid search on employee_client_notes using RRF fusion.
 
-        Falls back to keyword-only search if query_embedding is None.
+        Dense leg: chunk-level via document_chunks (parent_type='note'),
+        falling back to parent embedding for legacy un-chunked rows. Note
+        chunks store the parent's `client_id` in document_chunks.customer_id
+        (the column is shared across parent types). Lexical leg stays on
+        employee_client_notes. Falls back to keyword-only search if
+        query_embedding is None.
         """
         time_filter = ""
+        time_filter_p = ""
         if time_window_days:
             time_filter = f"AND created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
+            time_filter_p = f"AND p.created_at >= NOW() - INTERVAL '{int(time_window_days)} days'"
 
         # Use hybrid search when embeddings are available
         if query_embedding is not None:
             keyword_weight = 1 - semantic_weight
 
             sql = f"""
-                WITH semantic_search AS (
+                WITH chunk_scores AS (
                     SELECT
-                        note_id,
-                        title,
-                        body,
-                        created_at,
-                        1 - (embedding <=> $1::vector) as semantic_score,
-                        ROW_NUMBER() OVER (ORDER BY embedding <=> $1::vector) as semantic_rank
-                    FROM employee_client_notes
-                    WHERE embedding IS NOT NULL
-                    AND client_id = $2
-                    {time_filter}
-                    ORDER BY embedding <=> $1::vector
+                        dc.parent_id AS note_id,
+                        MAX(1 - (dc.embedding <=> $1::vector)) AS semantic_score
+                    FROM document_chunks dc
+                    WHERE dc.parent_type = 'note'
+                    AND dc.customer_id = $2
+                    AND dc.embedding IS NOT NULL
+                    GROUP BY dc.parent_id
+                ),
+                parent_fallback AS (
+                    SELECT
+                        p.note_id,
+                        1 - (p.embedding <=> $1::vector) AS semantic_score
+                    FROM employee_client_notes p
+                    WHERE p.embedding IS NOT NULL
+                    AND p.client_id = $2
+                    AND NOT EXISTS (
+                        SELECT 1 FROM document_chunks dc
+                        WHERE dc.parent_type = 'note' AND dc.parent_id = p.note_id
+                    )
+                ),
+                unioned_dense AS (
+                    SELECT note_id, semantic_score FROM chunk_scores
+                    UNION ALL
+                    SELECT note_id, semantic_score FROM parent_fallback
+                ),
+                semantic_search AS (
+                    SELECT
+                        p.note_id,
+                        p.title,
+                        p.body,
+                        p.created_at,
+                        u.semantic_score,
+                        ROW_NUMBER() OVER (ORDER BY u.semantic_score DESC) AS semantic_rank
+                    FROM unioned_dense u
+                    JOIN employee_client_notes p USING (note_id)
+                    WHERE 1=1
+                    {time_filter_p}
+                    ORDER BY u.semantic_score DESC
                     LIMIT 200
                 ),
                 keyword_search AS (
