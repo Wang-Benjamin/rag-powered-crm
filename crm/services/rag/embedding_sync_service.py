@@ -12,6 +12,7 @@ from typing import Dict, Any, List, Optional
 import asyncpg
 
 from services.rag.embedding_service import get_embedding_service, EMBEDDING_DIM
+from services.rag.chunking import Chunk, chunk_text, chunk_email, chunk_note
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,75 @@ async def _get_pool_connection(user_email: str):
     pm = get_pool_manager()
     db_name = await pm.lookup_db_name(user_email)
     return pm, db_name
+
+
+_PARENT_CUSTOMER_LOOKUP_SQL = {
+    "interaction": "SELECT customer_id FROM interaction_details WHERE interaction_id = $1",
+    "email":       "SELECT customer_id FROM crm_emails        WHERE email_id       = $1",
+    "note":        "SELECT client_id    FROM employee_client_notes WHERE note_id   = $1",
+}
+
+
+async def _write_chunks(
+    conn: asyncpg.Connection,
+    parent_type: str,
+    parent_id: int,
+    chunks: List[Chunk],
+    customer_id: Optional[int] = None,
+) -> int:
+    """
+    Embed `chunks` and upsert them into document_chunks for the given parent.
+
+    Replaces any existing rows for (parent_type, parent_id) so re-embedding
+    a doc doesn't leave stale chunks behind. Returns the number of chunks
+    written. Best-effort: returns 0 on any failure rather than raising,
+    so the parent-level embedding write (which is the legacy fallback) is
+    never blocked by chunk-write errors.
+    """
+    if not chunks:
+        return 0
+
+    try:
+        if customer_id is None:
+            sql = _PARENT_CUSTOMER_LOOKUP_SQL.get(parent_type)
+            if not sql:
+                logger.warning(f"Unknown parent_type for chunk write: {parent_type}")
+                return 0
+            row = await conn.fetchrow(sql, parent_id)
+            if not row:
+                return 0
+            customer_id = row[0]
+
+        embedding_service = get_embedding_service()
+        embeddings = await embedding_service.embed_batch(
+            [c.content for c in chunks],
+            show_progress=False,
+        )
+
+        async with conn.transaction():
+            await conn.execute(
+                "DELETE FROM document_chunks WHERE parent_type = $1 AND parent_id = $2",
+                parent_type, parent_id,
+            )
+            for chunk, emb in zip(chunks, embeddings):
+                if emb is None:
+                    continue
+                await conn.execute(
+                    """
+                    INSERT INTO document_chunks
+                        (parent_type, parent_id, customer_id, chunk_idx, content, embedding)
+                    VALUES ($1, $2, $3, $4, $5, $6)
+                    """,
+                    parent_type, parent_id, customer_id, chunk.idx, chunk.content, emb,
+                )
+        return len(embeddings)
+
+    except Exception as e:
+        logger.warning(
+            f"Chunk-write failed for {parent_type}#{parent_id}: {e}. "
+            f"Parent-level embedding remains available as fallback."
+        )
+        return 0
 
 
 async def populate_interaction_embeddings(
@@ -318,6 +388,9 @@ async def embed_single_interaction(user_email: str, interaction_id: int, content
                 "UPDATE interaction_details SET embedding = $1 WHERE interaction_id = $2",
                 embedding, interaction_id
             )
+            chunks = chunk_text(content)
+            if len(chunks) > 1:
+                await _write_chunks(conn, "interaction", interaction_id, chunks)
     except Exception as e:
         logger.warning(f"Failed to embed interaction {interaction_id}: {e}")
 
@@ -341,6 +414,9 @@ async def embed_single_note(user_email: str, note_id: int, title: str, body: str
                 "UPDATE employee_client_notes SET embedding = $1 WHERE note_id = $2",
                 embedding, note_id
             )
+            chunks = chunk_note(title, body)
+            if len(chunks) > 1:
+                await _write_chunks(conn, "note", note_id, chunks)
     except Exception as e:
         logger.warning(f"Failed to embed note {note_id}: {e}")
 
@@ -369,5 +445,8 @@ async def embed_single_email(user_email: str, email_id: int, subject: str, body:
                 "UPDATE crm_emails SET embedding = $1 WHERE email_id = $2",
                 embedding, email_id
             )
+            chunks = chunk_email(subject, cleaned_body)
+            if len(chunks) > 1:
+                await _write_chunks(conn, "email", email_id, chunks)
     except Exception as e:
         logger.warning(f"Failed to embed email {email_id}: {e}")

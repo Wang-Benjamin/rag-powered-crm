@@ -15,6 +15,7 @@ from typing import Optional, List, Dict, Any
 import asyncpg
 
 from services.rag.embedding_service import get_embedding_service
+from services.rag.query_rewriter import rewrite_query
 from models.context_models import ContextItem, ContextResult, ContextSourceType, JSONEncoder
 
 logger = logging.getLogger(__name__)
@@ -60,6 +61,8 @@ class ContextRetriever:
         tool_name: str = "agent",
         query_embedding: Optional[List[float]] = None,
         user_email: str = "",
+        query_rewrite_enabled: bool = True,
+        num_rewrites: int = 2,
     ) -> ContextResult:
         """
         Retrieve relevant context for a customer using hybrid search.
@@ -80,6 +83,8 @@ class ContextRetriever:
             tool_name: Name of requesting tool (for audit)
             query_embedding: Pre-computed embedding to skip redundant API call
             user_email: For audit trail
+            query_rewrite_enabled: Run LLM multi-query expansion before search
+            num_rewrites: Number of paraphrases to generate (in addition to original)
         """
         effective_decay_days = recency_decay_days
 
@@ -141,6 +146,53 @@ class ContextRetriever:
             )
             items.extend(note_items)
 
+        # Multi-query expansion: paraphrase the original query and run the
+        # same hybrid search per paraphrase. Rewrites surface differently-
+        # worded passages that the original phrasing misses; results are
+        # deduped by (source_type, source_id) keeping the max score.
+        rewrites_used: List[str] = []
+        if query_rewrite_enabled and num_rewrites > 0:
+            try:
+                expanded = await rewrite_query(query, n=num_rewrites)
+                rewrites_used = expanded[1:]  # exclude original
+                if rewrites_used:
+                    rewrite_embeddings = await self.embedding_service.embed_batch(
+                        rewrites_used, show_progress=False
+                    )
+                    for rq, re_emb in zip(rewrites_used, rewrite_embeddings):
+                        if re_emb is None:
+                            continue
+                        if ContextSourceType.INTERACTION.value in source_types:
+                            items.extend(await self._search_interactions(
+                                conn=conn, customer_id=customer_id, query=rq,
+                                query_embedding=re_emb, semantic_weight=semantic_weight,
+                                time_window_days=time_window_days, limit=max_items * 2,
+                            ))
+                        if ContextSourceType.EMAIL.value in source_types:
+                            items.extend(await self._search_emails(
+                                conn=conn, customer_id=customer_id, query=rq,
+                                query_embedding=re_emb, semantic_weight=semantic_weight,
+                                time_window_days=time_window_days, limit=max_items * 2,
+                            ))
+                        if ContextSourceType.NOTE.value in source_types:
+                            items.extend(await self._search_notes(
+                                conn=conn, customer_id=customer_id, query=rq,
+                                query_embedding=re_emb, semantic_weight=semantic_weight,
+                                time_window_days=time_window_days, limit=max_items,
+                            ))
+            except Exception as e:
+                logger.warning(f"Query rewrite step failed, continuing with single-query results: {e}")
+
+        # Dedup across rewrites: keep max score per (source_type, source_id).
+        if rewrites_used:
+            dedup: Dict[tuple, ContextItem] = {}
+            for it in items:
+                key = (it.source_type, it.source_id)
+                existing = dedup.get(key)
+                if existing is None or it.score > existing.score:
+                    dedup[key] = it
+            items = list(dedup.values())
+
         # Sort by score
         items.sort(key=lambda x: x.score, reverse=True)
 
@@ -197,6 +249,9 @@ class ContextRetriever:
                 "recency_decay_days": recency_decay_days,
                 "effective_decay_days": effective_decay_days,
                 "rerank_enabled": rerank_enabled,
+                "query_rewrite_enabled": query_rewrite_enabled,
+                "num_rewrites": num_rewrites,
+                "rewrites_used": rewrites_used,
             },
             selected_refs=[item.to_dict() for item in items],
             user_email=user_email,

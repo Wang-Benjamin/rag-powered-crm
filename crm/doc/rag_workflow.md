@@ -8,8 +8,8 @@ Postgres+pgvector store, but their middle layers are intentionally different sha
   domain scoring + LLM enrichment, not in retrieval. Search is a simple FTS filter
   on top of a hand-engineered 11-signal scoring pipeline.
 - **CRM path** — large, unstructured, conversational corpus. Hybrid retrieval
-  (dense + lexical → RRF → cross-encoder rerank) does the heavy lifting; generation
-  is grounded in retrieved context.
+  (LLM query rewriting → chunk-level dense + lexical → RRF → cross-encoder rerank)
+  does the heavy lifting; generation is grounded in retrieved context.
 
 ## Diagram
 
@@ -30,66 +30,96 @@ flowchart TB
 
     subgraph L2["2 — FastAPI Services"]
         direction LR
-        API1[Lead Gen API]
-        API2[CRM API]
+        API1["Lead Gen API<br/>/api/leads/*"]
+        API2["CRM API<br/>/api/crm/*"]
     end
 
     L1 --> L2
 
     subgraph L3A["3a — Lead Processing Pipeline"]
         direction TB
-        LP1["Filter & Search<br/>Postgres FTS to_tsvector(company)<br/>+ structured filters<br/>(industry, score range, country)"]
-        LP2["Preliminary Scoring · top 500<br/>S2 + S4 + S6 + S7<br/>continuous curves, soft-clamp 80"]
-        LP3["Contact Enrichment · top 50<br/>Apollo / Lemlist + cache<br/>email-domain validation"]
-        LP4["Full Scoring · top 50<br/>S1–S11, hard-clamp 100<br/>11-signal trade intelligence"]
-        LP5["LLM Insight (GPT-mini)<br/>buyer one-liner, cached<br/>+ real-company filter"]
+        LP1["Filter & Search<br/>Postgres FTS to_tsvector(company)<br/>+ structured filters"]
+        LP2["Preliminary Scoring · top 500<br/>S2 + S4 + S6 + S7"]
+        LP3["Contact Enrichment · top 50<br/>Apollo / Lemlist + cache"]
+        LP4["Full Scoring · top 50<br/>S1–S11, hard-clamp 100"]
+        LP5["LLM Insight (GPT-mini)<br/>+ real-company filter"]
         LP1 --> LP2 --> LP3 --> LP4 --> LP5
     end
 
     subgraph L3B["3b — CRM Hybrid Retrieval"]
         direction TB
-        HR1["Dense<br/>pgvector cosine"]
-        HR2["Lexical<br/>Postgres FTS → BM25*<br/>(rank_bm25 over top-N)"]
-        HR3["RRF Fusion<br/>per-source weights<br/>notes / emails / interactions"]
+        QR["Query Rewriter (NEW)<br/>LLM multi-query expansion<br/>1 original + 2 paraphrases · cached"]
+        HR1["Dense — chunk-level<br/>pgvector cosine over<br/>document_chunks (NEW)"]
+        HR2["Lexical<br/>Postgres FTS · ts_rank_cd<br/>over chunks + parents"]
+        HR3["RRF Fusion<br/>per-source weights<br/>+ dedup across rewrites"]
         HR4["Recency boost<br/>+ diversity filter"]
         HR5["Cross-Encoder Rerank<br/>Cohere rerank-v3.5<br/>(optional, graceful fallback)"]
+        QR --> HR1
+        QR --> HR2
         HR1 --> HR3
         HR2 --> HR3
         HR3 --> HR4 --> HR5
     end
 
     API1 --> L3A
-    API2 --> L3B
+    API2 --> QR
 
     subgraph L4["4 — PostgreSQL + pgvector (per tenant)"]
-        direction LR
-        DB1["Lead tables<br/>customs_records · company_profiles<br/>trade_summaries · personnel"]
-        DB2["CRM tables<br/>interaction_details · employee_client_notes<br/>deal_history · KB"]
+        direction TB
+        DB1["Lead tables<br/>leads · personnel · bol_competitors<br/>bol_detail_context · enrichment_history"]
+        DB2["CRM parent tables<br/>interaction_details · employee_client_notes<br/>crm_emails · deals · deal_activities"]
+        DB3["document_chunks (NEW)<br/>per-chunk content + embedding<br/>+ tsvector · sentence-aware splits"]
+        DB2 -. parent_id .- DB3
     end
 
     L3A --> DB1
     L3B --> DB2
+    L3B --> DB3
 
     subgraph L5["5 — LLM Generation (GPT-4o)"]
         direction LR
-        GEN1["Lead → cold outreach<br/>two-pager + AI email<br/>grounded in trade data + contact"]
+        GEN1["Lead → cold outreach<br/>two-pager + AI email"]
         GEN2["CRM → follow-up + insights<br/>grounded in client history"]
     end
 
     L3A --> GEN1
     L3B --> GEN2
 
-    EVAL[["Eval harness<br/>rag-eval-harness.md<br/>NDCG@k / MRR"]]
+    EVAL[["Eval harness<br/>rag-eval-harness.md<br/>NDCG@k / MRR / recall@k"]]
     EVAL -.tunes.-> L3B
 
     classDef new fill:#fff4d6,stroke:#c08a00,stroke-width:2px;
-    class HR2 new;
+    class QR,HR1,DB3 new;
 ```
 
 </details>
 
-`*` BM25 (highlighted in amber) is the only proposed addition not yet in code.
-Everything else maps to existing files — see "Box → code" map below.
+Amber-highlighted boxes (Query Rewriter, chunk-level Dense, `document_chunks`) are
+the additions in this round. Everything else maps to existing code — see the
+"Box → code" map below.
+
+## What changed in this round
+
+Two long-standing weaknesses in the CRM retrieval pipeline are now addressed:
+
+1. **Query rewriting (multi-query expansion).** Short, ambiguous user prompts hit
+   the retriever verbatim, so passages phrased differently in the corpus get missed.
+   We now expand each query into the original + N paraphrases (default N=2) via a
+   small LLM call, run hybrid search per paraphrase, and dedup by `(source_type,
+   source_id)` keeping the max score before RRF + rerank.
+2. **Chunking for long documents.** Whole-document embeddings dilute signal for
+   long call transcripts and multi-paragraph emails. New writes are split with a
+   sentence-aware chunker (~500-token windows, ~50-token overlap) and stored in a
+   sidecar `document_chunks` table with per-chunk embeddings + tsvectors. The
+   parent row's `embedding` column is preserved as a fallback so legacy
+   un-chunked rows still rank.
+
+Both features degrade gracefully:
+
+- Rewriter falls back to the single original query if `OPENAI_API_KEY` is unset
+  or the rewrite call fails.
+- Chunker is no-op for short content (returns one chunk = the original text), so
+  short notes and one-line emails skip the extra write.
 
 ## Box → code map
 
@@ -108,9 +138,12 @@ Everything else maps to existing files — see "Box → code" map below.
 
 | Box | File(s) |
 |---|---|
-| Dense (pgvector cosine) | `crm/services/rag/context_retriever.py:236, 433` |
-| Lexical (Postgres FTS, → BM25 proposed) | `crm/services/rag/context_retriever.py:251-253, 448-450` |
-| RRF Fusion + per-source weights | `crm/services/rag/context_retriever.py:242-251, 459-469` (`source_type_weights`) |
+| **Query Rewriter (NEW)** | `crm/services/rag/query_rewriter.py` |
+| **Chunker (NEW, write path)** | `crm/services/rag/chunking.py`, `embedding_sync_service.py:_write_chunks` |
+| **`document_chunks` table (NEW)** | `crm/data/migrations/003_document_chunks.sql` |
+| Dense (pgvector cosine) | `crm/services/rag/context_retriever.py:_search_*` |
+| Lexical (Postgres FTS `ts_rank_cd`) | `crm/services/rag/context_retriever.py:_search_*` |
+| RRF Fusion + per-source weights + rewrite dedup | `crm/services/rag/context_retriever.py:retrieve_context` |
 | Recency boost + diversity filter | `crm/services/rag/context_retriever.py` |
 | Cross-encoder rerank | `crm/services/rag/rerank_service.py:1-40` |
 | Eval harness | `crm/doc/rag-eval-harness.md` |
@@ -120,18 +153,22 @@ Everything else maps to existing files — see "Box → code" map below.
 The Lead corpus is a small, structured set of buyer records that's already
 pre-scored on 11 trade-intelligence signals. Free-text search over it is mostly a
 filter, not a ranker — the order is computed deterministically from domain
-features. Throwing dense embeddings + BM25 + cross-encoders at it would replace a
+features. Throwing dense embeddings + cross-encoders at it would replace a
 deterministic, explainable ranking with a stochastic one for no measurable gain.
 
-The CRM corpus is the opposite: thousands of free-text notes, emails, and
+The CRM corpus is the opposite: thousands of free-text notes, emails, and call
 transcripts where queries are short and conversational. That's exactly where
-hybrid retrieval + cross-encoder reranking earns its keep.
+multi-query expansion + chunked hybrid retrieval + cross-encoder reranking earns
+its keep.
 
-## Proposed change: BM25 on the lexical leg
+## Follow-up work (out of scope this round)
 
-The amber-highlighted box (`Lexical → BM25*`) is the only piece not yet in code.
-The cheapest way to ship it is a Python-side `rank_bm25` re-score over the top-N
-FTS candidates, slotted between the SQL fetch and RRF fusion. This keeps the
-Postgres FTS path as the candidate generator (so no Docker/extension change), and
-the eval harness can produce a real NDCG@k delta vs. the current `ts_rank_cd`
-baseline.
+- **Backfill** existing rows into `document_chunks`. The bulk `populate_*`
+  functions in `embedding_sync_service.py` still write parent-only embeddings;
+  a separate one-shot script can iterate and chunk-embed historical content.
+- **Retriever-side chunk preference.** New chunks are written but the SQL in
+  `_search_*` still queries parent tables. A follow-up patch should switch the
+  CTE to `document_chunks` with parent rollup (`MAX(score) GROUP BY parent_id`)
+  and fall back to parent embedding only when no chunks exist.
+- **Eval ablation.** The harness should add three new configs: rewriter
+  on/off and chunked/un-chunked, and report NDCG@10 deltas for each.
